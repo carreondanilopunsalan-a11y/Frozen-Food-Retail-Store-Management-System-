@@ -1,0 +1,1118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frozen Retail Store - Inventory & Sales Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root {
+  --primary-blue: #1E2B58;
+  --primary-blue-alt: #162044;
+  --accent-blue: #3B82F6;
+  --secondary-pink: #FFF0F5;
+  --modal-bg: #FFEBEF;
+  --card-bg: #FFFFFF;
+  --app-bg: #82C8E5;
+  --auth-bg: #A3B8E0;
+  --text-dark: #1E293B;
+  --neutral-gray: #64748B;
+  --border-color: #CBD5E1;
+  --danger: #EF4444;
+  --success: #22C55E;
+  --google-border: #E2E8F0;
+  --google-hover: #F8FAFC;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  font-family: 'Inter', 'Roboto', Arial, sans-serif; 
+}
+
+body { 
+  background-color: var(--app-bg); 
+  color: var(--text-dark); 
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased; 
+}
+
+button { 
+  cursor: pointer; 
+  border: none; 
+  outline: none; 
+  background: none; 
+  font-family: inherit; 
+}
+
+input, select, textarea { 
+  font-family: inherit; 
+  outline: none; 
+}
+
+.hidden { display: none !important; }
+
+/* --- AUTH SHELL --- */
+.auth-wrapper { 
+  min-height: 100vh; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  background: var(--auth-bg); 
+  padding: 20px; 
+}
+
+.auth-card { 
+  background: #C4C8DC; 
+  width: 100%; 
+  max-width: 400px; 
+  border-radius: 16px; 
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
+  padding: 28px 24px; 
+  position: relative; 
+  overflow: hidden; 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+}
+
+.brand-header { 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 8px; 
+  font-size: 16px; 
+  font-weight: 700; 
+  color: var(--primary-blue); 
+  margin-bottom: 20px; 
+}
+
+.brand-header i { color: var(--primary-blue); }
+
+.auth-box { text-align: center; }
+
+.auth-box .icon-box { 
+  width: 56px; 
+  height: 56px; 
+  background: #8993B1; 
+  color: #FFFFFF; 
+  border-radius: 12px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  margin: 0 auto 12px; 
+  font-size: 22px; 
+}
+
+.auth-box h2 { 
+  font-size: 22px; 
+  font-weight: 800; 
+  color: var(--primary-blue); 
+  line-height: 1.3; 
+}
+
+.auth-box p.subtitle { 
+  font-size: 13px; 
+  color: #475569; 
+  margin: 6px 0 20px; 
+}
+
+.form-group { 
+  text-align: left; 
+  margin-bottom: 14px; 
+}
+
+.form-group label { 
+  display: block; 
+  font-size: 11px; 
+  font-weight: 700; 
+  text-transform: uppercase; 
+  color: #334155; 
+  margin-bottom: 6px; 
+}
+
+.input-field { 
+  width: 100%; 
+  padding: 10px 12px; 
+  border: 1px solid #94A3B8; 
+  border-radius: 6px; 
+  font-size: 14px; 
+  background: #FFFFFF; 
+  color: var(--text-dark);
+}
+
+.input-field:focus { 
+  border-color: var(--primary-blue); 
+}
+
+.password-wrap { position: relative; }
+
+.password-wrap .toggle-eye { 
+  position: absolute; 
+  right: 12px; 
+  top: 50%; 
+  transform: translateY(-50%); 
+  color: var(--neutral-gray); 
+  font-size: 14px; 
+  cursor: pointer; 
+}
+
+.auth-options-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: var(--text-dark);
+  margin-bottom: 16px;
+}
+.auth-options-row label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  text-transform: none;
+  margin-bottom: 0;
+}
+.auth-options-row a {
+  color: var(--primary-blue);
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-options-row a:hover {
+  text-decoration: underline;
+}
+
+.btn-primary { 
+  width: 100%; 
+  background: var(--primary-blue); 
+  color: white; 
+  padding: 12px; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  font-size: 14px; 
+  transition: 0.2s; 
+}
+
+.btn-primary:hover { background: var(--primary-blue-alt); }
+
+.btn-secondary { 
+  width: 100%; 
+  background: #3B4B7C; 
+  color: white; 
+  padding: 12px; 
+  border-radius: 6px; 
+  font-weight: 600; 
+  font-size: 14px; 
+  margin-top: 8px; 
+}
+
+.btn-google { 
+  width: 100%; 
+  border: 1px solid var(--border-color); 
+  padding: 10px; 
+  border-radius: 6px; 
+  font-size: 14px; 
+  font-weight: 500; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 10px; 
+  background: white; 
+  margin-top: 10px; 
+  color: var(--text-dark);
+}
+
+.auth-footer-links { 
+  margin-top: 16px; 
+  font-size: 12px; 
+  color: var(--neutral-gray); 
+}
+
+.auth-footer-links button { 
+  color: var(--primary-blue); 
+  font-weight: 600; 
+}
+
+.auth-bottom-info { 
+  margin-top: 20px; 
+  border-top: 1px solid #A8B1CE; 
+  padding-top: 12px; 
+  font-size: 11px; 
+  color: #475569; 
+  text-align: center; 
+  line-height: 1.5; 
+}
+
+.auth-bottom-info .footer-links-row { 
+  display: flex; 
+  justify-content: center; 
+  gap: 10px; 
+  margin-top: 6px; 
+  color: var(--primary-blue); 
+}
+
+.auth-bottom-info .footer-links-row span { cursor: pointer; }
+
+/* --- GOOGLE SSO MODAL --- */
+.sso-overlay { 
+  position: absolute; 
+  inset: 0; 
+  background: rgba(30, 43, 88, 0.4); 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  z-index: 20; 
+}
+
+.google-modal-card { 
+  position: relative;
+  background: #FFF5F7; 
+  width: 92%; 
+  max-width: 360px; 
+  padding: 24px; 
+  border-radius: 16px; 
+  text-align: center; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+}
+
+.google-modal-card img.g-logo { width: 32px; margin-bottom: 8px; }
+
+.google-modal-card h3 { 
+  font-size: 18px; 
+  font-weight: 800; 
+  color: var(--text-dark); 
+  margin-bottom: 4px; 
+}
+
+.google-modal-card p.g-sub { 
+  font-size: 13px; 
+  color: var(--neutral-gray); 
+  margin-bottom: 16px; 
+}
+
+.google-account-list { 
+  text-align: left; 
+  margin-bottom: 12px; 
+  border: 1px solid #F1D5DD; 
+  border-radius: 8px; 
+  overflow: hidden; 
+  background: #FFFFFF;
+}
+
+.google-account-item { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 12px; 
+  border-bottom: 1px solid #F1D5DD; 
+  cursor: pointer; 
+  transition: background 0.2s; 
+}
+
+.google-account-item:last-child { border-bottom: none; }
+.google-account-item:hover { background: var(--google-hover); }
+
+.g-avatar { 
+  width: 36px; 
+  height: 36px; 
+  border-radius: 50%; 
+  background: #3B82F6; 
+  color: white; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-weight: 600; 
+  font-size: 14px; 
+}
+
+.g-info .g-name { 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: var(--text-dark); 
+}
+
+.g-info .g-email { 
+  font-size: 12px; 
+  color: var(--neutral-gray); 
+}
+
+.google-other-btn { 
+  display: flex; 
+  align-items: center; 
+  gap: 10px; 
+  width: 100%; 
+  padding: 12px; 
+  border: 1px solid #F1D5DD; 
+  border-radius: 8px; 
+  font-size: 13px; 
+  font-weight: 600; 
+  color: var(--primary-blue); 
+  background: white; 
+  cursor: pointer; 
+  text-align: left; 
+  margin-bottom: 12px; 
+}
+
+.google-other-btn:hover { background: var(--google-hover); }
+
+.google-back-btn {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  color: #FFFFFF;
+  background: #8978D3;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: none;
+}
+.google-back-btn:hover { background: #7563C4; }
+
+.google-consent-note {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  border: 1px solid #F3C2D0;
+  border-radius: 8px;
+  background: #FFE8EF;
+  color: #64748B;
+  font-size: 10px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+/* --- APP LAYOUT & FIXED MOBILE SIDEBAR --- */
+.app-container { display: flex; height: 100vh; overflow: hidden; width: 100%; background: var(--app-bg); }
+
+.sidebar { 
+  width: 240px; 
+  background: var(--app-bg); 
+  border-right: 1px solid rgba(255,255,255,0.3); 
+  display: flex; 
+  flex-direction: column; 
+  padding: 20px 14px; 
+  flex-shrink: 0;
+}
+
+.sidebar-brand { 
+  font-size: 18px; 
+  font-weight: 800; 
+  color: var(--primary-blue); 
+  display: flex; 
+  align-items: center; 
+  gap: 8px; 
+  margin-bottom: 28px; 
+  padding-left: 8px; 
+}
+
+.nav-menu { display: flex; flex-direction: column; gap: 6px; flex: 1; }
+
+.nav-item { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  padding: 12px 14px; 
+  font-size: 14px; 
+  font-weight: 600; 
+  color: var(--primary-blue); 
+  border-radius: 8px; 
+  transition: 0.2s; 
+}
+
+.nav-item i { font-size: 16px; width: 20px; }
+
+.nav-item.active { 
+  background: var(--primary-blue); 
+  color: #FFFFFF; 
+}
+
+.main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: var(--app-bg); min-width: 0; }
+
+.top-header { 
+  height: 60px; 
+  background: var(--app-bg); 
+  border-bottom: 1px solid rgba(255,255,255,0.3); 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  padding: 0 16px; 
+}
+
+.page-title-box { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.page-title-box h2 { 
+  font-size: 18px; 
+  font-weight: 800; 
+  color: var(--primary-blue); 
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header-settings-btn {
+  font-size: 18px;
+  color: var(--primary-blue);
+  cursor: pointer;
+  background: none;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+}
+.header-settings-btn:hover {
+  transform: rotate(30deg);
+}
+
+.content-area { padding: 16px; flex: 1; position: relative; padding-bottom: 40px; }
+
+/* --- DASHBOARD & COMPONENTS --- */
+.stats-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+
+.stat-card { 
+  background: white; 
+  padding: 18px; 
+  border-radius: 12px; 
+  border: 1px solid #B0E0E6; 
+}
+
+.stat-card .label { 
+  font-size: 11px; 
+  font-weight: 700; 
+  color: var(--neutral-gray); 
+  text-transform: uppercase; 
+}
+
+.stat-card .value { 
+  font-size: 24px; 
+  font-weight: 800; 
+  color: var(--primary-blue); 
+  margin: 6px 0 0; 
+}
+
+.stat-card .stat-icon { font-size: 14px; margin-right: 6px; }
+.stat-card.alert-stat .value { color: var(--danger); }
+.stat-card.pending-stat .value { color: #D97706; }
+
+.quick-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 12px 0 24px; }
+
+.quick-action { 
+  background: white; 
+  border: 1px solid #B0E0E6; 
+  border-radius: 10px; 
+  padding: 12px; 
+  min-height: 64px; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 6px; 
+  font-size: 12px; 
+  font-weight: 600; 
+  color: var(--primary-blue); 
+  cursor: pointer; 
+}
+
+.quick-action i { color: var(--accent-blue); font-size: 18px; }
+
+.activity-list { border: 1px solid #B0E0E6; border-radius: 10px; overflow: hidden; background: white; }
+.activity-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid #E2E8F0; }
+.activity-item:last-child { border-bottom: none; }
+
+.activity-icon { 
+  width: 32px; 
+  height: 32px; 
+  border-radius: 50%; 
+  background: #E0F2FE; 
+  color: var(--accent-blue); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 14px; 
+  flex: 0 0 32px; 
+}
+
+.activity-main { flex: 1; min-width: 0; }
+.activity-main strong { display: block; font-size: 14px; color: var(--text-dark); font-weight: 600; }
+.activity-main span { display: block; font-size: 12px; color: var(--neutral-gray); margin-top: 2px; }
+.activity-value { font-size: 14px; font-weight: 700; color: var(--success); }
+.activity-value.negative { color: var(--danger); }
+
+.dash-panel { background: white; border-radius: 12px; border: 1px solid #B0E0E6; padding: 18px; }
+.dash-panel h3 { font-size: 16px; font-weight: 700; color: var(--primary-blue); margin-bottom: 14px; }
+.alert-banner { background: #FEE2E2; border: 1px solid #FCA5A5; border-radius: 8px; padding: 12px; font-size: 13px; color: #991B1B; }
+
+/* MODALS & TOAST */
+.modal-overlay { position: fixed; inset: 0; background: rgba(30, 43, 88, 0.4); display: flex; justify-content: center; align-items: center; z-index: 50; }
+.modal-card { background: white; width: 92%; max-width: 400px; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+.modal-card h3 { font-size: 18px; font-weight: 700; color: var(--primary-blue); margin-bottom: 6px; }
+.modal-card p.modal-sub { font-size: 13px; color: var(--neutral-gray); margin-bottom: 16px; }
+.modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+.btn-cancel { font-size: 14px; font-weight: 600; color: var(--neutral-gray); cursor: pointer; padding: 8px 14px; }
+.btn-save-prod { background: var(--primary-blue); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
+
+.toast-msg { position: fixed; bottom: 24px; right: 24px; background: var(--primary-blue); color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s; }
+.toast-msg.show { opacity: 1; }
+
+/* --- SYSTEM SETTINGS MODAL --- */
+.settings-modal-content {
+  background: #FFFFFF;
+  width: 92%;
+  max-width: 440px;
+  max-height: 85vh;
+  border-radius: 16px;
+  padding: 20px;
+  position: relative;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #B0E0E6;
+}
+.settings-body-scroll {
+  overflow-y: auto;
+  flex: 1;
+  padding-right: 4px;
+}
+.settings-profile-card {
+  background: #3B4B7C;
+  color: white;
+  border-radius: 10px;
+  padding: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+.settings-avatar {
+  width: 45px;
+  height: 45px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: #fff;
+}
+.settings-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary-blue);
+  margin: 14px 0 8px;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.settings-card-box {
+  background: #F8FAFC;
+  border-radius: 10px;
+  padding: 12px;
+  border: 1px solid #CBD5E1;
+  margin-bottom: 10px;
+}
+.settings-toggle-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  padding: 6px 0;
+  border-bottom: 1px solid #F1F5F9;
+}
+.settings-toggle-row:last-child { border-bottom: none; }
+.switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #CBD5E1; transition: .3s; border-radius: 20px; }
+.slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; }
+input:checked + .slider { background-color: var(--primary-blue); }
+input:checked + .slider:before { transform: translateX(16px); }
+
+/* --- MOBILE RESPONSIVE FIXES --- */
+@media (max-width: 768px) {
+  .sidebar {
+    display: none !important;
+  }
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body>
+<div id="toast" class="toast-msg"></div>
+
+<!-- AUTHENTICATION SHELL -->
+<div id="authShell" class="auth-wrapper">
+  <div class="auth-card">
+    <div class="brand-header"><i class="fa-solid fa-snowflake"></i> Frozen Retail Store</div>
+    
+    <div id="loginPanel" class="auth-box">
+      <div class="icon-box"><i class="fa-solid fa-box"></i></div>
+      
+      <h2>Inventory & Sales<br>Manager</h2>
+      <p class="subtitle">Sign in to access your inventory management system.</p>
+      
+      <form id="loginForm">
+        <div class="form-group">
+          <label>EMAIL</label>
+          <input type="email" id="loginEmail" class="input-field" required placeholder="admin@frozen.com">
+        </div>
+        <div class="form-group">
+          <label>PASSWORD</label>
+          <div class="password-wrap">
+            <input type="password" id="loginPassword" class="input-field" required placeholder="Enter password">
+            <i class="fa-regular fa-eye toggle-eye" onclick="togglePassword('loginPassword', this)"></i>
+          </div>
+        </div>
+        
+        <div class="auth-options-row">
+          <label><input type="checkbox" id="rememberDevice"> Remember this device</label>
+          <a href="#" onclick="showToast('Password recovery link sent'); return false;">Forgot Password?</a>
+        </div>
+
+        <button type="submit" class="btn-primary" style="margin-top: 6px;">Log In <i class="fa-solid fa-arrow-right"></i></button>
+      </form>
+      <button class="btn-secondary" onclick="showSignupPanel()">Sign Up</button>
+      <div class="auth-bottom-info">
+        <div>© 2026 Frozen Retail Store Inventory Management. All rights reserved.</div>
+        <div class="footer-links-row"><span>Security Policy</span> • <span>Technical Support</span> • <span>Privacy</span></div>
+      </div>
+    </div>
+
+    <div id="signupPanel" class="auth-box hidden">
+      <div class="icon-box" style="margin-bottom: 8px;"><i class="fa-solid fa-user-plus"></i></div>
+      <h2>Create Account</h2>
+      <p class="subtitle" style="margin-bottom: 12px;">Register for Arctic Ledger Access</p>
+      
+      <form id="signupForm">
+        <div class="form-group">
+          <label>Full Name</label>
+          <input type="text" id="signupName" class="input-field" placeholder="Juan Dela Cruz" required>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" id="signupEmail" class="input-field" placeholder="email@domain.com" required>
+        </div>
+        <div class="form-group">
+          <label>Create Password</label>
+          <input type="password" id="signupPassword" class="input-field" placeholder="12345" required minlength="5">
+        </div>
+        <button type="submit" class="btn-primary" style="margin-top: 4px;">Confirm →</button>
+      </form>
+      <div style="margin: 8px 0; font-size: 12px; color: var(--neutral-gray);">or</div>
+      <button type="button" class="btn-google" onclick="openGooglePicker()">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" width="16" alt="G"> Sign up with Google
+      </button>
+      <div class="auth-footer-links"><button onclick="showLoginPanel()">Back to Login</button></div>
+      <div class="auth-bottom-info">
+        <div>© 2026 Frozen Retail Store Inventory Management</div>
+        <div class="footer-links-row"><span>System Status</span> • <span>Privacy Policy</span> • <span>Technical Support</span></div>
+      </div>
+    </div>
+
+    <div id="googlePickerModal" class="sso-overlay hidden">
+      <div class="google-modal-card">
+        <div id="gStepSelect">
+          <button class="google-back-btn" onclick="closeGooglePicker()" aria-label="Back">← Back</button>
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="g-logo" alt="Google">
+          <h3>Choose an account</h3>
+          <p class="g-sub">to continue to Arctic Ledger</p>
+          <div class="google-account-list" id="accountListContainer"></div>
+          <button class="google-other-btn" onclick="showGAddStep()"><i class="fa-solid fa-user-plus"></i> Add another account</button>
+          <div class="google-consent-note">To continue, Google will share your name, email address, and profile picture with Arctic Ledger. Before using this app, review its privacy policy and terms.</div>
+        </div>
+        <div id="gStepAdd" class="hidden">
+          <button class="google-back-btn" onclick="backToGSelect()" aria-label="Back">← Back</button>
+          <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="g-logo" alt="Google">
+          <h3>Sign in with Google</h3>
+          <p class="g-sub">to continue to Arctic Ledger</p>
+          <div class="form-group" style="text-align: left; margin-bottom: 10px;"><label>Email or phone</label><input type="email" id="gAddEmail" class="input-field" placeholder="Email or phone"></div>
+          <div class="form-group" style="text-align: left; margin-bottom: 8px;"><label>Password</label><input type="password" id="gAddPass" class="input-field" placeholder="Password"></div>
+          <button class="btn-primary" onclick="saveNewGoogleAccount()" style="margin-top: 12px; margin-bottom: 8px;">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN APP SHELL -->
+<div id="appShell" class="app-container hidden">
+  <aside class="sidebar">
+    <div class="sidebar-brand"><i class="fa-solid fa-snowflake" style="color: var(--primary-blue)"></i> Frozen Retail</div>
+    <nav class="nav-menu">
+      <button class="nav-item active" onclick="switchPage('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+    </nav>
+    <button class="nav-item" style="color: var(--danger); margin-top: auto;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+  </aside>
+
+  <div class="main-wrapper">
+    <header class="top-header">
+      <div class="page-title-box">
+        <button class="header-settings-btn" onclick="openSystemSettingsModal()" title="System Settings">
+          <i class="fa-solid fa-gear"></i>
+        </button>
+        <h2 id="currentPageTitle">Dashboard</h2>
+      </div>
+      <div style="font-size: 14px; font-weight: 600; display:flex; align-items:center; gap: 12px;">
+        <span id="userProfileName">Admin User</span>
+        <button style="color:var(--danger); font-size:14px;" id="mobLogoutBtn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+      </div>
+    </header>
+    <main class="content-area">
+      <section id="page-dashboard">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="label">Total Inventory Value</div>
+            <div class="value">₱100.00K</div>
+          </div>
+          <div class="stat-card alert-stat">
+            <div class="label"><i class="fa-solid fa-triangle-exclamation stat-icon"></i>Active Alerts</div>
+            <div class="value">2</div>
+          </div>
+          <div class="stat-card pending-stat">
+            <div class="label"><i class="fa-solid fa-truck stat-icon"></i>Pending</div>
+            <div class="value">4</div>
+          </div>
+        </div>
+        <div class="dash-panel">
+          <h3>Critical Alerts</h3>
+          <div class="alert-banner"><strong>ZONE B - FREEZER:</strong> Temperature critical. Target is -18°C. Immediate action required. <strong style="float:right;">-20°C</strong></div>
+        </div>
+        <div class="dash-panel" style="border:none;background:transparent;padding:0;margin-top:16px;">
+          <h3>Quick Actions</h3>
+          <div class="quick-actions">
+            <button type="button" class="quick-action" onclick="showToast('Add stock menu opened');">
+              <i class="fa-solid fa-circle-plus"></i><span>Add Stock</span>
+            </button>
+            <button type="button" class="quick-action" onclick="showToast('Barcode scanner ready');">
+              <i class="fa-solid fa-barcode"></i><span>Scan Barcode</span>
+            </button>
+            <button type="button" class="quick-action" onclick="showToast('Inventory report opened');">
+              <i class="fa-solid fa-chart-column"></i><span>Run Report</span>
+            </button>
+          </div>
+        </div>
+        <div class="dash-panel" style="padding-bottom:0;">
+          <h3>Recent Activity</h3>
+          <div class="activity-list">
+            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Added</strong><span>CDO Pork Tocino • 20 mins ago</span></div><div class="activity-value">+45</div></div>
+            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Removed</strong><span>CDO Idol Cheese • 1 hr ago</span></div><div class="activity-value negative">-12</div></div>
+            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Added</strong><span>Chicken Nuggets • 2 hrs ago</span></div><div class="activity-value negative">-15</div></div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<!-- SYSTEM SETTINGS MODAL -->
+<div id="systemSettingsModal" class="modal-overlay hidden">
+  <div class="settings-modal-content">
+    <button onclick="closeSystemSettingsModal()" style="display: inline-flex; align-items: center; gap: 6px; background: #8978D3; color: white; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-bottom: 12px; cursor: pointer; flex-shrink: 0; width: fit-content;">
+      ← Back
+    </button>
+    
+    <div style="font-size: 18px; font-weight: 800; color: var(--primary-blue); flex-shrink: 0;">System Settings</div>
+    <div style="font-size: 12px; color: var(--neutral-gray); margin-bottom: 10px; flex-shrink: 0;">Manage your preferences, security, and environment configurations.</div>
+    
+    <div class="settings-body-scroll">
+      <div class="settings-profile-card">
+        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="settings-avatar" alt="Avatar">
+        <div style="flex: 1; min-width: 0;">
+          <div id="settingsProfileName" style="font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Juan Dela Cruz</div>
+          <div id="settingsProfileEmail" style="font-size: 11px; opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">admin@frozen.com</div>
+        </div>
+        <button style="background: rgba(255,255,255,0.2); font-size: 11px; padding: 4px 8px; border-radius: 4px; color: white; font-weight: 600; flex-shrink: 0;" onclick="openEditProfileModal()">Edit Profile</button>
+      </div>
+
+      <div class="settings-section-title"><i class="fa-solid fa-bell"></i> Alert Protocols</div>
+      <div class="settings-card-box">
+        <div class="settings-toggle-row">
+          <div>Low Stock Alerts <div style="font-size: 10px; font-weight: 400; color: var(--neutral-gray);">Notify when inventory falls below threshold.</div></div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="settings-toggle-row" style="margin-top: 10px;">
+          <div>Temperature Fluctuations <div style="font-size: 10px; font-weight: 400; color: var(--neutral-gray);">Immediate alerts for out-of-range thermal events.</div></div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="settings-toggle-row" style="margin-top: 10px;">
+          <div>Order Status Updates <div style="font-size: 10px; font-weight: 400; color: var(--neutral-gray);">Dispatch and delivery lifecycle notifications.</div></div>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="settings-section-title"><i class="fa-solid fa-temperature-low"></i> Unit Configurations</div>
+      <div class="settings-card-box">
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #F1F5F9; font-size: 12px; font-weight: 600;">
+          <span>Freezer Alpha</span> <span style="background: var(--primary-blue); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">TARGET -18.0°C</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #F1F5F9; font-size: 12px; font-weight: 600; margin-top: 4px;">
+          <span>Freezer Beta</span> <span style="background: var(--primary-blue); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">TARGET -22.5°C</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; font-weight: 600; margin-top: 4px;">
+          <span>Cold Room C</span> <span style="background: #D97706; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">TARGET +4.0°C</span>
+        </div>
+        <button style="width: 100%; margin-top: 10px; background: #FFFFFF; border: 1px dashed var(--border-color); padding: 6px; border-radius: 6px; font-size: 11px; font-weight: 700; color: var(--primary-blue);" onclick="showToast('Add unit config clicked')">+ Add Unit Config</button>
+      </div>
+
+      <div class="settings-section-title"><i class="fa-solid fa-lock"></i> Security</div>
+      <div class="settings-card-box">
+        <div class="settings-toggle-row" onclick="openChangePasswordModal()" style="cursor: pointer;">
+          <span>Change Password</span> <i class="fa-solid fa-chevron-right" style="font-size: 11px; color: var(--neutral-gray);"></i>
+        </div>
+        <div class="settings-toggle-row" style="margin-top: 8px;">
+          <span>Biometric Login</span>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--primary-blue); margin: 16px 0 6px; font-weight: 600;">
+        <span style="cursor: pointer;" onclick="showToast('Help Center opened')">Help Center <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 9px;"></i></span>
+        <span style="cursor: pointer;" onclick="showToast('Terms of Service opened')">Terms of Service <i class="fa-solid fa-file-lines" style="font-size: 9px;"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EDIT PROFILE MODAL -->
+<div id="editProfileModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Edit Profile</h3>
+    <p class="modal-sub">Update your account name and email address.</p>
+    <form id="editProfileForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="editProfileNameInput" class="input-field" required>
+      </div>
+      <div class="form-group">
+        <label>Email Address</label>
+        <input type="email" id="editProfileEmailInput" class="input-field" required>
+      </div>
+      <div class="modal-actions">
+        <span class="btn-cancel" onclick="closeEditProfileModal()">Cancel</span>
+        <button type="submit" class="btn-save-prod">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div id="changePasswordModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Change Password</h3>
+    <p class="modal-sub">Enter your current password and a new secure password.</p>
+    <form id="changePasswordForm">
+      <div class="form-group">
+        <label>Current Password</label>
+        <input type="password" id="currentPasswordInput" class="input-field" required placeholder="••••••">
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="newPasswordInput" class="input-field" required placeholder="New password" minlength="5">
+      </div>
+      <div class="modal-actions">
+        <span class="btn-cancel" onclick="closeChangePasswordModal()">Cancel</span>
+        <button type="submit" class="btn-save-prod">Update Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script>
+const defaultUsers = [{ email: "admin@frozen.com", pass: "123456", name: "Admin User" }];
+
+let registeredUsers = JSON.parse(localStorage.getItem('frozen_users')) || defaultUsers;
+let currentUserEmail = localStorage.getItem('frozen_current_user') || "admin@frozen.com";
+let googleAccounts = [{ name: "Jane Doe", email: "jane.doe@frostlogic.com", initial: "J", color: "#3B82F6" }];
+
+function saveUsersToStorage() {
+  localStorage.setItem('frozen_users', JSON.stringify(registeredUsers));
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+function togglePassword(inputId, icon) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
+  else { input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
+}
+
+function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); }
+function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); }
+function openGooglePicker() { renderGoogleAccounts(); document.getElementById('googlePickerModal').classList.remove('hidden'); }
+function renderGoogleAccounts() {
+  document.getElementById('accountListContainer').innerHTML = googleAccounts.map(acc => `
+    <div class="google-account-item" onclick="selectGoogleAccount('${acc.email}', '${acc.name}')">
+      <div class="g-avatar" style="background:${acc.color}">${acc.initial}</div>
+      <div class="g-info"><div class="g-name">${acc.name}</div><div class="g-email">${acc.email}</div></div>
+    </div>`).join('');
+}
+function selectGoogleAccount(email, name) { 
+  document.getElementById('googlePickerModal').classList.add('hidden'); 
+  let u = registeredUsers.find(x => x.email === email);
+  if(!u) {
+    registeredUsers.push({ email, pass: "googleauth", name });
+    saveUsersToStorage();
+  }
+  currentUserEmail = email;
+  localStorage.setItem('frozen_current_user', email);
+  loginSuccess(name, email); 
+}
+function showGAddStep() { document.getElementById('gStepSelect').classList.add('hidden'); document.getElementById('gStepAdd').classList.remove('hidden'); }
+function saveNewGoogleAccount() {
+  const email = document.getElementById('gAddEmail').value.trim();
+  if(!email) { showToast("Please enter email!"); return; }
+  let name = email.split('@')[0];
+  name = name.charAt(0).toUpperCase() + name.slice(1);
+  googleAccounts.push({ name, email, initial: name.charAt(0), color: "#3B82F6" });
+  document.getElementById('googlePickerModal').classList.add('hidden');
+  selectGoogleAccount(email, name);
+}
+function backToGSelect() { document.getElementById('gStepSelect').classList.remove('hidden'); document.getElementById('gStepAdd').classList.add('hidden'); }
+function closeGooglePicker() { document.getElementById('googlePickerModal').classList.add('hidden'); }
+
+document.getElementById('loginForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass = document.getElementById('loginPassword').value;
+  const remember = document.getElementById('rememberDevice').checked;
+
+  const found = registeredUsers.find(u => u.email === email && u.pass === pass);
+  if (found) {
+    currentUserEmail = found.email;
+    localStorage.setItem('frozen_current_user', found.email);
+    if(remember) {
+      localStorage.setItem('frozen_remembered_email', email);
+    } else {
+      localStorage.removeItem('frozen_remembered_email');
+    }
+    loginSuccess(found.name, found.email);
+  } else {
+    showToast("Invalid email or password.");
+  }
+});
+
+window.addEventListener('DOMContentLoaded', () => {
+  const remembered = localStorage.getItem('frozen_remembered_email');
+  if(remembered) {
+    document.getElementById('loginEmail').value = remembered;
+    document.getElementById('rememberDevice').checked = true;
+  }
+});
+
+document.getElementById('signupForm').addEventListener('submit', (e) => { 
+  e.preventDefault();
+  const email = document.getElementById('signupEmail').value.trim();
+  const pass = document.getElementById('signupPassword').value;
+  const name = document.getElementById('signupName').value.trim() || "New Staff";
+  if(registeredUsers.some(u => u.email === email)) {
+    showToast("Email is already registered!");
+    return;
+  }
+  registeredUsers.push({ email, pass, name });
+  saveUsersToStorage();
+  document.getElementById('signupForm').reset();
+  showLoginPanel();
+  showToast("Account created successfully!");
+});
+
+function loginSuccess(name, email) {
+  document.getElementById('authShell').classList.add('hidden');
+  document.getElementById('appShell').classList.remove('hidden');
+  document.getElementById('userProfileName').textContent = name;
+  document.getElementById('settingsProfileName').textContent = name;
+  document.getElementById('settingsProfileEmail').textContent = email;
+  showToast(`Welcome, ${name}!`);
+}
+
+function logout() { 
+  document.getElementById('appShell').classList.add('hidden'); 
+  document.getElementById('authShell').classList.add('hidden');
+  document.getElementById('authShell').classList.remove('hidden');
+  document.getElementById('googlePickerModal').classList.add('hidden');
+  localStorage.removeItem('frozen_current_user');
+  showLoginPanel(); 
+  showToast("Logged out successfully"); 
+}
+
+function openSystemSettingsModal() {
+  document.getElementById('systemSettingsModal').classList.remove('hidden');
+}
+function closeSystemSettingsModal() {
+  document.getElementById('systemSettingsModal').classList.add('hidden');
+}
+
+function openEditProfileModal() {
+  const user = registeredUsers.find(u => u.email === currentUserEmail) || registeredUsers[0];
+  document.getElementById('editProfileNameInput').value = user.name;
+  document.getElementById('editProfileEmailInput').value = user.email;
+  document.getElementById('editProfileModal').classList.remove('hidden');
+}
+function closeEditProfileModal() {
+  document.getElementById('editProfileModal').classList.add('hidden');
+}
+
+document.getElementById('editProfileForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const newName = document.getElementById('editProfileNameInput').value.trim();
+  const newEmail = document.getElementById('editProfileEmailInput').value.trim();
+
+  let user = registeredUsers.find(u => u.email === currentUserEmail);
+  if (user) {
+    user.name = newName;
+    user.email = newEmail;
+    currentUserEmail = newEmail;
+    saveUsersToStorage();
+    
+    document.getElementById('userProfileName').textContent = newName;
+    document.getElementById('settingsProfileName').textContent = newName;
+    document.getElementById('settingsProfileEmail').textContent = newEmail;
+    
+    closeEditProfileModal();
+    showToast("Profile updated successfully!");
+  }
+});
+
+function openChangePasswordModal() {
+  document.getElementById('changePasswordForm').reset();
+  document.getElementById('changePasswordModal').classList.add('hidden'); // Fix toggle reset
+  document.getElementById('changePasswordModal').classList.remove('hidden');
+}
+function closeChangePasswordModal() {
+  document.getElementById('changePasswordModal').classList.add('hidden');
+}
+
+document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const currentPass = document.getElementById('currentPasswordInput').value;
+  const newPass = document.getElementById('newPasswordInput').value;
+
+  let user = registeredUsers.find(u => u.email === currentUserEmail);
+  if (user) {
+    if (user.pass !== currentPass && user.pass !== "googleauth") {
+      showToast("Incorrect current password!");
+      return;
+    }
+    user.pass = newPass;
+    saveUsersToStorage();
+    closeChangePasswordModal();
+    showToast("Password updated successfully!");
+  }
+});
+</script>
+</body>
+</html>
