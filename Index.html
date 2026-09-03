@@ -391,118 +391,7 @@ input:checked + .slider:before { transform: translateX(16px); }
           </div>
         </div>
       </section>
-
-      <section id="page-adjustment" class="hidden">
-        <div class="page-heading" style="margin-bottom:16px;">Adjustment</div>
-        <div class="adjustment-container">
-          <div class="adjustment-heading"><h3>STOCK ADJUSTMENT</h3><p>Update inventory levels and record stock movement.</p></div>
-          <div class="scan-box scan-box-photo">
-            <div class="scan-icon"><i class="fa-solid fa-camera"></i></div>
-            <div class="scan-label" style="color:#334155;">TAP TO SCAN SKU</div>
-          </div>
-          <div class="adj-section-label">Adjustment Type</div>
-          <div class="adj-type-toggle">
-            <button type="button" id="adjAddBtn" class="adj-toggle-btn active-add" onclick="handleAdjustmentTypeClick('add')"><i class="fa-solid fa-circle-plus"></i> Add Stock</button>
-            <button type="button" id="adjRemoveBtn" class="adj-toggle-btn active-remove" onclick="handleAdjustmentTypeClick('remove')"><i class="fa-solid fa-circle-minus"></i> Remove</button>
-          </div>
-          <div class="adj-grid-2">
-            <div class="form-group"><label>Quantity</label><input type="number" id="adjQuantity" class="input-field" value="0"></div>
-            <div class="form-group"><label>Zone ID</label><input type="text" id="adjZone" class="input-field" placeholder="E.G. FZ-A1"></div>
-          </div>
-          <div class="form-group">
-            <label>Reason</label>
-            <select id="adjReason" class="input-field">
-              <option value="" disabled selected>Select a reason...</option>
-              <option value="delivery">New Delivery / Restock</option>
-              <option value="damaged">Damaged / Expired</option>
-              <option value="audit">Inventory Audit Correction</option>
-            </select>
-          </div>
-          <div class="form-group" style="margin-bottom: 0;">
-            <label>Notes (Optional)</label>
-            <textarea id="adjNotes" class="input-field" rows="2" placeholder="Add any additional context..."></textarea>
-          </div>
-        </div>
-      </section>
-
-      <section id="page-suppliers" class="hidden">
-        <div class="page-heading">Suppliers</div>
-        <div class="supplier-search"><i class="fa-solid fa-magnifying-glass"></i><input id="supplierSearch" type="search" placeholder="Search suppliers..." oninput="filterSuppliers()"></div>
-        <div class="suppliers-grid" id="suppliersGrid">
-          <div class="supplier-card">
-            <div class="sup-top-row">
-              <div><div class="sup-name">NorthStar Seafood</div><div class="sup-contact">Contact: Sarah Jenkins</div></div>
-              <span class="sup-status-badge ontime">On Time</span>
-            </div>
-            <div class="sup-details-box">
-              <div><span>Next Delivery</span><strong>OCT 24, 08:00 AM</strong></div>
-              <div><span>Volume</span><strong>2.4 Tons</strong></div>
-            </div>
-            <div class="sup-actions">
-              <button class="sup-btn"><i class="fa-solid fa-phone"></i> Call</button>
-              <button class="sup-btn"><i class="fa-solid fa-envelope"></i> Email Order</button>
-            </div>
-          </div>
-          <div class="supplier-card">
-            <div class="sup-top-row">
-              <div><div class="sup-name">Frosty Farms</div><div class="sup-contact">Contact: Mike Torres</div></div>
-              <span class="sup-status-badge delayed">Order Pending</span>
-            </div>
-            <div class="sup-details-box">
-              <div><span>Next Delivery</span><strong>TBD</strong></div>
-              <div><span>Action Req</span><strong>Confirm Qty</strong></div>
-            </div>
-            <div class="sup-actions">
-              <button class="sup-btn"><i class="fa-solid fa-phone"></i> Call</button>
-              <button class="sup-btn"><i class="fa-solid fa-envelope"></i> Email Order</button>
-            </div>
-          </div>
-          <div class="supplier-card">
-            <div class="sup-top-row">
-              <div><div class="sup-name">Arctic Logistics Co.</div><div class="sup-contact">Contact: David Chen</div></div>
-              <span class="sup-status-badge ontime">On Time</span>
-            </div>
-            <div class="sup-details-box">
-              <div><span>Next Delivery</span><strong>OCT 25, 02:00 PM</strong></div>
-              <div><span>Volume</span><strong>5.0 Tons</strong></div>
-            </div>
-            <div class="sup-actions">
-              <button class="sup-btn"><i class="fa-solid fa-phone"></i> Call</button>
-              <button class="sup-btn"><i class="fa-solid fa-envelope"></i> Email Order</button>
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
-  </div>
-</div>
-
-<!-- CATALOG MODAL WITH FIXED BARCODE BUTTON INSIDE CATALOG BODY -->
-<div id="catalogModalOverlay" class="modal-overlay hidden" style="align-items: flex-start; padding: 0; overflow-y: auto;">
-  <div class="catalog-modal-content">
-    <div class="catalog-header-bar">
-      <button class="header-nav-btn" onclick="closeCatalogModal()" aria-label="Home">Home</button>
-      <i class="fa-solid fa-snowflake header-brand-icon"></i> FROZEN RETAIL STORE
-    </div>
-    <div class="catalog-body">
-      <div class="page-heading" style="margin-bottom:10px;">Catalog</div>
-      <div class="catalog-toolbar">
-        <div class="catalog-search">
-          <i class="fa-solid fa-magnifying-glass"></i>
-          <input id="catalogSearch" type="search" placeholder="Search catalog..." oninput="renderCatalog()">
-        </div>
-        <div class="filter-row">
-          <button type="button" class="filter-btn active" onclick="setCatalogFilter('all', this)">All Items</button>
-          <button type="button" class="filter-btn" onclick="setCatalogFilter('seafood', this)">Seafood</button>
-          <button type="button" class="filter-btn" onclick="setCatalogFilter('longanisa', this)">Longanisa</button>
-          <button type="button" class="filter-btn" onclick="setCatalogFilter('frozen', this)">Frozen</button>
-        </div>
-      </div>
-      <div class="product-grid" id="catalogGrid"></div>
-      
-      <!-- INILIPAT DITO ANG BUTTON PARA SUMUNOD SA SWIPE / SCROLL -->
-      <div class="floating-barcode-btn" title="Scan Barcode"><i class="fa-solid fa-barcode" style="font-size: 20px;"></i></div>
-    </div>
   </div>
 </div>
 
@@ -747,7 +636,7 @@ function switchPage(pageId, btn, isMobile = false) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     if(btn) btn.classList.add('active');
   }
-  ['dashboard', 'adjustment', 'suppliers'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+  ['dashboard'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
   document.getElementById(`page-${pageId}`).classList.remove('hidden');
 }
 
@@ -907,4 +796,4 @@ function filterSuppliers() {
 }
 </script>
 </body>
-                                                                                               </html>
+  </html>
