@@ -10,549 +10,172 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
 :root {
-  --primary-blue: #1E2B58;
-  --primary-blue-alt: #162044;
-  --accent-blue: #3B82F6;
-  --secondary-pink: #FFF0F5;
-  --modal-bg: #FFEBEF;
-  --card-bg: #FFFFFF;
-  --app-bg: #82C8E5;
-  --auth-bg: #A3B8E0;
-  --text-dark: #1E293B;
-  --neutral-gray: #64748B;
-  --border-color: #CBD5E1;
-  --danger: #EF4444;
-  --success: #22C55E;
-  --google-border: #E2E8F0;
-  --google-hover: #F8FAFC;
+  --primary-blue: #2a2673; --primary-blue-alt: #162044; --accent-blue: #3B82F6;
+  --secondary-pink: #fce7e6; --modal-bg: #FFEBEF; --card-bg: #FFFFFF;
+  --app-bg: #83f1fe; --auth-bg: #babaf8; --text-dark: #1E293B;
+  --neutral-gray: #64748B; --border-color: #CBD5E1; --danger: #EF4444;
+  --success: #22C55E; --google-border: #E2E8F0; --google-hover: #F8FAFC;
 }
-
-* { 
-  box-sizing: border-box; 
-  margin: 0; 
-  padding: 0; 
-  font-family: 'Inter', 'Roboto', Arial, sans-serif; 
-}
-
-body { 
-  background-color: var(--app-bg); 
-  color: var(--text-dark); 
-  font-size: 14px;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased; 
-}
-
-button { 
-  cursor: pointer; 
-  border: none; 
-  outline: none; 
-  background: none; 
-  font-family: inherit; 
-}
-
-input, select, textarea { 
-  font-family: inherit; 
-  outline: none; 
-}
-
+* { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Roboto', Arial, sans-serif; }
+body { background-color: var(--app-bg); color: var(--text-dark); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+button { cursor: pointer; border: none; outline: none; background: none; font-family: inherit; }
+input, select, textarea { font-family: inherit; outline: none; }
 .hidden { display: none !important; }
-
-/* --- AUTH SHELL --- */
-.auth-wrapper { 
-  min-height: 100vh; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  background: var(--auth-bg); 
-  padding: 20px; 
-}
-
-.auth-card { 
-  background: #C4C8DC; 
-  width: 100%; 
-  max-width: 400px; 
-  border-radius: 16px; 
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08); 
-  padding: 28px 24px; 
-  position: relative; 
-  overflow: hidden; 
-  display: flex; 
-  flex-direction: column; 
-  justify-content: space-between; 
-}
-
-.brand-header { 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 8px; 
-  font-size: 16px; 
-  font-weight: 700; 
-  color: var(--primary-blue); 
-  margin-bottom: 20px; 
-}
-
+.auth-wrapper { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; background: var(--auth-bg); padding: 12px; box-sizing: border-box; }
+.auth-card { background: var(--secondary-pink); width: 100%; max-width: 400px; border-radius: 16px; border: 2px solid #6C63C7; box-shadow: 0 10px 25px rgba(0,0,0,0.08); padding: 4px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: background 0.2s ease; box-sizing: border-box; }
+.auth-card-inner { background: transparent; border-radius: 12px; padding: 20px 16px; width: 100%; }
+.auth-card.signup-mode { background: var(--secondary-pink); }
+.brand-header { display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 16px; font-weight: 700; color: var(--primary-blue); margin-bottom: 20px; }
 .brand-header i { color: var(--primary-blue); }
-
 .auth-box { text-align: center; }
-
-.auth-box .icon-box { 
-  width: 56px; 
-  height: 56px; 
-  background: #8993B1; 
-  color: #FFFFFF; 
-  border-radius: 12px; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  margin: 0 auto 12px; 
-  font-size: 22px; 
-}
-
-.auth-box h2 { 
-  font-size: 22px; 
-  font-weight: 800; 
-  color: var(--primary-blue); 
-  line-height: 1.3; 
-}
-
-.auth-box p.subtitle { 
-  font-size: 13px; 
-  color: #475569; 
-  margin: 6px 0 20px; 
-}
-
-.form-group { 
-  text-align: left; 
-  margin-bottom: 14px; 
-}
-
-.form-group label { 
-  display: block; 
-  font-size: 11px; 
-  font-weight: 700; 
-  text-transform: uppercase; 
-  color: #334155; 
-  margin-bottom: 6px; 
-}
-
-.input-field { 
-  width: 100%; 
-  padding: 10px 12px; 
-  border: 1px solid #94A3B8; 
-  border-radius: 6px; 
-  font-size: 14px; 
-  background: #FFFFFF; 
-  color: var(--text-dark);
-}
-
-.input-field:focus { 
-  border-color: var(--primary-blue); 
-}
-
+.auth-box .icon-box { width: 72px; height: 72px; background: #AEDFF7; color: var(--primary-blue); border: 2px solid var(--accent-blue); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; font-size: 28px; }
+.auth-box h2 { font-size: 22px; font-weight: 800; color: var(--primary-blue); line-height: 1.3; }
+.auth-box p.subtitle { font-size: 13px; color: #475569; margin: 6px 0 20px; }
+.form-group { text-align: left; margin-bottom: 14px; }
+.form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #334155; margin-bottom: 6px; }
+.input-field { width: 100%; padding: 10px 12px; border: 1px solid #94A3B8; border-radius: 6px; font-size: 14px; background: #FFFFFF; color: var(--text-dark); }
+.input-field:focus { border-color: var(--primary-blue); }
 .password-wrap { position: relative; }
-
-.password-wrap .toggle-eye { 
-  position: absolute; 
-  right: 12px; 
-  top: 50%; 
-  transform: translateY(-50%); 
-  color: var(--neutral-gray); 
-  font-size: 14px; 
-  cursor: pointer; 
-}
-
-.auth-options-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: var(--text-dark);
-  margin-bottom: 16px;
-}
-.auth-options-row label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  text-transform: none;
-  margin-bottom: 0;
-}
-.auth-options-row a {
-  color: var(--primary-blue);
-  text-decoration: none;
-  font-weight: 600;
-}
-.auth-options-row a:hover {
-  text-decoration: underline;
-}
-
-.btn-primary { 
-  width: 100%; 
-  background: var(--primary-blue); 
-  color: white; 
-  padding: 12px; 
-  border-radius: 6px; 
-  font-weight: 600; 
-  font-size: 14px; 
-  transition: 0.2s; 
-}
-
-.btn-primary:hover { background: var(--primary-blue-alt); }
-
-.btn-secondary { 
-  width: 100%; 
-  background: #3B4B7C; 
-  color: white; 
-  padding: 12px; 
-  border-radius: 6px; 
-  font-weight: 600; 
-  font-size: 14px; 
-  margin-top: 8px; 
-}
-
-.btn-google { 
-  width: 100%; 
-  border: 1px solid var(--border-color); 
-  padding: 10px; 
-  border-radius: 6px; 
-  font-size: 14px; 
-  font-weight: 500; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 10px; 
-  background: white; 
-  margin-top: 10px; 
-  color: var(--text-dark);
-}
-
-.auth-footer-links { 
-  margin-top: 16px; 
-  font-size: 12px; 
-  color: var(--neutral-gray); 
-}
-
-.auth-footer-links button { 
-  color: var(--primary-blue); 
-  font-weight: 600; 
-}
-
-.auth-bottom-info { 
-  margin-top: 20px; 
-  border-top: 1px solid #A8B1CE; 
-  padding-top: 12px; 
-  font-size: 11px; 
-  color: #475569; 
-  text-align: center; 
-  line-height: 1.5; 
-}
-
-.auth-bottom-info .footer-links-row { 
-  display: flex; 
-  justify-content: center; 
-  gap: 10px; 
-  margin-top: 6px; 
-  color: var(--primary-blue); 
-}
-
+.password-wrap .toggle-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--neutral-gray); font-size: 14px; cursor: pointer; }
+.auth-options-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-dark); margin-bottom: 16px; }
+.auth-options-row label { display: flex; align-items: center; gap: 6px; cursor: pointer; font-weight: 500; text-transform: none; margin-bottom: 0; }
+.auth-options-row a { color: var(--primary-blue); text-decoration: none; font-weight: 600; }
+.auth-options-row a:hover { text-decoration: underline; }
+.btn-primary { width: 100%; background: #2a2673; color: white; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 14px; transition: 0.2s; }
+.btn-primary:hover { background: #1d1952; }
+.btn-secondary { width: 100%; background: #2a2673; color: white; padding: 12px; border-radius: 6px; font-weight: 600; font-size: 14px; margin-top: 8px; }
+.btn-google { width: 100%; border: 1px solid var(--border-color); padding: 10px; border-radius: 6px; font-size: 14px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 10px; background: white; margin-top: 10px; color: var(--text-dark); }
+.auth-footer-links { margin-top: 16px; font-size: 12px; color: var(--neutral-gray); }
+.auth-footer-links button { color: var(--primary-blue); font-weight: 600; }
+.auth-bottom-info { margin-top: 20px; border-top: 1px solid #A8B1CE; padding-top: 12px; font-size: 11px; color: #475569; text-align: center; line-height: 1.5; }
+.auth-bottom-info .footer-links-row { display: flex; justify-content: center; gap: 10px; margin-top: 6px; color: var(--primary-blue); }
 .auth-bottom-info .footer-links-row span { cursor: pointer; }
-
-/* --- GOOGLE SSO MODAL --- */
-.sso-overlay { 
-  position: absolute; 
-  inset: 0; 
-  background: rgba(30, 43, 88, 0.4); 
-  display: flex; 
-  justify-content: center; 
-  align-items: center; 
-  z-index: 20; 
-}
-
-.google-modal-card { 
-  position: relative;
-  background: #FFF5F7; 
-  width: 92%; 
-  max-width: 360px; 
-  padding: 24px; 
-  border-radius: 16px; 
-  text-align: center; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
-}
-
+.auth-request-access { text-align: center; margin-top: 14px; font-size: 14px; color: var(--text-dark); }
+.auth-request-access a { color: #3B2E9E; font-weight: 700; text-decoration: none; }
+.auth-request-access a:hover { text-decoration: underline; }
+.sso-overlay { position: absolute; inset: 0; background: rgba(30, 43, 88, 0.4); display: flex; justify-content: center; align-items: center; z-index: 20; }
+.google-modal-card { position: relative; background: #FFF5F7; width: 92%; max-width: 360px; padding: 24px; border-radius: 16px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
 .google-modal-card img.g-logo { width: 32px; margin-bottom: 8px; }
-
-.google-modal-card h3 { 
-  font-size: 18px; 
-  font-weight: 800; 
-  color: var(--text-dark); 
-  margin-bottom: 4px; 
-}
-
-.google-modal-card p.g-sub { 
-  font-size: 13px; 
-  color: var(--neutral-gray); 
-  margin-bottom: 16px; 
-}
-
-.google-account-list { 
-  text-align: left; 
-  margin-bottom: 12px; 
-  border: 1px solid #F1D5DD; 
-  border-radius: 8px; 
-  overflow: hidden; 
-  background: #FFFFFF;
-}
-
-.google-account-item { 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-  padding: 12px; 
-  border-bottom: 1px solid #F1D5DD; 
-  cursor: pointer; 
-  transition: background 0.2s; 
-}
-
+.google-modal-card h3 { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
+.google-modal-card p.g-sub { font-size: 13px; color: var(--neutral-gray); margin-bottom: 16px; }
+.google-account-list { text-align: left; margin-bottom: 12px; border: 1px solid #F1D5DD; border-radius: 8px; overflow: hidden; background: #FFFFFF; }
+.google-account-item { display: flex; align-items: center; gap: 12px; padding: 12px; border-bottom: 1px solid #F1D5DD; cursor: pointer; transition: background 0.2s; }
 .google-account-item:last-child { border-bottom: none; }
 .google-account-item:hover { background: var(--google-hover); }
-
-.g-avatar { 
-  width: 36px; 
-  height: 36px; 
-  border-radius: 50%; 
-  background: #3B82F6; 
-  color: white; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-weight: 600; 
-  font-size: 14px; 
-}
-
-.g-info .g-name { 
-  font-size: 14px; 
-  font-weight: 600; 
-  color: var(--text-dark); 
-}
-
-.g-info .g-email { 
-  font-size: 12px; 
-  color: var(--neutral-gray); 
-}
-
-.google-other-btn { 
-  display: flex; 
-  align-items: center; 
-  gap: 10px; 
-  width: 100%; 
-  padding: 12px; 
-  border: 1px solid #F1D5DD; 
-  border-radius: 8px; 
-  font-size: 13px; 
-  font-weight: 600; 
-  color: var(--primary-blue); 
-  background: white; 
-  cursor: pointer; 
-  text-align: left; 
-  margin-bottom: 12px; 
-}
-
+.g-avatar { width: 36px; height: 36px; border-radius: 50%; background: #3B82F6; color: white; display: flex; align-items: center; justify-content: center; font-weight: 600; font-size: 14px; }
+.g-info .g-name { font-size: 14px; font-weight: 600; color: var(--text-dark); }
+.g-info .g-email { font-size: 12px; color: var(--neutral-gray); }
+.google-other-btn { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px; border: 1px solid #F1D5DD; border-radius: 8px; font-size: 13px; font-weight: 600; color: var(--primary-blue); background: white; cursor: pointer; text-align: left; margin-bottom: 12px; }
 .google-other-btn:hover { background: var(--google-hover); }
-
-.google-back-btn {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
-  border-radius: 12px;
-  color: #FFFFFF;
-  background: #8978D3;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: none;
-}
+.google-back-btn { position: absolute; top: 16px; left: 16px; display: inline-flex; align-items: center; gap: 4px; padding: 6px 12px; border-radius: 12px; color: #FFFFFF; background: #8978D3; font-size: 11px; font-weight: 700; cursor: pointer; border: none; }
 .google-back-btn:hover { background: #7563C4; }
-
-.google-consent-note {
-  margin: 10px 0 0;
-  padding: 10px 12px;
-  border: 1px solid #F3C2D0;
-  border-radius: 8px;
-  background: #FFE8EF;
-  color: #64748B;
-  font-size: 10px;
-  line-height: 1.45;
-  text-align: left;
-}
-
-/* --- APP LAYOUT & FIXED MOBILE SIDEBAR --- */
+.google-consent-note { margin: 10px 0 0; padding: 10px 12px; border: 1px solid #F3C2D0; border-radius: 8px; background: #FFE8EF; color: #64748B; font-size: 10px; line-height: 1.45; text-align: left; }
 .app-container { display: flex; height: 100vh; overflow: hidden; width: 100%; background: var(--app-bg); }
-
-.sidebar { 
-  width: 240px; 
-  background: var(--app-bg); 
-  border-right: 1px solid rgba(255,255,255,0.3); 
-  display: flex; 
-  flex-direction: column; 
-  padding: 20px 14px; 
-  flex-shrink: 0;
-}
-
-.sidebar-brand { 
-  font-size: 18px; 
-  font-weight: 800; 
-  color: var(--primary-blue); 
-  display: flex; 
-  align-items: center; 
-  gap: 8px; 
-  margin-bottom: 28px; 
-  padding-left: 8px; 
-}
-
+.sidebar { width: 240px; background: var(--app-bg); border-right: 1px solid rgba(255,255,255,0.3); display: flex; flex-direction: column; padding: 20px 14px; }
+.sidebar-brand { font-size: 18px; font-weight: 800; color: var(--primary-blue); display: flex; align-items: center; gap: 8px; margin-bottom: 28px; padding-left: 8px; }
 .nav-menu { display: flex; flex-direction: column; gap: 6px; flex: 1; }
-
-.nav-item { 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-  padding: 12px 14px; 
-  font-size: 14px; 
-  font-weight: 600; 
-  color: var(--primary-blue); 
-  border-radius: 8px; 
-  transition: 0.2s; 
-}
-
+.nav-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; font-size: 14px; font-weight: 600; color: var(--primary-blue); border-radius: 8px; transition: 0.2s; }
 .nav-item i { font-size: 16px; width: 20px; }
-
-.nav-item.active { 
-  background: var(--primary-blue); 
-  color: #FFFFFF; 
+.nav-item.active { background: var(--primary-blue); color: #FFFFFF; }
+.mobile-bottom-nav { display: none; position: fixed; bottom: 0; left: 0; width: 100%; background: var(--primary-blue); border-top: 1px solid var(--border-color); padding: 10px 14px; justify-content: space-around; z-index: 40; }
+.mob-nav-item { display: flex; flex-direction: column; align-items: center; font-size: 11px; font-weight: 500; color: #94A3B8; gap: 4px; cursor: pointer; }
+.mob-nav-item i { font-size: 18px; }
+.mob-nav-item.active { color: #FFFFFF; font-weight: 700; }
+.main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: var(--app-bg); }
+.top-header { background: #82c6db; border-bottom: none; display: flex; align-items: center; justify-content: space-between; padding: 16px 18px; font-weight: 700; font-size: 15px; letter-spacing: 0.02em; color: #1E293B; position: sticky; top: 0; z-index: 2; }
+.page-title-box { display: flex; align-items: center; gap: 10px; color: #1E293B; }
+.page-title-box h2 { font-size: 15px; font-weight: 700; color: #1E293B; letter-spacing: 0.02em; text-transform: uppercase; display: flex; align-items: center; gap: 8px; }
+.header-settings-btn { font-size: 15px; color: #fff; cursor: pointer; background: var(--accent-blue); border: none; display: flex; align-items: center; justify-content: center; padding: 6px 10px; border-radius: 8px; transition: transform 0.2s, background 0.2s; }
+.header-settings-btn:hover { background: #2563EB; }
+.header-brand-icon { color: #1E293B; font-size: 15px; }
+.page-heading { font-size: 18px; font-weight: 800; color: var(--primary-blue); margin-bottom: 14px; }
+.content-area { padding: 24px; flex: 1; position: relative; }
+@media (max-width: 768px) {
+  .sidebar { display: none !important; }
+  .mobile-bottom-nav { display: flex !important; }
+  .main-wrapper { padding-bottom: 70px; }
+  .content-area { padding: 14px; }
+  .top-header { padding: 16px 18px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stats-grid .stat-card:first-child { grid-column: 1 / -1; }
+  .quick-actions { gap: 8px; }
+  .product-grid { grid-template-columns: 1fr; }
+  .suppliers-grid { grid-template-columns: 1fr; }
+  .adjustment-container { border: none; box-shadow: none; padding: 0; background: transparent; }
 }
-
-.main-wrapper { flex: 1; display: flex; flex-direction: column; overflow-y: auto; background: var(--app-bg); min-width: 0; }
-
-.top-header { 
-  height: 60px; 
-  background: var(--app-bg); 
-  border-bottom: 1px solid rgba(255,255,255,0.3); 
-  display: flex; 
-  align-items: center; 
-  justify-content: space-between; 
-  padding: 0 16px; 
-}
-
-.page-title-box { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.page-title-box h2 { 
-  font-size: 18px; 
-  font-weight: 800; 
-  color: var(--primary-blue); 
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.header-settings-btn {
-  font-size: 18px;
-  color: var(--primary-blue);
-  cursor: pointer;
-  background: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.2s;
-  flex-shrink: 0;
-}
-.header-settings-btn:hover {
-  transform: rotate(30deg);
-}
-
-.content-area { padding: 16px; flex: 1; position: relative; padding-bottom: 40px; }
-
-/* --- DASHBOARD & COMPONENTS --- */
 .stats-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
-
-.stat-card { 
-  background: white; 
-  padding: 18px; 
-  border-radius: 12px; 
-  border: 1px solid #B0E0E6; 
-}
-
-.stat-card .label { 
-  font-size: 11px; 
-  font-weight: 700; 
-  color: var(--neutral-gray); 
-  text-transform: uppercase; 
-}
-
-.stat-card .value { 
-  font-size: 24px; 
-  font-weight: 800; 
-  color: var(--primary-blue); 
-  margin: 6px 0 0; 
-}
-
+.stat-card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #B0E0E6; }
+.stat-card .label { font-size: 11px; font-weight: 700; color: var(--neutral-gray); text-transform: uppercase; }
+.stat-card .value { font-size: 24px; font-weight: 800; color: var(--primary-blue); margin: 6px 0 0; }
 .stat-card .stat-icon { font-size: 14px; margin-right: 6px; }
 .stat-card.alert-stat .value { color: var(--danger); }
 .stat-card.pending-stat .value { color: #D97706; }
-
 .quick-actions { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; margin: 12px 0 24px; }
-
-.quick-action { 
-  background: white; 
-  border: 1px solid #B0E0E6; 
-  border-radius: 10px; 
-  padding: 12px; 
-  min-height: 64px; 
-  display: flex; 
-  flex-direction: column; 
-  align-items: center; 
-  justify-content: center; 
-  gap: 6px; 
-  font-size: 12px; 
-  font-weight: 600; 
-  color: var(--primary-blue); 
-  cursor: pointer; 
-}
-
+.quick-action { background: white; border: 1px solid #B0E0E6; border-radius: 10px; padding: 12px; min-height: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--primary-blue); cursor: pointer; }
 .quick-action i { color: var(--accent-blue); font-size: 18px; }
-
 .activity-list { border: 1px solid #B0E0E6; border-radius: 10px; overflow: hidden; background: white; }
 .activity-item { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-bottom: 1px solid #E2E8F0; }
 .activity-item:last-child { border-bottom: none; }
-
-.activity-icon { 
-  width: 32px; 
-  height: 32px; 
-  border-radius: 50%; 
-  background: #E0F2FE; 
-  color: var(--accent-blue); 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-size: 14px; 
-  flex: 0 0 32px; 
-}
-
+.activity-icon { width: 32px; height: 32px; border-radius: 50%; background: #E0F2FE; color: var(--accent-blue); display: flex; align-items: center; justify-content: center; font-size: 14px; flex: 0 0 32px; }
 .activity-main { flex: 1; min-width: 0; }
 .activity-main strong { display: block; font-size: 14px; color: var(--text-dark); font-weight: 600; }
 .activity-main span { display: block; font-size: 12px; color: var(--neutral-gray); margin-top: 2px; }
 .activity-value { font-size: 14px; font-weight: 700; color: var(--success); }
 .activity-value.negative { color: var(--danger); }
-
 .dash-panel { background: white; border-radius: 12px; border: 1px solid #B0E0E6; padding: 18px; }
 .dash-panel h3 { font-size: 16px; font-weight: 700; color: var(--primary-blue); margin-bottom: 14px; }
-.alert-banner { background: #FEE2E2; border: 1px solid #FCA5A5; border-radius: 8px; padding: 12px; font-size: 13px; color: #991B1B; }
+.alert-banner { background: #cea5a0; border: 1px solid #b8928e; border-radius: 8px; padding: 12px; font-size: 13px; color: #281f00; }
+.catalog-toolbar { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
+.catalog-search { width: 100%; position: relative; }
+.catalog-search i, .supplier-search i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--neutral-gray); font-size: 14px; }
+.catalog-search input, .supplier-search input { width: 100%; padding: 10px 12px 10px 36px; border: 1px solid #B0E0E6; border-radius: 8px; font-size: 14px; background: white; }
+.filter-row { display: flex; gap: 8px; overflow-x: auto; }
+.filter-btn { white-space: nowrap; padding: 8px 14px; border-radius: 6px; border: 1px solid #B0E0E6; background: white; color: var(--primary-blue); font-size: 12px; font-weight: 600; cursor: pointer; }
+.filter-btn.active { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
+.product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; position: relative; }
+.product-card { background: white; border-radius: 12px; border: 1px solid #B0E0E6; overflow: hidden; display: flex; flex-direction: column; position: relative; }
+.product-img { width: 100%; height: 130px; object-fit: cover; background: #E2E8F0; }
+.temp-badge { position: absolute; top: 10px; right: 10px; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; color: white; background: rgba(0, 0, 0, 0.65); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
 
-/* MODALS & TOAST */
+/* UPDATED BARCODE BUTTON CSS (SUMUSUNOD NA SA SCROLL) */
+.floating-barcode-btn { position: relative; margin: 16px 0 0 auto; width: 44px; height: 44px; background: #8993B1; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 10; transition: transform 0.2s; }
+.floating-barcode-btn:hover { transform: scale(1.05); }
+
+.product-details { padding: 14px; flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
+.product-details h4 { font-size: 15px; font-weight: 700; color: var(--text-dark); margin-bottom: 6px; }
+.product-details .price-tag { font-size: 16px; font-weight: 800; color: var(--primary-blue); margin-bottom: 8px; }
+.stock-level-indicator { font-size: 12px; color: var(--neutral-gray); display: flex; justify-content: space-between; }
+.stock-level-indicator span { font-weight: 600; color: var(--text-dark); }
+.adjustment-container { max-width: 480px; background: white; border-radius: 12px; border: 1px solid #B0E0E6; padding: 24px; margin: 0 auto; }
+.adjustment-heading { margin-bottom: 16px; }
+.adjustment-heading h3 { font-size: 18px; font-weight: 800; color: var(--primary-blue); }
+.adjustment-heading p { font-size: 13px; color: var(--neutral-gray); margin-top: 4px; }
+.scan-box { height: 130px; border: 1px solid #B0E0E6; border-radius: 8px; background: #F8FAFC; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; margin-bottom: 16px; position: relative; overflow: hidden; cursor: pointer; }
+.scan-box:before, .scan-box:after { content: ""; position: absolute; width: 20px; height: 20px; border-color: var(--neutral-gray); }
+.scan-box:before { left: 12px; top: 12px; border-left: 2px solid; border-top: 2px solid; }
+.scan-box:after { right: 12px; bottom: 12px; border-right: 2px solid; border-bottom: 2px solid; }
+.scan-icon { width: 40px; height: 40px; border-radius: 8px; background: white; color: var(--primary-blue); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.06); }
+.scan-label { font-size: 12px; font-weight: 600; color: var(--neutral-gray); }
+.adj-section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: var(--text-dark); margin-bottom: 8px; }
+.adj-type-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 18px; }
+.adj-toggle-btn { padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; border: 1px solid #B0E0E6; background: #FFFFFF; color: var(--text-dark); display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; }
+.adj-toggle-btn.active-add { background: var(--primary-blue); color: white; border-color: var(--primary-blue); }
+.adj-toggle-btn.active-remove { background: #FFFFFF; color: var(--text-dark); border-color: #B0E0E6; }
+.adj-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px; }
+.supplier-search { position: relative; margin-bottom: 16px; }
+.suppliers-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.supplier-card { background: white; border-radius: 12px; border: 1px solid #B0E0E6; padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+.sup-top-row { display: flex; justify-content: space-between; align-items: flex-start; }
+.sup-name { font-size: 16px; font-weight: 700; color: var(--primary-blue); }
+.sup-contact { font-size: 12px; color: var(--neutral-gray); margin-top: 2px; }
+.sup-status-badge { font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 4px; }
+.sup-status-badge.ontime { background: #DCFCE7; color: #166534; }
+.sup-status-badge.delayed { background: #FEE2E2; color: #991B1B; }
+.sup-details-box { background: #F8FAFC; border-radius: 6px; padding: 10px 12px; display: flex; justify-content: space-between; font-size: 12px; border: 1px solid #E2E8F0; }
+.sup-details-box div span { display: block; color: var(--neutral-gray); text-transform: uppercase; font-size: 10px; }
+.sup-details-box div strong { color: var(--text-dark); font-weight: 600; font-size: 12px; }
+.sup-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.sup-btn { padding: 8px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #B0E0E6; display: flex; align-items: center; justify-content: center; gap: 6px; background: white; color: var(--primary-blue); }
 .modal-overlay { position: fixed; inset: 0; background: rgba(30, 43, 88, 0.4); display: flex; justify-content: center; align-items: center; z-index: 50; }
 .modal-card { background: white; width: 92%; max-width: 400px; padding: 24px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
 .modal-card h3 { font-size: 18px; font-weight: 700; color: var(--primary-blue); margin-bottom: 6px; }
@@ -560,104 +183,64 @@ input, select, textarea {
 .modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
 .btn-cancel { font-size: 14px; font-weight: 600; color: var(--neutral-gray); cursor: pointer; padding: 8px 14px; }
 .btn-save-prod { background: var(--primary-blue); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
-
+.btn-danger-prod { background: var(--danger); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
 .toast-msg { position: fixed; bottom: 24px; right: 24px; background: var(--primary-blue); color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s; }
 .toast-msg.show { opacity: 1; }
-
-/* --- SYSTEM SETTINGS MODAL --- */
-.settings-modal-content {
-  background: #FFFFFF;
-  width: 92%;
-  max-width: 440px;
-  max-height: 85vh;
-  border-radius: 16px;
-  padding: 20px;
-  position: relative;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  border: 1px solid #B0E0E6;
+.stock-progress { width: 100%; height: 6px; background: #E2E8F0; border-radius: 6px; overflow: hidden; margin-top: 6px; }
+.stock-progress > span { display: block; height: 100%; background: var(--accent-blue); border-radius: 6px; }
+.catalog-modal-content { background: var(--app-bg); width: 100%; max-width: 600px; height: 100vh; max-height: 100vh; border-radius: 0; padding: 0 0 24px; position: relative; box-shadow: none; overflow-y: auto; margin: auto; }
+@media (min-width: 620px) {
+  .catalog-modal-content { height: auto; max-height: 90vh; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
 }
-.settings-body-scroll {
-  overflow-y: auto;
-  flex: 1;
-  padding-right: 4px;
+.catalog-header-bar { background: #82c6db; border-bottom: none; display: flex; align-items: center; gap: 10px; padding: 16px 18px; font-weight: 700; font-size: 15px; letter-spacing: 0.02em; color: #1E293B; position: sticky; top: 0; z-index: 2; }
+.catalog-header-bar button { color: #1E293B; font-size: 15px; display: flex; align-items: center; }
+.header-nav-btn { background: #4657dd !important; color: #fff !important; font-size: 13px !important; font-weight: 600; padding: 6px 14px; border-radius: 8px; display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+.header-nav-btn:hover { background: #3544c4 !important; }
+.header-nav-btn i { font-size: 12px; }
+.catalog-body { padding: 16px 18px 0; }
+.settings-modal-content { background: var(--app-bg); width: 100%; max-width: 420px; height: 100vh; max-height: 100vh; border-radius: 0; padding: 0 0 24px; position: relative; box-shadow: none; overflow-y: auto; }
+@media (min-width: 480px) {
+  .settings-modal-content { height: auto; max-height: 90vh; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
 }
-.settings-profile-card {
-  background: #3B4B7C;
-  color: white;
-  border-radius: 10px;
-  padding: 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 16px;
-}
-.settings-avatar {
-  width: 45px;
-  height: 45px;
-  border-radius: 8px;
-  object-fit: cover;
-  background: #fff;
-}
-.settings-section-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--primary-blue);
-  margin: 14px 0 8px;
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.settings-card-box {
-  background: #F8FAFC;
-  border-radius: 10px;
-  padding: 12px;
-  border: 1px solid #CBD5E1;
-  margin-bottom: 10px;
-}
-.settings-toggle-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-dark);
-  padding: 6px 0;
-  border-bottom: 1px solid #F1F5F9;
-}
+.settings-header-bar { background: #82c6db; color: #1E293B; display: flex; align-items: center; gap: 12px; padding: 16px 18px; font-weight: 700; font-size: 15px; position: sticky; top: 0; z-index: 2; }
+.settings-header-bar button { color: #1E293B; font-size: 15px; display: flex; align-items: center; }
+.settings-body { padding: 18px 18px 0; }
+.settings-profile-card { background: #281f00; color: white; border-radius: 10px; padding: 14px; display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.settings-avatar { width: 45px; height: 45px; border-radius: 8px; object-fit: cover; background: #fff; }
+.settings-section-title { font-size: 12px; font-weight: 700; color: var(--primary-blue); margin: 16px 0 8px; text-transform: uppercase; letter-spacing: 0.03em; display: flex; align-items: center; gap: 6px; }
+.settings-card-box { background: #281f00; color: #fff; border-radius: 10px; padding: 12px 14px; border: none; margin-bottom: 10px; }
+.settings-toggle-row { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 600; color: #fff; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
 .settings-toggle-row:last-child { border-bottom: none; }
-.switch { position: relative; display: inline-block; width: 36px; height: 20px; flex-shrink: 0; }
+.settings-card-box .settings-toggle-row > div > div { color: rgba(255,255,255,0.55) !important; }
+.settings-card-box .settings-toggle-row i { color: rgba(255,255,255,0.55); }
+.settings-unit-row { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 12px; font-weight: 600; color: #fff; }
+.settings-unit-row:last-of-type { border-bottom: none; }
+.settings-unit-badge { background: var(--accent-blue); color: #fff; padding: 3px 8px; border-radius: 4px; font-size: 10px; font-weight: 700; }
+.settings-unit-badge.warm { background: #D97706; }
+.settings-add-unit-btn { width: 100%; margin-top: 10px; background: rgba(255,255,255,0.06); border: 1px dashed rgba(255,255,255,0.25); padding: 8px; border-radius: 6px; font-size: 11px; font-weight: 700; color: #fff; }
+.settings-footer-links { display: flex; flex-direction: column; gap: 2px; font-size: 12px; color: var(--primary-blue); margin-top: 18px; font-weight: 600; }
+.settings-footer-links .settings-card-box { background: #281f00; }
+.settings-footer-links .settings-toggle-row { color: #fff; cursor: pointer; }
+.switch { position: relative; display: inline-block; width: 36px; height: 20px; }
 .switch input { opacity: 0; width: 0; height: 0; }
-.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #CBD5E1; transition: .3s; border-radius: 20px; }
+.slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #4B5060; transition: .3s; border-radius: 20px; }
 .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; }
-input:checked + .slider { background-color: var(--primary-blue); }
+input:checked + .slider { background-color: var(--accent-blue); }
 input:checked + .slider:before { transform: translateX(16px); }
-
-/* --- MOBILE RESPONSIVE FIXES --- */
-@media (max-width: 768px) {
-  .sidebar {
-    display: none !important;
-  }
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-}
+.adjustment-container { box-shadow: none; }
+.scan-box.scan-box-photo { background: linear-gradient(135deg, #B9C4CE, #8A94A0); filter: grayscale(0.3); }
 </style>
 </head>
 <body>
 <div id="toast" class="toast-msg"></div>
 
-<!-- AUTHENTICATION SHELL -->
 <div id="authShell" class="auth-wrapper">
   <div class="auth-card">
+   <div class="auth-card-inner">
     <div class="brand-header"><i class="fa-solid fa-snowflake"></i> Frozen Retail Store</div>
     
     <div id="loginPanel" class="auth-box">
       <div class="icon-box"><i class="fa-solid fa-box"></i></div>
-      
       <h2>Inventory & Sales<br>Manager</h2>
       <p class="subtitle">Sign in to access your inventory management system.</p>
       
@@ -673,15 +256,13 @@ input:checked + .slider:before { transform: translateX(16px); }
             <i class="fa-regular fa-eye toggle-eye" onclick="togglePassword('loginPassword', this)"></i>
           </div>
         </div>
-        
         <div class="auth-options-row">
           <label><input type="checkbox" id="rememberDevice"> Remember this device</label>
           <a href="#" onclick="showToast('Password recovery link sent'); return false;">Forgot Password?</a>
         </div>
-
         <button type="submit" class="btn-primary" style="margin-top: 6px;">Log In <i class="fa-solid fa-arrow-right"></i></button>
       </form>
-      <button class="btn-secondary" onclick="showSignupPanel()">Sign Up</button>
+      <button class="btn-secondary" onclick="showSignupPanel()">Sign Up <i class="fa-solid fa-arrow-right"></i></button>
       <div class="auth-bottom-info">
         <div>© 2026 Frozen Retail Store Inventory Management. All rights reserved.</div>
         <div class="footer-links-row"><span>Security Policy</span> • <span>Technical Support</span> • <span>Privacy</span></div>
@@ -718,6 +299,9 @@ input:checked + .slider:before { transform: translateX(16px); }
         <div class="footer-links-row"><span>System Status</span> • <span>Privacy Policy</span> • <span>Technical Support</span></div>
       </div>
     </div>
+   </div>
+  </div>
+  <div class="auth-request-access">New staff member? <a href="#" onclick="showSignupPanel(); return false;">Request Access</a></div>
 
     <div id="googlePickerModal" class="sso-overlay hidden">
       <div class="google-modal-card">
@@ -727,7 +311,7 @@ input:checked + .slider:before { transform: translateX(16px); }
           <h3>Choose an account</h3>
           <p class="g-sub">to continue to Arctic Ledger</p>
           <div class="google-account-list" id="accountListContainer"></div>
-          <button class="google-other-btn" onclick="showGAddStep()"><i class="fa-solid fa-user-plus"></i> Add another account</button>
+          <button class="google-other-btn" onclick="showGAddStep()"><i class="fa-solid fa-user-plus"></i> Use another account</button>
           <div class="google-consent-note">To continue, Google will share your name, email address, and profile picture with Arctic Ledger. Before using this app, review its privacy policy and terms.</div>
         </div>
         <div id="gStepAdd" class="hidden">
@@ -741,10 +325,8 @@ input:checked + .slider:before { transform: translateX(16px); }
         </div>
       </div>
     </div>
-  </div>
 </div>
 
-<!-- MAIN APP SHELL -->
 <div id="appShell" class="app-container hidden">
   <aside class="sidebar">
     <div class="sidebar-brand"><i class="fa-solid fa-snowflake" style="color: var(--primary-blue)"></i> Frozen Retail</div>
@@ -754,21 +336,26 @@ input:checked + .slider:before { transform: translateX(16px); }
     <button class="nav-item" style="color: var(--danger); margin-top: auto;" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
   </aside>
 
+  <nav class="mobile-bottom-nav">
+    <div class="mob-nav-item active" onclick="switchPage('dashboard', this, true)"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></div>
+  </nav>
+
   <div class="main-wrapper">
     <header class="top-header">
       <div class="page-title-box">
         <button class="header-settings-btn" onclick="openSystemSettingsModal()" title="System Settings">
           <i class="fa-solid fa-gear"></i>
         </button>
-        <h2 id="currentPageTitle">Dashboard</h2>
+        <h2><i class="fa-solid fa-snowflake header-brand-icon"></i> FROZEN RETAIL STORE</h2>
       </div>
-      <div style="font-size: 14px; font-weight: 600; display:flex; align-items:center; gap: 12px;">
+      <div style="font-size: 13px; font-weight: 600; display:flex; align-items:center; gap: 12px; color:#1E293B;">
         <span id="userProfileName">Admin User</span>
-        <button style="color:var(--danger); font-size:14px;" id="mobLogoutBtn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+        <button style="color:#FCA5A5; font-size:14px;" class="hidden" id="mobLogoutBtn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
       </div>
     </header>
     <main class="content-area">
       <section id="page-dashboard">
+        <div class="page-heading">Dashboard</div>
         <div class="stats-grid">
           <div class="stat-card">
             <div class="label">Total Inventory Value</div>
@@ -790,15 +377,9 @@ input:checked + .slider:before { transform: translateX(16px); }
         <div class="dash-panel" style="border:none;background:transparent;padding:0;margin-top:16px;">
           <h3>Quick Actions</h3>
           <div class="quick-actions">
-            <button type="button" class="quick-action" onclick="showToast('Add stock menu opened');">
-              <i class="fa-solid fa-circle-plus"></i><span>Add Stock</span>
-            </button>
-            <button type="button" class="quick-action" onclick="showToast('Barcode scanner ready');">
-              <i class="fa-solid fa-barcode"></i><span>Scan Barcode</span>
-            </button>
-            <button type="button" class="quick-action" onclick="showToast('Inventory report opened');">
-              <i class="fa-solid fa-chart-column"></i><span>Run Report</span>
-            </button>
+            <button type="button" class="quick-action"><i class="fa-solid fa-circle-plus"></i><span>Add Stock</span></button>
+            <button type="button" class="quick-action"><i class="fa-solid fa-barcode"></i><span>Scan Barcode</span></button>
+            <button type="button" class="quick-action"><i class="fa-solid fa-chart-column"></i><span>Run Report</span></button>
           </div>
         </div>
         <div class="dash-panel" style="padding-bottom:0;">
@@ -806,7 +387,89 @@ input:checked + .slider:before { transform: translateX(16px); }
           <div class="activity-list">
             <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Added</strong><span>CDO Pork Tocino • 20 mins ago</span></div><div class="activity-value">+45</div></div>
             <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Removed</strong><span>CDO Idol Cheese • 1 hr ago</span></div><div class="activity-value negative">-12</div></div>
-            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Added</strong><span>Chicken Nuggets • 2 hrs ago</span></div><div class="activity-value negative">-15</div></div>
+            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Removed</strong><span>Chicken Nuggets • 2 hrs ago</span></div><div class="activity-value negative">-15</div></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-adjustment" class="hidden">
+        <div class="page-heading" style="margin-bottom:16px;">Adjustment</div>
+        <div class="adjustment-container">
+          <div class="adjustment-heading"><h3>STOCK ADJUSTMENT</h3><p>Update inventory levels and record stock movement.</p></div>
+          <div class="scan-box scan-box-photo">
+            <div class="scan-icon"><i class="fa-solid fa-camera"></i></div>
+            <div class="scan-label" style="color:#334155;">TAP TO SCAN SKU</div>
+          </div>
+          <div class="adj-section-label">Adjustment Type</div>
+          <div class="adj-type-toggle">
+            <button type="button" id="adjAddBtn" class="adj-toggle-btn active-add" onclick="handleAdjustmentTypeClick('add')"><i class="fa-solid fa-circle-plus"></i> Add Stock</button>
+            <button type="button" id="adjRemoveBtn" class="adj-toggle-btn active-remove" onclick="handleAdjustmentTypeClick('remove')"><i class="fa-solid fa-circle-minus"></i> Remove</button>
+          </div>
+          <div class="adj-grid-2">
+            <div class="form-group"><label>Quantity</label><input type="number" id="adjQuantity" class="input-field" value="0"></div>
+            <div class="form-group"><label>Zone ID</label><input type="text" id="adjZone" class="input-field" placeholder="E.G. FZ-A1"></div>
+          </div>
+          <div class="form-group">
+            <label>Reason</label>
+            <select id="adjReason" class="input-field">
+              <option value="" disabled selected>Select a reason...</option>
+              <option value="delivery">New Delivery / Restock</option>
+              <option value="damaged">Damaged / Expired</option>
+              <option value="audit">Inventory Audit Correction</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>Notes (Optional)</label>
+            <textarea id="adjNotes" class="input-field" rows="2" placeholder="Add any additional context..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-suppliers" class="hidden">
+        <div class="page-heading">Suppliers</div>
+        <div class="supplier-search"><i class="fa-solid fa-magnifying-glass"></i><input id="supplierSearch" type="search" placeholder="Search suppliers..." oninput="filterSuppliers()"></div>
+        <div class="suppliers-grid" id="suppliersGrid">
+          <div class="supplier-card">
+            <div class="sup-top-row">
+              <div><div class="sup-name">NorthStar Seafood</div><div class="sup-contact">Contact: Sarah Jenkins</div></div>
+              <span class="sup-status-badge ontime">On Time</span>
+            </div>
+            <div class="sup-details-box">
+              <div><span>Next Delivery</span><strong>OCT 24, 08:00 AM</strong></div>
+              <div><span>Volume</span><strong>2.4 Tons</strong></div>
+            </div>
+            <div class="sup-actions">
+              <button class="sup-btn"><i class="fa-solid fa-phone"></i> Call</button>
+              <button class="sup-btn"><i class="fa-solid fa-envelope"></i> Email Order</button>
+            </div>
+          </div>
+          <div class="supplier-card">
+            <div class="sup-top-row">
+              <div><div class="sup-name">Frosty Farms</div><div class="sup-contact">Contact: Mike Torres</div></div>
+              <span class="sup-status-badge delayed">Order Pending</span>
+            </div>
+            <div class="sup-details-box">
+              <div><span>Next Delivery</span><strong>TBD</strong></div>
+              <div><span>Action Req</span><strong>Confirm Qty</strong></div>
+            </div>
+            <div class="sup-actions">
+              <button class="sup-btn"><i class="fa-solid fa-phone"></i> Call</button>
+              <button class="sup-btn"><i class="fa-solid fa-envelope"></i> Email Order</button>
+            </div>
+          </div>
+          <div class="supplier-card">
+            <div class="sup-top-row">
+              <div><div class="sup-name">Arctic Logistics Co.</div><div class="sup-contact">Contact: David Chen</div></div>
+              <span class="sup-status-badge ontime">On Time</span>
+            </div>
+            <div class="sup-details-box">
+              <div><span>Next Delivery</span><strong>OCT 25, 02:00 PM</strong></div>
+              <div><span>Volume</span><strong>5.0 Tons</strong></div>
+            </div>
+            <div class="sup-actions">
+              <button class="sup-btn"><i class="fa-solid fa-phone"></i> Call</button>
+              <button class="sup-btn"><i class="fa-solid fa-envelope"></i> Email Order</button>
+            </div>
           </div>
         </div>
       </section>
@@ -814,89 +477,106 @@ input:checked + .slider:before { transform: translateX(16px); }
   </div>
 </div>
 
-<!-- SYSTEM SETTINGS MODAL -->
-<div id="systemSettingsModal" class="modal-overlay hidden">
+<!-- CATALOG MODAL WITH FIXED BARCODE BUTTON INSIDE CATALOG BODY -->
+<div id="catalogModalOverlay" class="modal-overlay hidden" style="align-items: flex-start; padding: 0; overflow-y: auto;">
+  <div class="catalog-modal-content">
+    <div class="catalog-header-bar">
+      <button class="header-nav-btn" onclick="closeCatalogModal()" aria-label="Home">Home</button>
+      <i class="fa-solid fa-snowflake header-brand-icon"></i> FROZEN RETAIL STORE
+    </div>
+    <div class="catalog-body">
+      <div class="page-heading" style="margin-bottom:10px;">Catalog</div>
+      <div class="catalog-toolbar">
+        <div class="catalog-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="catalogSearch" type="search" placeholder="Search catalog..." oninput="renderCatalog()">
+        </div>
+        <div class="filter-row">
+          <button type="button" class="filter-btn active" onclick="setCatalogFilter('all', this)">All Items</button>
+          <button type="button" class="filter-btn" onclick="setCatalogFilter('seafood', this)">Seafood</button>
+          <button type="button" class="filter-btn" onclick="setCatalogFilter('longanisa', this)">Longanisa</button>
+          <button type="button" class="filter-btn" onclick="setCatalogFilter('frozen', this)">Frozen</button>
+        </div>
+      </div>
+      <div class="product-grid" id="catalogGrid"></div>
+      
+      <!-- INILIPAT DITO ANG BUTTON PARA SUMUNOD SA SWIPE / SCROLL -->
+      <div class="floating-barcode-btn" title="Scan Barcode"><i class="fa-solid fa-barcode" style="font-size: 20px;"></i></div>
+    </div>
+  </div>
+</div>
+
+<div id="systemSettingsModal" class="modal-overlay hidden" style="align-items: flex-start; padding: 0; overflow-y: auto;">
   <div class="settings-modal-content">
-    <button onclick="closeSystemSettingsModal()" style="display: inline-flex; align-items: center; gap: 6px; background: #8978D3; color: white; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 700; margin-bottom: 12px; cursor: pointer; flex-shrink: 0; width: fit-content;">
-      ← Back
-    </button>
-    
-    <div style="font-size: 18px; font-weight: 800; color: var(--primary-blue); flex-shrink: 0;">System Settings</div>
-    <div style="font-size: 12px; color: var(--neutral-gray); margin-bottom: 10px; flex-shrink: 0;">Manage your preferences, security, and environment configurations.</div>
-    
-    <div class="settings-body-scroll">
+    <div class="settings-header-bar">
+      <button class="header-nav-btn" onclick="closeSystemSettingsModal()" aria-label="Back">Back</button>
+      <i class="fa-solid fa-snowflake"></i> FROZEN RETAIL STORE
+    </div>
+    <div class="settings-body">
+      <div style="font-size: 18px; font-weight: 800; color: var(--primary-blue); margin-top: 4px;">System Settings</div>
+      <div style="font-size: 12px; color: #475569; margin-bottom: 14px;">Manage your preferences, security, and environment configurations.</div>
       <div class="settings-profile-card">
         <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="settings-avatar" alt="Avatar">
-        <div style="flex: 1; min-width: 0;">
-          <div id="settingsProfileName" style="font-weight: 700; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Juan Dela Cruz</div>
-          <div id="settingsProfileEmail" style="font-size: 11px; opacity: 0.8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">admin@frozen.com</div>
+        <div style="flex: 1;">
+          <div id="settingsProfileName" style="font-weight: 700; font-size: 14px;">Juan Dela Cruz</div>
+          <div id="settingsProfileEmail" style="font-size: 11px; opacity: 0.75;">admin@frozen.com</div>
         </div>
-        <button style="background: rgba(255,255,255,0.2); font-size: 11px; padding: 4px 8px; border-radius: 4px; color: white; font-weight: 600; flex-shrink: 0;" onclick="openEditProfileModal()">Edit Profile</button>
+        <button style="background: rgba(255,255,255,0.15); font-size: 11px; padding: 4px 8px; border-radius: 4px; color: white; font-weight: 600;" onclick="openEditProfileModal()">Edit Profile</button>
       </div>
-
       <div class="settings-section-title"><i class="fa-solid fa-bell"></i> Alert Protocols</div>
       <div class="settings-card-box">
         <div class="settings-toggle-row">
-          <div>Low Stock Alerts <div style="font-size: 10px; font-weight: 400; color: var(--neutral-gray);">Notify when inventory falls below threshold.</div></div>
+          <div>Low Stock Alerts <div style="font-size: 10px; font-weight: 400;">Notify when inventory falls below threshold.</div></div>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
-        <div class="settings-toggle-row" style="margin-top: 10px;">
-          <div>Temperature Fluctuations <div style="font-size: 10px; font-weight: 400; color: var(--neutral-gray);">Immediate alerts for out-of-range thermal events.</div></div>
+        <div class="settings-toggle-row">
+          <div>Temperature Fluctuations <div style="font-size: 10px; font-weight: 400;">Immediate alerts for out-of-range thermal events.</div></div>
           <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
         </div>
-        <div class="settings-toggle-row" style="margin-top: 10px;">
-          <div>Order Status Updates <div style="font-size: 10px; font-weight: 400; color: var(--neutral-gray);">Dispatch and delivery lifecycle notifications.</div></div>
+        <div class="settings-toggle-row">
+          <div>Order Status Updates <div style="font-size: 10px; font-weight: 400;">Dispatch and delivery lifecycle notifications.</div></div>
           <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </div>
       </div>
-
       <div class="settings-section-title"><i class="fa-solid fa-temperature-low"></i> Unit Configurations</div>
       <div class="settings-card-box">
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #F1F5F9; font-size: 12px; font-weight: 600;">
-          <span>Freezer Alpha</span> <span style="background: var(--primary-blue); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">TARGET -18.0°C</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; border-bottom: 1px solid #F1F5F9; font-size: 12px; font-weight: 600; margin-top: 4px;">
-          <span>Freezer Beta</span> <span style="background: var(--primary-blue); color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">TARGET -22.5°C</span>
-        </div>
-        <div style="display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: 12px; font-weight: 600; margin-top: 4px;">
-          <span>Cold Room C</span> <span style="background: #D97706; color: white; padding: 2px 6px; border-radius: 4px; font-size: 10px;">TARGET +4.0°C</span>
-        </div>
-        <button style="width: 100%; margin-top: 10px; background: #FFFFFF; border: 1px dashed var(--border-color); padding: 6px; border-radius: 6px; font-size: 11px; font-weight: 700; color: var(--primary-blue);" onclick="showToast('Add unit config clicked')">+ Add Unit Config</button>
+        <div class="settings-unit-row"><span>Freezer Alpha</span> <span class="settings-unit-badge">TARGET -18.0°C</span></div>
+        <div class="settings-unit-row"><span>Freezer Beta</span> <span class="settings-unit-badge">TARGET -22.5°C</span></div>
+        <div class="settings-unit-row"><span>Cold Room C</span> <span class="settings-unit-badge warm">TARGET +4.0°C</span></div>
+        <button class="settings-add-unit-btn">+ Add Unit Config</button>
       </div>
-
       <div class="settings-section-title"><i class="fa-solid fa-lock"></i> Security</div>
       <div class="settings-card-box">
         <div class="settings-toggle-row" onclick="openChangePasswordModal()" style="cursor: pointer;">
-          <span>Change Password</span> <i class="fa-solid fa-chevron-right" style="font-size: 11px; color: var(--neutral-gray);"></i>
+          <span>Change Password</span> <i class="fa-solid fa-chevron-right" style="font-size: 11px;"></i>
         </div>
-        <div class="settings-toggle-row" style="margin-top: 8px;">
+        <div class="settings-toggle-row">
           <span>Biometric Login</span>
           <label class="switch"><input type="checkbox"><span class="slider"></span></label>
         </div>
       </div>
-
-      <div style="display: flex; justify-content: space-between; font-size: 11px; color: var(--primary-blue); margin: 16px 0 6px; font-weight: 600;">
-        <span style="cursor: pointer;" onclick="showToast('Help Center opened')">Help Center <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 9px;"></i></span>
-        <span style="cursor: pointer;" onclick="showToast('Terms of Service opened')">Terms of Service <i class="fa-solid fa-file-lines" style="font-size: 9px;"></i></span>
+      <div class="settings-section-title" style="opacity:0;height:0;margin:6px 0 0;">.</div>
+      <div class="settings-card-box" style="margin-bottom: 0;">
+        <div class="settings-toggle-row" onclick="showToast('Help Center opened')" style="cursor:pointer;">
+          <span><i class="fa-solid fa-circle-question" style="width:16px;"></i> Help Center</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px;"></i>
+        </div>
+        <div class="settings-toggle-row" onclick="showToast('Terms of Service opened')" style="cursor:pointer;">
+          <span><i class="fa-solid fa-file-lines" style="width:16px;"></i> Terms of Service</span>
+          <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 10px;"></i>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- EDIT PROFILE MODAL -->
 <div id="editProfileModal" class="modal-overlay hidden">
   <div class="modal-card">
     <h3>Edit Profile</h3>
     <p class="modal-sub">Update your account name and email address.</p>
     <form id="editProfileForm">
-      <div class="form-group">
-        <label>Full Name</label>
-        <input type="text" id="editProfileNameInput" class="input-field" required>
-      </div>
-      <div class="form-group">
-        <label>Email Address</label>
-        <input type="email" id="editProfileEmailInput" class="input-field" required>
-      </div>
+      <div class="form-group"><label>Full Name</label><input type="text" id="editProfileNameInput" class="input-field" required></div>
+      <div class="form-group"><label>Email Address</label><input type="email" id="editProfileEmailInput" class="input-field" required></div>
       <div class="modal-actions">
         <span class="btn-cancel" onclick="closeEditProfileModal()">Cancel</span>
         <button type="submit" class="btn-save-prod">Save Changes</button>
@@ -905,20 +585,13 @@ input:checked + .slider:before { transform: translateX(16px); }
   </div>
 </div>
 
-<!-- CHANGE PASSWORD MODAL -->
 <div id="changePasswordModal" class="modal-overlay hidden">
   <div class="modal-card">
     <h3>Change Password</h3>
     <p class="modal-sub">Enter your current password and a new secure password.</p>
     <form id="changePasswordForm">
-      <div class="form-group">
-        <label>Current Password</label>
-        <input type="password" id="currentPasswordInput" class="input-field" required placeholder="••••••">
-      </div>
-      <div class="form-group">
-        <label>New Password</label>
-        <input type="password" id="newPasswordInput" class="input-field" required placeholder="New password" minlength="5">
-      </div>
+      <div class="form-group"><label>Current Password</label><input type="password" id="currentPasswordInput" class="input-field" required placeholder="••••••"></div>
+      <div class="form-group"><label>New Password</label><input type="password" id="newPasswordInput" class="input-field" required placeholder="New password" minlength="5"></div>
       <div class="modal-actions">
         <span class="btn-cancel" onclick="closeChangePasswordModal()">Cancel</span>
         <button type="submit" class="btn-save-prod">Update Password</button>
@@ -927,32 +600,64 @@ input:checked + .slider:before { transform: translateX(16px); }
   </div>
 </div>
 
-<script>
-const defaultUsers = [{ email: "admin@frozen.com", pass: "123456", name: "Admin User" }];
+<div id="addProductModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Add Product</h3>
+    <p class="modal-sub">Enter product details to add to inventory catalog.</p>
+    <form id="addProductForm">
+      <div class="form-group"><label>Product Name</label><input type="text" id="newProdName" class="input-field" placeholder="e.g. CDO Pork Tocino" required></div>
+      <div class="form-group"><label>Price (₱)</label><input type="number" id="newProdPrice" class="input-field" placeholder="150" min="0" step="0.01" required></div>
+      <div class="form-group"><label>Stock Level (E.G. 45/100)</label><input type="text" id="newProdStock" class="input-field" placeholder="45/100" required></div>
+      <div class="form-group"><label>Temperature Tag</label><input type="text" id="newProdTemp" class="input-field" value="-18°C" required></div>
+      <div class="form-group"><label>Product Photo</label><input type="file" id="newProdFile" class="input-field" accept="image/*"></div>
+      <div class="modal-actions">
+        <span class="btn-cancel" onclick="closeAddProductModal()">Cancel</span>
+        <button type="submit" class="btn-save-prod">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
 
+<div id="removeProductModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Remove / Delete Product</h3>
+    <p class="modal-sub">Select a product to completely remove from inventory:</p>
+    <div class="form-group"><label>Choose Product</label><select id="removeProductSelect" class="input-field"></select></div>
+    <div class="modal-actions">
+      <span class="btn-cancel" onclick="closeRemoveProductModal()">Cancel</span>
+      <button type="button" class="btn-danger-prod" onclick="confirmRemoveProduct()">Delete Product</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const defaultProducts = [
+  { name: "CDO PORK TOCINO 225G", price: 115, stock: "45/100", temp: "-18°C", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=300" },
+  { name: "CDO IDOL CHEESEDOG 1KG", price: 195, stock: "12/100", temp: "-22°C", img: "https://images.unsplash.com/photo-1619740455993-9e612b1af08a?w=300" },
+  { name: "CDO CHICKEN NUGGETS 200G", price: 135, stock: "69/100", temp: "-15°C", img: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?w=300" },
+  { name: "LUMPIANG SHANGHAI FROZEN", price: 150, stock: "30/100", temp: "-18°C", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=300" }
+];
+const defaultUsers = [{ email: "admin@frozen.com", pass: "123456", name: "Admin User" }];
+let products = JSON.parse(localStorage.getItem('frozen_products')) || defaultProducts;
 let registeredUsers = JSON.parse(localStorage.getItem('frozen_users')) || defaultUsers;
 let currentUserEmail = localStorage.getItem('frozen_current_user') || "admin@frozen.com";
-let googleAccounts = [{ name: "Jane Doe", email: "jane.doe@frostlogic.com", initial: "J", color: "#3B82F6" }];
+let googleAccounts = [{ name: "Jane Doe", email: "jane.doe25@gmail.com", initial: "J", color: "#3B82F6" }];
 
-function saveUsersToStorage() {
-  localStorage.setItem('frozen_users', JSON.stringify(registeredUsers));
-}
-
+function saveProductsToStorage() { localStorage.setItem('frozen_products', JSON.stringify(products)); }
+function saveUsersToStorage() { localStorage.setItem('frozen_users', JSON.stringify(registeredUsers)); }
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 2200);
 }
-
 function togglePassword(inputId, icon) {
   const input = document.getElementById(inputId);
   if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
   else { input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
 }
-
-function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); }
-function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); }
+function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); document.querySelector('.auth-card').classList.add('signup-mode'); }
+function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('signup-mode'); }
 function openGooglePicker() { renderGoogleAccounts(); document.getElementById('googlePickerModal').classList.remove('hidden'); }
 function renderGoogleAccounts() {
   document.getElementById('accountListContainer').innerHTML = googleAccounts.map(acc => `
@@ -964,10 +669,7 @@ function renderGoogleAccounts() {
 function selectGoogleAccount(email, name) { 
   document.getElementById('googlePickerModal').classList.add('hidden'); 
   let u = registeredUsers.find(x => x.email === email);
-  if(!u) {
-    registeredUsers.push({ email, pass: "googleauth", name });
-    saveUsersToStorage();
-  }
+  if(!u) { registeredUsers.push({ email, pass: "googleauth", name }); saveUsersToStorage(); }
   currentUserEmail = email;
   localStorage.setItem('frozen_current_user', email);
   loginSuccess(name, email); 
@@ -990,28 +692,18 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value;
   const remember = document.getElementById('rememberDevice').checked;
-
   const found = registeredUsers.find(u => u.email === email && u.pass === pass);
   if (found) {
     currentUserEmail = found.email;
     localStorage.setItem('frozen_current_user', found.email);
-    if(remember) {
-      localStorage.setItem('frozen_remembered_email', email);
-    } else {
-      localStorage.removeItem('frozen_remembered_email');
-    }
+    if(remember) { localStorage.setItem('frozen_remembered_email', email); } else { localStorage.removeItem('frozen_remembered_email'); }
     loginSuccess(found.name, found.email);
-  } else {
-    showToast("Invalid email or password.");
-  }
+  } else { showToast("Invalid email or password."); }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
   const remembered = localStorage.getItem('frozen_remembered_email');
-  if(remembered) {
-    document.getElementById('loginEmail').value = remembered;
-    document.getElementById('rememberDevice').checked = true;
-  }
+  if(remembered) { document.getElementById('loginEmail').value = remembered; document.getElementById('rememberDevice').checked = true; }
 });
 
 document.getElementById('signupForm').addEventListener('submit', (e) => { 
@@ -1019,10 +711,7 @@ document.getElementById('signupForm').addEventListener('submit', (e) => {
   const email = document.getElementById('signupEmail').value.trim();
   const pass = document.getElementById('signupPassword').value;
   const name = document.getElementById('signupName').value.trim() || "New Staff";
-  if(registeredUsers.some(u => u.email === email)) {
-    showToast("Email is already registered!");
-    return;
-  }
+  if(registeredUsers.some(u => u.email === email)) { showToast("Email is already registered!"); return; }
   registeredUsers.push({ email, pass, name });
   saveUsersToStorage();
   document.getElementById('signupForm').reset();
@@ -1036,12 +725,13 @@ function loginSuccess(name, email) {
   document.getElementById('userProfileName').textContent = name;
   document.getElementById('settingsProfileName').textContent = name;
   document.getElementById('settingsProfileEmail').textContent = email;
+  document.getElementById('mobLogoutBtn').classList.remove('hidden');
   showToast(`Welcome, ${name}!`);
+  renderCatalog();
 }
 
 function logout() { 
   document.getElementById('appShell').classList.add('hidden'); 
-  document.getElementById('authShell').classList.add('hidden');
   document.getElementById('authShell').classList.remove('hidden');
   document.getElementById('googlePickerModal').classList.add('hidden');
   localStorage.removeItem('frozen_current_user');
@@ -1049,70 +739,172 @@ function logout() {
   showToast("Logged out successfully"); 
 }
 
-function openSystemSettingsModal() {
-  document.getElementById('systemSettingsModal').classList.remove('hidden');
-}
-function closeSystemSettingsModal() {
-  document.getElementById('systemSettingsModal').classList.add('hidden');
+function switchPage(pageId, btn, isMobile = false) {
+  if (isMobile) {
+    document.querySelectorAll('.mob-nav-item').forEach(el => el.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+  } else {
+    document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+  }
+  ['dashboard', 'adjustment', 'suppliers'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+  document.getElementById(`page-${pageId}`).classList.remove('hidden');
 }
 
+function openSystemSettingsModal() { document.getElementById('systemSettingsModal').classList.remove('hidden'); }
+function closeSystemSettingsModal() { document.getElementById('systemSettingsModal').classList.add('hidden'); }
 function openEditProfileModal() {
   const user = registeredUsers.find(u => u.email === currentUserEmail) || registeredUsers[0];
   document.getElementById('editProfileNameInput').value = user.name;
   document.getElementById('editProfileEmailInput').value = user.email;
   document.getElementById('editProfileModal').classList.remove('hidden');
 }
-function closeEditProfileModal() {
-  document.getElementById('editProfileModal').classList.add('hidden');
-}
+function closeEditProfileModal() { document.getElementById('editProfileModal').classList.add('hidden'); }
 
 document.getElementById('editProfileForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const newName = document.getElementById('editProfileNameInput').value.trim();
   const newEmail = document.getElementById('editProfileEmailInput').value.trim();
-
   let user = registeredUsers.find(u => u.email === currentUserEmail);
   if (user) {
-    user.name = newName;
-    user.email = newEmail;
-    currentUserEmail = newEmail;
+    user.name = newName; user.email = newEmail; currentUserEmail = newEmail;
     saveUsersToStorage();
-    
     document.getElementById('userProfileName').textContent = newName;
     document.getElementById('settingsProfileName').textContent = newName;
     document.getElementById('settingsProfileEmail').textContent = newEmail;
-    
     closeEditProfileModal();
     showToast("Profile updated successfully!");
   }
 });
 
-function openChangePasswordModal() {
-  document.getElementById('changePasswordForm').reset();
-  document.getElementById('changePasswordModal').classList.add('hidden'); // Fix toggle reset
-  document.getElementById('changePasswordModal').classList.remove('hidden');
-}
-function closeChangePasswordModal() {
-  document.getElementById('changePasswordModal').classList.add('hidden');
-}
+function openChangePasswordModal() { document.getElementById('changePasswordForm').reset(); document.getElementById('changePasswordModal').classList.remove('hidden'); }
+function closeChangePasswordModal() { document.getElementById('changePasswordModal').classList.add('hidden'); }
 
 document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
   e.preventDefault();
   const currentPass = document.getElementById('currentPasswordInput').value;
   const newPass = document.getElementById('newPasswordInput').value;
-
   let user = registeredUsers.find(u => u.email === currentUserEmail);
   if (user) {
-    if (user.pass !== currentPass && user.pass !== "googleauth") {
-      showToast("Incorrect current password!");
-      return;
-    }
-    user.pass = newPass;
-    saveUsersToStorage();
-    closeChangePasswordModal();
-    showToast("Password updated successfully!");
+    if (user.pass !== currentPass && user.pass !== "googleauth") { showToast("Incorrect current password!"); return; }
+    user.pass = newPass; saveUsersToStorage(); closeChangePasswordModal(); showToast("Password updated successfully!");
   }
 });
+
+function openCatalogModal() { document.getElementById('catalogModalOverlay').classList.remove('hidden'); renderCatalog(); }
+function closeCatalogModal() { document.getElementById('catalogModalOverlay').classList.add('hidden'); switchPage('dashboard', document.querySelector('.nav-item')); }
+
+let catalogFilter = 'all';
+function setCatalogFilter(filter, btn) {
+  catalogFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCatalog();
+}
+function productMatchesFilter(item) {
+  if (catalogFilter === 'all') return true;
+  const n = item.name.toLowerCase();
+  if (catalogFilter === 'seafood') return n.includes('seafood') || n.includes('fish') || n.includes('shrimp');
+  if (catalogFilter === 'longanisa') return n.includes('longanisa') || n.includes('tocino');
+  if (catalogFilter === 'frozen') return item.temp.includes('-');
+  return true;
+}
+function getDotColor(tempStr) {
+  const match = tempStr.match(/(-?\d+)/);
+  if (!match) return '#22C55E'; 
+  const val = parseInt(match[1], 10);
+  if (val <= -20) return '#3B82F6'; 
+  if (val >= -16) return '#F59E0B'; 
+  return '#22C55E'; 
+}
+function renderCatalog() {
+  const searchQuery = (document.getElementById('catalogSearch')?.value || '').toLowerCase();
+  const filtered = products.filter(item => productMatchesFilter(item) && item.name.toLowerCase().includes(searchQuery));
+  const gridEl = document.getElementById('catalogGrid');
+  if (!gridEl) return;
+  gridEl.innerHTML = filtered.map((item) => {
+    const match = String(item.stock).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+    const current = match ? Number(match[1]) : 0;
+    const max = match ? Number(match[2]) : 100;
+    const pct = Math.max(0, Math.min(100, max ? (current / max) * 100 : 0));
+    const dotColor = getDotColor(item.temp);
+    return `
+      <div class="product-card">
+        <div class="temp-badge"><i class="fa-solid fa-circle" style="font-size: 7px; color: ${dotColor};"></i> ${item.temp}</div>
+        <img src="${item.img}" class="product-img" onerror="this.src='https://via.placeholder.com/300x180?text=Product+Photo'">
+        <div class="product-details">
+          <div>
+            <h4>${item.name}</h4>
+            <div class="price-tag">₱${item.price}</div>
+            <div class="stock-level-indicator">Stock Level: <span>${item.stock}</span></div>
+            <div class="stock-progress"><span style="width:${pct}%"></span></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+function handleAdjustmentTypeClick(type) {
+  const addBtn = document.getElementById('adjAddBtn');
+  const remBtn = document.getElementById('adjRemoveBtn');
+  if(type === 'add') {
+    addBtn.className = "adj-toggle-btn active-add"; remBtn.className = "adj-toggle-btn active-remove"; openAddProductModal();
+  } else {
+    remBtn.className = "adj-toggle-btn active-add"; addBtn.className = "adj-toggle-btn active-remove"; openRemoveProductModal();
+  }
+}
+function openAddProductModal() { document.getElementById('addProductModal').classList.remove('hidden'); }
+function openRemoveProductModal() {
+  const selectEl = document.getElementById('removeProductSelect');
+  selectEl.innerHTML = products.map((p, idx) => `<option value="${idx}">${p.name} (Stock: ${p.stock})</option>`).join('');
+  document.getElementById('removeProductModal').classList.remove('hidden');
+}
+function closeAddProductModal() { 
+  document.getElementById('addProductModal').classList.add('hidden'); 
+  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
+  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
+}
+function closeRemoveProductModal() { 
+  document.getElementById('removeProductModal').classList.add('hidden'); 
+  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
+  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
+}
+document.getElementById('addProductForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('newProdName').value.trim();
+  const price = parseFloat(document.getElementById('newProdPrice').value);
+  const stock = document.getElementById('newProdStock').value.trim();
+  const temp = document.getElementById('newProdTemp').value.trim();
+  const fileInput = document.getElementById('newProdFile');
+  if (!name || Number.isNaN(price) || !stock || !temp) { showToast("Please complete all required fields."); return; }
+  const saveAndRender = (img) => {
+    products.push({ name, price, stock, temp, img });
+    saveProductsToStorage(); renderCatalog(); closeAddProductModal();
+    document.getElementById('addProductForm').reset();
+    showToast("Product added successfully!");
+  };
+  if (fileInput && fileInput.files && fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (event) => saveAndRender(event.target.result);
+    reader.onerror = () => showToast("Could not read the selected photo.");
+    reader.readAsDataURL(fileInput.files[0]);
+  } else { saveAndRender("https://images.unsplash.com/photo-1544025162-d76694265947?w=300"); }
+});
+function confirmRemoveProduct() {
+  const selectEl = document.getElementById('removeProductSelect');
+  const idx = selectEl.value;
+  if(idx !== "") {
+    const removedName = products[idx].name;
+    products.splice(idx, 1);
+    saveProductsToStorage(); renderCatalog(); closeRemoveProductModal();
+    showToast(`Removed "${removedName}" from inventory.`);
+  }
+}
+function filterSuppliers() {
+  const q = (document.getElementById('supplierSearch')?.value || '').trim().toLowerCase();
+  document.querySelectorAll('#suppliersGrid .supplier-card').forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+}
 </script>
 </body>
-</html>
+                                                                                               </html>
