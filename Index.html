@@ -489,36 +489,6 @@ input:checked + .slider:before { transform: translateX(16px); }
   </div>
 </div>
 
-<div id="addProductModal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <h3>Add Product</h3>
-    <p class="modal-sub">Enter product details to add to inventory catalog.</p>
-    <form id="addProductForm">
-      <div class="form-group"><label>Product Name</label><input type="text" id="newProdName" class="input-field" placeholder="e.g. CDO Pork Tocino" required></div>
-      <div class="form-group"><label>Price (₱)</label><input type="number" id="newProdPrice" class="input-field" placeholder="150" min="0" step="0.01" required></div>
-      <div class="form-group"><label>Stock Level (E.G. 45/100)</label><input type="text" id="newProdStock" class="input-field" placeholder="45/100" required></div>
-      <div class="form-group"><label>Temperature Tag</label><input type="text" id="newProdTemp" class="input-field" value="-18°C" required></div>
-      <div class="form-group"><label>Product Photo</label><input type="file" id="newProdFile" class="input-field" accept="image/*"></div>
-      <div class="modal-actions">
-        <span class="btn-cancel" onclick="closeAddProductModal()">Cancel</span>
-        <button type="submit" class="btn-save-prod">Save Product</button>
-      </div>
-    </form>
-  </div>
-</div>
-
-<div id="removeProductModal" class="modal-overlay hidden">
-  <div class="modal-card">
-    <h3>Remove / Delete Product</h3>
-    <p class="modal-sub">Select a product to completely remove from inventory:</p>
-    <div class="form-group"><label>Choose Product</label><select id="removeProductSelect" class="input-field"></select></div>
-    <div class="modal-actions">
-      <span class="btn-cancel" onclick="closeRemoveProductModal()">Cancel</span>
-      <button type="button" class="btn-danger-prod" onclick="confirmRemoveProduct()">Delete Product</button>
-    </div>
-  </div>
-</div>
-
 <script>
 const defaultProducts = [
   { name: "CDO PORK TOCINO 225G", price: 115, stock: "45/100", temp: "-18°C", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=300" },
@@ -680,114 +650,6 @@ document.getElementById('changePasswordForm').addEventListener('submit', (e) => 
   }
 });
 
-function openCatalogModal() { document.getElementById('catalogModalOverlay').classList.remove('hidden'); renderCatalog(); }
-function closeCatalogModal() { document.getElementById('catalogModalOverlay').classList.add('hidden'); switchPage('dashboard', document.querySelector('.nav-item')); }
-
-let catalogFilter = 'all';
-function setCatalogFilter(filter, btn) {
-  catalogFilter = filter;
-  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  renderCatalog();
-}
-function productMatchesFilter(item) {
-  if (catalogFilter === 'all') return true;
-  const n = item.name.toLowerCase();
-  if (catalogFilter === 'seafood') return n.includes('seafood') || n.includes('fish') || n.includes('shrimp');
-  if (catalogFilter === 'longanisa') return n.includes('longanisa') || n.includes('tocino');
-  if (catalogFilter === 'frozen') return item.temp.includes('-');
-  return true;
-}
-function getDotColor(tempStr) {
-  const match = tempStr.match(/(-?\d+)/);
-  if (!match) return '#22C55E'; 
-  const val = parseInt(match[1], 10);
-  if (val <= -20) return '#3B82F6'; 
-  if (val >= -16) return '#F59E0B'; 
-  return '#22C55E'; 
-}
-function renderCatalog() {
-  const searchQuery = (document.getElementById('catalogSearch')?.value || '').toLowerCase();
-  const filtered = products.filter(item => productMatchesFilter(item) && item.name.toLowerCase().includes(searchQuery));
-  const gridEl = document.getElementById('catalogGrid');
-  if (!gridEl) return;
-  gridEl.innerHTML = filtered.map((item) => {
-    const match = String(item.stock).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
-    const current = match ? Number(match[1]) : 0;
-    const max = match ? Number(match[2]) : 100;
-    const pct = Math.max(0, Math.min(100, max ? (current / max) * 100 : 0));
-    const dotColor = getDotColor(item.temp);
-    return `
-      <div class="product-card">
-        <div class="temp-badge"><i class="fa-solid fa-circle" style="font-size: 7px; color: ${dotColor};"></i> ${item.temp}</div>
-        <img src="${item.img}" class="product-img" onerror="this.src='https://via.placeholder.com/300x180?text=Product+Photo'">
-        <div class="product-details">
-          <div>
-            <h4>${item.name}</h4>
-            <div class="price-tag">₱${item.price}</div>
-            <div class="stock-level-indicator">Stock Level: <span>${item.stock}</span></div>
-            <div class="stock-progress"><span style="width:${pct}%"></span></div>
-          </div>
-        </div>
-      </div>`;
-  }).join('');
-}
-function handleAdjustmentTypeClick(type) {
-  const addBtn = document.getElementById('adjAddBtn');
-  const remBtn = document.getElementById('adjRemoveBtn');
-  if(type === 'add') {
-    addBtn.className = "adj-toggle-btn active-add"; remBtn.className = "adj-toggle-btn active-remove"; openAddProductModal();
-  } else {
-    remBtn.className = "adj-toggle-btn active-add"; addBtn.className = "adj-toggle-btn active-remove"; openRemoveProductModal();
-  }
-}
-function openAddProductModal() { document.getElementById('addProductModal').classList.remove('hidden'); }
-function openRemoveProductModal() {
-  const selectEl = document.getElementById('removeProductSelect');
-  selectEl.innerHTML = products.map((p, idx) => `<option value="${idx}">${p.name} (Stock: ${p.stock})</option>`).join('');
-  document.getElementById('removeProductModal').classList.remove('hidden');
-}
-function closeAddProductModal() { 
-  document.getElementById('addProductModal').classList.add('hidden'); 
-  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
-  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
-}
-function closeRemoveProductModal() { 
-  document.getElementById('removeProductModal').classList.add('hidden'); 
-  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
-  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
-}
-document.getElementById('addProductForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  const name = document.getElementById('newProdName').value.trim();
-  const price = parseFloat(document.getElementById('newProdPrice').value);
-  const stock = document.getElementById('newProdStock').value.trim();
-  const temp = document.getElementById('newProdTemp').value.trim();
-  const fileInput = document.getElementById('newProdFile');
-  if (!name || Number.isNaN(price) || !stock || !temp) { showToast("Please complete all required fields."); return; }
-  const saveAndRender = (img) => {
-    products.push({ name, price, stock, temp, img });
-    saveProductsToStorage(); renderCatalog(); closeAddProductModal();
-    document.getElementById('addProductForm').reset();
-    showToast("Product added successfully!");
-  };
-  if (fileInput && fileInput.files && fileInput.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (event) => saveAndRender(event.target.result);
-    reader.onerror = () => showToast("Could not read the selected photo.");
-    reader.readAsDataURL(fileInput.files[0]);
-  } else { saveAndRender("https://images.unsplash.com/photo-1544025162-d76694265947?w=300"); }
-});
-function confirmRemoveProduct() {
-  const selectEl = document.getElementById('removeProductSelect');
-  const idx = selectEl.value;
-  if(idx !== "") {
-    const removedName = products[idx].name;
-    products.splice(idx, 1);
-    saveProductsToStorage(); renderCatalog(); closeRemoveProductModal();
-    showToast(`Removed "${removedName}" from inventory.`);
-  }
-}
 function filterSuppliers() {
   const q = (document.getElementById('supplierSearch')?.value || '').trim().toLowerCase();
   document.querySelectorAll('#suppliersGrid .supplier-card').forEach(card => {
@@ -796,4 +658,4 @@ function filterSuppliers() {
 }
 </script>
 </body>
-  </html>
+</html>
