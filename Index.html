@@ -55,8 +55,8 @@ input, select, textarea { font-family: inherit; outline: none; }
 .auth-request-access { text-align: center; margin-top: 14px; font-size: 14px; color: var(--text-dark); }
 .auth-request-access a { color: #3B2E9E; font-weight: 700; text-decoration: none; }
 .auth-request-access a:hover { text-decoration: underline; }
-.sso-overlay { position: absolute; inset: 0; background: rgba(30, 43, 88, 0.4); display: flex; justify-content: center; align-items: center; z-index: 20; }
-.google-modal-card { position: relative; background: #FFF5F7; width: 92%; max-width: 360px; padding: 24px; border-radius: 16px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.15); }
+.sso-overlay { position: fixed; inset: 0; width: 100vw; height: 100vh; background: var(--auth-bg); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 999; padding: 24px 16px; box-sizing: border-box; }
+.google-modal-card { position: relative; background: #FFF5F7; width: 100%; max-width: 400px; padding: 24px 16px; border-radius: 16px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.08); border: 2px solid #6C63C7; }
 .google-modal-card img.g-logo { width: 32px; margin-bottom: 8px; }
 .google-modal-card h3 { font-size: 18px; font-weight: 800; color: var(--text-dark); margin-bottom: 4px; }
 .google-modal-card p.g-sub { font-size: 13px; color: var(--neutral-gray); margin-bottom: 16px; }
@@ -94,7 +94,7 @@ input, select, textarea { font-family: inherit; outline: none; }
 .header-brand-icon { color: #1E293B; font-size: 15px; }
 .page-heading { font-size: 18px; font-weight: 800; color: var(--primary-blue); margin-bottom: 14px; }
 .content-area { padding: 24px; flex: 1; position: relative; }
-@media (max-width: 768px) {
+
   .sidebar { display: none !important; }
   .mobile-bottom-nav { display: flex !important; }
   .main-wrapper { padding-bottom: 70px; }
@@ -106,7 +106,6 @@ input, select, textarea { font-family: inherit; outline: none; }
   .product-grid { grid-template-columns: 1fr; }
   .suppliers-grid { grid-template-columns: 1fr; }
   .adjustment-container { border: none; box-shadow: none; padding: 0; background: transparent; }
-}
 .stats-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-bottom: 24px; }
 .stat-card { background: white; padding: 18px; border-radius: 12px; border: 1px solid #B0E0E6; }
 .stat-card .label { font-size: 11px; font-weight: 700; color: var(--neutral-gray); text-transform: uppercase; }
@@ -141,7 +140,6 @@ input, select, textarea { font-family: inherit; outline: none; }
 .product-img { width: 100%; height: 130px; object-fit: cover; background: #E2E8F0; }
 .temp-badge { position: absolute; top: 10px; right: 10px; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; color: white; background: rgba(0, 0, 0, 0.65); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
 
-/* UPDATED BARCODE BUTTON CSS (SUMUSUNOD NA SA SCROLL) */
 .floating-barcode-btn { position: relative; margin: 16px 0 0 auto; width: 44px; height: 44px; background: #8993B1; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 10; transition: transform 0.2s; }
 .floating-barcode-btn:hover { transform: scale(1.05); }
 
@@ -244,7 +242,37 @@ input:checked + .slider { background-color: var(--accent-blue); }
 input:checked + .slider:before { transform: translateX(16px); }
 .adjustment-container { box-shadow: none; }
 .scan-box.scan-box-photo { background: linear-gradient(135deg, #B9C4CE, #8A94A0); filter: grayscale(0.3); }
+
+@media (min-width: 769px) {
+  html, body { background: #dfe3e8 !important; }
+
+  .auth-wrapper,
+  .app-container {
+    max-width: 480px;
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.06), 0 24px 60px rgba(0,0,0,0.25);
+    position: relative;
+  }
+
+  .sso-overlay,
+  .modal-overlay {
+    left: 50% !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    transform: translateX(-50%);
+  }
+
+  .mobile-bottom-nav {
+    left: 50% !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: 480px !important;
+    transform: translateX(-50%);
+  }
+}
 </style>
+
 </head>
 <body>
 <div id="toast" class="toast-msg"></div>
@@ -326,7 +354,7 @@ input:checked + .slider:before { transform: translateX(16px); }
     <div id="googlePickerModal" class="sso-overlay hidden">
       <div class="google-modal-card">
         <div id="gStepSelect">
-          <button class="google-back-btn" onclick="closeGooglePicker()" aria-label="Back">← Back</button>
+          <button class="google-back-btn" onclick="closeGooglePicker()" aria-label="Back">Back</button>
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="g-logo" alt="Google">
           <h3>Choose an account</h3>
           <p class="g-sub">to continue to Arctic Ledger</p>
@@ -335,7 +363,7 @@ input:checked + .slider:before { transform: translateX(16px); }
           <div class="google-consent-note">To continue, Google will share your name, email address, and profile picture with Arctic Ledger. Before using this app, review its privacy policy and terms.</div>
         </div>
         <div id="gStepAdd" class="hidden">
-          <button class="google-back-btn" onclick="backToGSelect()" aria-label="Back">← Back</button>
+          <button class="google-back-btn" onclick="backToGSelect()" aria-label="Back">Back</button>
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="g-logo" alt="Google">
           <h3>Sign in with Google</h3>
           <p class="g-sub">to continue to Arctic Ledger</p>
@@ -532,9 +560,15 @@ function togglePassword(inputId, icon) {
   if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
   else { input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
 }
-function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); document.getElementById('loginIntro').classList.add('hidden'); document.getElementById('signupIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.add('signup-mode'); }
-function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); document.getElementById('signupIntro').classList.add('hidden'); document.getElementById('loginIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('signup-mode'); }
-function openGooglePicker() { renderGoogleAccounts(); document.getElementById('googlePickerModal').classList.remove('hidden'); }
+function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); document.getElementById('loginIntro').classList.add('hidden'); document.getElementById('signupIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('hidden'); document.querySelector('.auth-card').classList.add('signup-mode'); }
+function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); document.getElementById('signupIntro').classList.add('hidden'); document.getElementById('loginIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('signup-mode'); }
+function openGooglePicker() {
+  renderGoogleAccounts();
+  document.querySelector('.auth-card').classList.add('hidden');
+  document.getElementById('loginIntro').classList.add('hidden');
+  document.getElementById('signupIntro').classList.add('hidden');
+  document.getElementById('googlePickerModal').classList.remove('hidden');
+}
 function renderGoogleAccounts() {
   document.getElementById('accountListContainer').innerHTML = googleAccounts.map(acc => `
     <div class="google-account-item" onclick="selectGoogleAccount('${acc.email}', '${acc.name}')">
@@ -561,7 +595,13 @@ function saveNewGoogleAccount() {
   selectGoogleAccount(email, name);
 }
 function backToGSelect() { document.getElementById('gStepSelect').classList.remove('hidden'); document.getElementById('gStepAdd').classList.add('hidden'); }
-function closeGooglePicker() { document.getElementById('googlePickerModal').classList.add('hidden'); }
+function closeGooglePicker() {
+  document.getElementById('googlePickerModal').classList.add('hidden');
+  document.querySelector('.auth-card').classList.remove('hidden');
+  const isSignup = !document.getElementById('signupPanel').classList.contains('hidden');
+  if (isSignup) { document.getElementById('signupIntro').classList.remove('hidden'); }
+  else { document.getElementById('loginIntro').classList.remove('hidden'); }
+}
 
 document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
@@ -608,6 +648,7 @@ function logout() {
   document.getElementById('appShell').classList.add('hidden'); 
   document.getElementById('authShell').classList.remove('hidden');
   document.getElementById('googlePickerModal').classList.add('hidden');
+  document.querySelector('.auth-card').classList.remove('hidden');
   document.getElementById('systemSettingsModal').classList.add('hidden');
   localStorage.removeItem('frozen_current_user');
   showLoginPanel(); 
@@ -674,4 +715,4 @@ document.getElementById('changePasswordForm').addEventListener('submit', (e) => 
 
 </script>
 </body>
-  </html>
+</html>
