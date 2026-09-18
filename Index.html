@@ -127,6 +127,8 @@ input, select, textarea { font-family: inherit; outline: none; }
 .activity-value.negative { color: var(--danger); }
 .dash-panel { background: white; border-radius: 12px; border: 1px solid #B0E0E6; padding: 18px; }
 .dash-panel h3 { font-size: 16px; font-weight: 700; color: var(--primary-blue); margin-bottom: 14px; }
+.sale-total-box { display: flex; justify-content: space-between; align-items: center; background: white; border: 1px solid #B0E0E6; border-radius: 10px; padding: 16px 18px; font-size: 15px; font-weight: 700; color: var(--primary-blue); }
+.sale-total-box span:last-child { font-size: 22px; font-weight: 800; }
 .alert-banner { background: #cea5a0; border: 1px solid #b8928e; border-radius: 8px; padding: 12px; font-size: 13px; color: #281f00; }
 .catalog-toolbar { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
 .catalog-search { width: 100%; position: relative; }
@@ -137,8 +139,10 @@ input, select, textarea { font-family: inherit; outline: none; }
 .filter-btn.active { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; position: relative; }
 .product-card { background: white; border-radius: 12px; border: 1px solid #B0E0E6; overflow: hidden; display: flex; flex-direction: column; position: relative; }
-.product-img { width: 100%; height: 130px; object-fit: cover; background: #E2E8F0; }
+.product-img { width: 100%; height: 140px; object-fit: fill; display: block; }
 .temp-badge { position: absolute; top: 10px; right: 10px; font-size: 11px; font-weight: 700; padding: 4px 8px; border-radius: 6px; color: white; background: rgba(0, 0, 0, 0.65); display: flex; align-items: center; gap: 6px; backdrop-filter: blur(4px); }
+.edit-product-btn { position: absolute; top: 10px; left: 10px; width: 26px; height: 26px; border-radius: 50%; background: rgba(0, 0, 0, 0.65); color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); transition: background 0.2s; z-index: 2; }
+.edit-product-btn:hover { background: var(--accent-blue); }
 
 .floating-barcode-btn { position: relative; margin: 16px 0 0 auto; width: 44px; height: 44px; background: #8993B1; color: white; border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.15); cursor: pointer; z-index: 10; transition: transform 0.2s; }
 .floating-barcode-btn:hover { transform: scale(1.05); }
@@ -189,6 +193,21 @@ input, select, textarea { font-family: inherit; outline: none; }
 .modal-card h3 { font-size: 18px; font-weight: 700; color: var(--primary-blue); margin-bottom: 6px; }
 .modal-card p.modal-sub { font-size: 13px; color: var(--neutral-gray); margin-bottom: 16px; }
 .modal-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
+.cart-count-badge { position: absolute; top: -8px; right: -8px; background: var(--danger); color: white; font-size: 11px; font-weight: 700; min-width: 20px; height: 20px; border-radius: 10px; display: flex; align-items: center; justify-content: center; padding: 0 5px; }
+.cart-modal-card { background: white; width: 92%; max-width: 460px; padding: 22px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.15); max-height: 85vh; display: flex; flex-direction: column; }
+.cart-modal-card h3 { font-size: 18px; font-weight: 700; color: var(--primary-blue); margin-bottom: 4px; }
+.cart-items-list { flex: 1; overflow-y: auto; margin: 14px 0; display: flex; flex-direction: column; gap: 10px; }
+.cart-item-row { display: flex; align-items: center; gap: 10px; background: var(--secondary-pink); border-radius: 10px; padding: 10px 12px; }
+.cart-item-info { flex: 1; min-width: 0; }
+.cart-item-info strong { display: block; font-size: 13px; color: var(--text-dark); }
+.cart-item-info span { font-size: 12px; color: var(--neutral-gray); }
+.cart-item-qty-controls { display: flex; align-items: center; gap: 6px; }
+.cart-qty-btn { width: 24px; height: 24px; border-radius: 6px; background: var(--primary-blue); color: white; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+.cart-qty-btn:hover { background: var(--primary-blue-alt); }
+.cart-item-qty-controls span { font-size: 13px; font-weight: 700; min-width: 18px; text-align: center; }
+.cart-item-subtotal { font-size: 13px; font-weight: 700; color: var(--primary-blue); min-width: 70px; text-align: right; }
+.cart-item-remove { color: var(--danger); font-size: 14px; padding: 4px; }
+.cart-empty-note { text-align: center; color: var(--neutral-gray); font-size: 13px; padding: 30px 0; }
 .btn-cancel { font-size: 14px; font-weight: 600; color: var(--neutral-gray); cursor: pointer; padding: 8px 14px; }
 .btn-save-prod { background: var(--primary-blue); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
 .btn-danger-prod { background: var(--danger); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
@@ -380,11 +399,17 @@ input:checked + .slider:before { transform: translateX(16px); }
     <div class="sidebar-brand"><i class="fa-solid fa-snowflake" style="color: var(--primary-blue)"></i> Frozen Retail</div>
     <nav class="nav-menu">
       <button class="nav-item active" onclick="switchPage('dashboard', this)"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+      <button class="nav-item" onclick="openCatalogModal()"><i class="fa-solid fa-box"></i> Catalog</button>
+      <button class="nav-item" onclick="switchPage('sales', this)"><i class="fa-solid fa-cash-register"></i> Sales</button>
+      <button class="nav-item" onclick="switchPage('adjustment', this)"><i class="fa-solid fa-sliders"></i> Adjustment</button>
     </nav>
   </aside>
 
   <nav class="mobile-bottom-nav">
     <div class="mob-nav-item active" onclick="switchPage('dashboard', this, true)"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></div>
+    <div class="mob-nav-item" onclick="openCatalogModal()"><i class="fa-solid fa-box"></i><span>Catalog</span></div>
+    <div class="mob-nav-item" onclick="switchPage('sales', this, true)"><i class="fa-solid fa-cash-register"></i><span>Sales</span></div>
+    <div class="mob-nav-item" onclick="switchPage('adjustment', this, true)"><i class="fa-solid fa-sliders"></i><span>Adjustment</span></div>
   </nav>
 
   <div class="main-wrapper">
@@ -407,8 +432,8 @@ input:checked + .slider:before { transform: translateX(16px); }
             <div class="value">₱100.00K</div>
           </div>
           <div class="stat-card alert-stat">
-            <div class="label"><i class="fa-solid fa-triangle-exclamation stat-icon"></i>Active Alerts</div>
-            <div class="value">2</div>
+            <div class="label"><i class="fa-solid fa-triangle-exclamation stat-icon"></i>Low Stock Alerts</div>
+            <div class="value" id="lowStockCount">0</div>
           </div>
           <div class="stat-card pending-stat">
             <div class="label"><i class="fa-solid fa-truck stat-icon"></i>Pending</div>
@@ -418,6 +443,7 @@ input:checked + .slider:before { transform: translateX(16px); }
         <div class="dash-panel">
           <h3>Critical Alerts</h3>
           <div class="alert-banner"><strong>ZONE B - FREEZER:</strong> Temperature critical. Target is -18°C. Immediate action required. <strong style="float:right;">-20°C</strong></div>
+          <div id="lowStockAlertsList"></div>
         </div>
         <div class="dash-panel" style="border:none;background:transparent;padding:0;margin-top:16px;">
           <h3>Quick Actions</h3>
@@ -436,7 +462,95 @@ input:checked + .slider:before { transform: translateX(16px); }
           </div>
         </div>
       </section>
+
+      <section id="page-sales" class="hidden">
+        <div class="adjustment-container">
+          <div class="adjustment-heading"><h3>SALES</h3><p>Choose how you want to record a sale.</p></div>
+
+          <div class="adj-grid-2">
+            <button type="button" class="btn-secondary" style="margin-top:0;" onclick="openDirectSaleModal()">
+              <i class="fa-solid fa-receipt"></i> Sale Transaction
+            </button>
+            <button type="button" class="btn-secondary" style="margin-top:0;" onclick="openAddSaleModal()">
+              <i class="fa-solid fa-cart-plus"></i> Sale Transaction System
+            </button>
+          </div>
+
+          <button type="button" class="btn-primary" style="position:relative; margin-top:14px;" onclick="openCartModal()">
+            <i class="fa-solid fa-cart-shopping"></i> View Cart
+            <span id="cartCountBadge" class="cart-count-badge hidden">0</span>
+          </button>
+
+          <div class="dash-panel" style="margin-top:22px;">
+            <h3>Recent Transactions</h3>
+            <div class="activity-list" id="salesHistoryList"></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="page-adjustment" class="hidden">
+        <div class="adjustment-container">
+          <div class="adjustment-heading"><h3>STOCK ADJUSTMENT</h3><p>Update inventory levels and record stock movement.</p></div>
+          <div class="scan-box scan-box-photo">
+            <div class="scan-icon"><i class="fa-solid fa-barcode"></i></div>
+            <div class="scan-label">TAP TO SCAN SKU</div>
+          </div>
+          <div class="adj-section-label">Adjustment Type</div>
+          <div class="adj-type-toggle">
+            <button type="button" id="adjAddBtn" class="adj-toggle-btn active-add" onclick="handleAdjustmentTypeClick('add')"><i class="fa-solid fa-circle-plus"></i> Add Stock</button>
+            <button type="button" id="adjRemoveBtn" class="adj-toggle-btn active-remove" onclick="handleAdjustmentTypeClick('remove')"><i class="fa-solid fa-circle-minus"></i> Remove</button>
+          </div>
+          <div class="adj-grid-2">
+            <div class="form-group"><label>Quantity</label><input type="number" id="adjQuantity" class="input-field" value="0"></div>
+            <div class="form-group"><label>Zone ID</label><input type="text" id="adjZone" class="input-field" placeholder="E.G. FZ-A1"></div>
+          </div>
+          <div class="form-group">
+            <label>Reason</label>
+            <select id="adjReason" class="input-field">
+              <option value="" disabled selected>Select a reason...</option>
+              <option value="delivery">New Delivery / Restock</option>
+              <option value="damaged">Damaged / Expired</option>
+              <option value="audit">Inventory Audit Correction</option>
+            </select>
+          </div>
+          <div class="form-group" style="margin-bottom: 0;">
+            <label>Notes (Optional)</label>
+            <textarea id="adjNotes" class="input-field" rows="2" placeholder="Add any additional context..."></textarea>
+          </div>
+        </div>
+      </section>
+
+      </section>
     </main>
+  </div>
+</div>
+
+<div id="catalogModalOverlay" class="modal-overlay hidden" style="align-items: flex-start; padding: 0; overflow-y: auto;">
+  <div class="catalog-modal-content">
+    <div class="catalog-header-bar" style="background:#82c6db; font-size:15px;">
+      <div class="catalog-header-top">
+        <h2 style="margin:0; font-size:15px; font-weight:700; line-height:1.2;">Catalog</h2>
+      </div>
+      <div class="catalog-header-nav-row">
+        <button class="header-nav-btn" onclick="closeCatalogModal()" aria-label="Home" style="font-size:13px; padding:6px 14px; border-radius:8px; width:auto;">Home</button>
+      </div>
+    </div>
+    <div class="catalog-body">
+      <div class="catalog-toolbar">
+        <div class="catalog-search">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input id="catalogSearch" type="search" placeholder="Search catalog..." oninput="renderCatalog()">
+        </div>
+        <div class="filter-row">
+          <button type="button" class="filter-btn active" onclick="setCatalogFilter('all', this)">All Items</button>
+          <button type="button" class="filter-btn" onclick="setCatalogFilter('seafood', this)">Seafood</button>
+          <button type="button" class="filter-btn" onclick="setCatalogFilter('longanisa', this)">Longanisa</button>
+          <button type="button" class="filter-btn" onclick="setCatalogFilter('frozen', this)">Frozen</button>
+        </div>
+      </div>
+      <div class="product-grid" id="catalogGrid"></div>
+      <div class="floating-barcode-btn" title="Scan Barcode"><i class="fa-solid fa-barcode" style="font-size: 20px;"></i></div>
+    </div>
   </div>
 </div>
 
@@ -539,16 +653,532 @@ input:checked + .slider:before { transform: translateX(16px); }
   </div>
 </div>
 
+<div id="addProductModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Add Product</h3>
+    <p class="modal-sub">Enter product details to add to inventory catalog.</p>
+    <form id="addProductForm">
+      <div class="form-group"><label>Product Name</label><input type="text" id="newProdName" class="input-field" placeholder="e.g. CDO Pork Tocino" required></div>
+      <div class="form-group"><label>Price (₱)</label><input type="number" id="newProdPrice" class="input-field" placeholder="150" min="0" step="0.01" required></div>
+      <div class="form-group"><label>Quantity (E.G. 45/100)</label><input type="text" id="newProdStock" class="input-field" placeholder="45/100" required></div>
+      <div class="form-group"><label>Temperature Tag</label><input type="text" id="newProdTemp" class="input-field" value="-18°C" required></div>
+      <div class="form-group"><label>Product Photo</label><input type="file" id="newProdFile" class="input-field" accept="image/*"></div>
+      <div class="modal-actions">
+        <span class="btn-cancel" onclick="closeAddProductModal()">Cancel</span>
+        <button type="submit" class="btn-save-prod">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="editProductModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Edit Product</h3>
+    <p class="modal-sub">Update the product details below.</p>
+    <form id="editProductForm">
+      <input type="hidden" id="editProdIndex">
+      <div class="form-group"><label>Product Name</label><input type="text" id="editProdName" class="input-field" placeholder="e.g. CDO Pork Tocino" required></div>
+      <div class="form-group"><label>Price (₱)</label><input type="number" id="editProdPrice" class="input-field" placeholder="150" min="0" step="0.01" required></div>
+      <div class="form-group"><label>Quantity (E.G. 45/100)</label><input type="text" id="editProdStock" class="input-field" placeholder="45/100" required></div>
+      <div class="form-group"><label>Temperature Tag</label><input type="text" id="editProdTemp" class="input-field" value="-18°C" required></div>
+      <div class="form-group"><label>Product Photo (leave blank to keep current)</label><input type="file" id="editProdFile" class="input-field" accept="image/*"></div>
+      <div class="modal-actions">
+        <span class="btn-cancel" onclick="closeEditProductModal()">Cancel</span>
+        <button type="submit" class="btn-save-prod">Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="removeProductModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Remove / Delete Product</h3>
+    <p class="modal-sub">Select a product to completely remove from inventory:</p>
+    <div class="form-group"><label>Choose Product</label><select id="removeProductSelect" class="input-field"></select></div>
+    <div class="modal-actions">
+      <span class="btn-cancel" onclick="closeRemoveProductModal()">Cancel</span>
+      <button type="button" class="btn-danger-prod" onclick="askConfirmRemoveProduct()">Delete Product</button>
+    </div>
+  </div>
+</div>
+
+<div id="directSaleModal" class="modal-overlay hidden">
+  <div class="cart-modal-card">
+    <h3><i class="fa-solid fa-receipt"></i> Sale Transaction</h3>
+    <p class="modal-sub" style="margin-bottom:0;">Select a product, set the quantity, and save the transaction directly.</p>
+
+    <div class="form-group" style="margin-top:14px;">
+      <label>Select Product</label>
+      <select id="directSaleProductSelect" class="input-field" onchange="updateDirectSaleTotal()"></select>
+    </div>
+
+    <div class="adj-grid-2">
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" id="directSaleQuantity" class="input-field" value="1" min="1" oninput="updateDirectSaleTotal()" onblur="normalizeDirectSaleQuantity()">
+      </div>
+      <div class="form-group">
+        <label>Unit Price</label>
+        <input type="text" id="directSaleUnitPrice" class="input-field" value="₱0.00" disabled>
+      </div>
+    </div>
+
+    <div id="directSaleStockNote" style="font-size:12px; color: var(--neutral-gray); margin: -10px 0 18px;"></div>
+
+    <div class="sale-total-box">
+      <span>Total Amount</span>
+      <span id="directSaleTotalAmount">₱0.00</span>
+    </div>
+
+    <div class="modal-actions">
+      <span class="btn-cancel" onclick="closeDirectSaleModal()">Close</span>
+      <button type="button" class="btn-primary" onclick="saveDirectSaleTransaction()">
+        <i class="fa-solid fa-circle-check"></i> Save Transaction
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="addSaleModal" class="modal-overlay hidden">
+  <div class="cart-modal-card">
+    <h3><i class="fa-solid fa-cart-plus"></i> Sale Transaction System</h3>
+    <p class="modal-sub" style="margin-bottom:0;">Select a product, set the quantity, and add it to the cart.</p>
+
+    <div class="form-group" style="margin-top:14px;">
+      <label>Select Product</label>
+      <select id="saleProductSelect" class="input-field" onchange="updateSaleTotal()"></select>
+    </div>
+
+    <div class="adj-grid-2">
+      <div class="form-group">
+        <label>Quantity</label>
+        <input type="number" id="saleQuantity" class="input-field" value="1" min="1" oninput="updateSaleTotal()" onblur="normalizeSaleQuantity()">
+      </div>
+      <div class="form-group">
+        <label>Unit Price</label>
+        <input type="text" id="saleUnitPrice" class="input-field" value="₱0.00" disabled>
+      </div>
+    </div>
+
+    <div id="saleStockNote" style="font-size:12px; color: var(--neutral-gray); margin: -10px 0 18px;"></div>
+
+    <div class="sale-total-box">
+      <span>Total Amount</span>
+      <span id="saleTotalAmount">₱0.00</span>
+    </div>
+
+    <div class="modal-actions">
+      <span class="btn-cancel" onclick="closeAddSaleModal()">Close</span>
+      <button type="button" class="btn-primary" style="position:relative;" onclick="addToCart()">
+        <i class="fa-solid fa-cart-plus"></i> Add to Cart
+        <span id="cartCountBadgeModal" class="cart-count-badge hidden">0</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="cartModal" class="modal-overlay hidden">
+  <div class="cart-modal-card">
+    <h3><i class="fa-solid fa-cart-shopping"></i> Your Cart</h3>
+    <p class="modal-sub" style="margin-bottom:0;">Review items before saving the transaction.</p>
+    <div class="cart-items-list" id="cartItemsList"></div>
+    <div class="sale-total-box">
+      <span>Total Amount</span>
+      <span id="cartGrandTotal">₱0.00</span>
+    </div>
+    <div class="modal-actions">
+      <span class="btn-cancel" onclick="closeCartModal()">Close</span>
+      <button type="button" class="btn-primary" id="cartCheckoutBtn" onclick="checkoutCart()">
+        <i class="fa-solid fa-circle-check"></i> Save Transaction
+      </button>
+    </div>
+  </div>
+</div>
+
+<div id="saleConfirmModal" class="modal-overlay hidden">
+  <div class="modal-card" style="text-align:center;">
+    <div style="width:56px;height:56px;border-radius:50%;background:#DCFCE7;color:var(--success);display:flex;align-items:center;justify-content:center;font-size:26px;margin:0 auto 14px;">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <h3>Transaction Saved</h3>
+    <p class="modal-sub" id="saleConfirmDetails"></p>
+    <div class="modal-actions" style="justify-content:center;">
+      <button type="button" class="btn-primary" onclick="closeSaleConfirmModal()">Done</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmDeleteModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Confirm Deletion</h3>
+    <p class="modal-sub">Are you sure you want to delete "<span id="confirmDeleteProdName"></span>"? This action cannot be undone.</p>
+    <div class="modal-actions">
+      <span class="btn-cancel" onclick="closeConfirmDeleteModal()">Cancel</span>
+      <button type="button" class="btn-danger-prod" onclick="confirmRemoveProduct()">Yes, Delete</button>
+    </div>
+  </div>
+</div>
+
 <script>
-const defaultProducts = [];
+const defaultProducts = [
+  {
+    name: "CDO FUNTASTYK Young Pork Tocino",
+    price: 185,
+    stock: "85/100",
+    temp: "-18°C",
+    img: "data:image/webp;base64,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"
+  },
+  {
+    name: "CDO IDOL Cheesedog (Jumbo) 26pcs",
+    price: 220,
+    stock: "12/100",
+    temp: "-22°C",
+    img: "data:image/webp;base64,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"
+  },
+  {
+    name: "CDO Chicken Nuggets 12pcs",
+    price: 150,
+    stock: "60/100",
+    temp: "-18°C",
+    img: "data:image/webp;base64,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"
+  }
+];
 const defaultUsers = [{ email: "admin@frozen.com", pass: "123456", name: "Admin User" }];
-let products = JSON.parse(localStorage.getItem('frozen_products')) || defaultProducts;
+const PRODUCTS_SEED_VERSION = 'v2-cdo-3products';
+let products = (() => {
+  const seedVersion = localStorage.getItem('frozen_products_seed_version');
+  if (seedVersion !== PRODUCTS_SEED_VERSION) {
+    localStorage.setItem('frozen_products_seed_version', PRODUCTS_SEED_VERSION);
+    localStorage.setItem('frozen_products', JSON.stringify(defaultProducts));
+    return defaultProducts;
+  }
+  const stored = JSON.parse(localStorage.getItem('frozen_products') || 'null');
+  return (stored && stored.length > 0) ? stored : defaultProducts;
+})();
 let registeredUsers = JSON.parse(localStorage.getItem('frozen_users')) || defaultUsers;
 let currentUserEmail = localStorage.getItem('frozen_current_user') || "admin@frozen.com";
 let googleAccounts = [{ name: "Jane Doe", email: "jane.doe25@gmail.com", initial: "J", color: "#3B82F6" }];
 
 function saveProductsToStorage() { localStorage.setItem('frozen_products', JSON.stringify(products)); }
 function saveUsersToStorage() { localStorage.setItem('frozen_users', JSON.stringify(registeredUsers)); }
+
+let salesHistory = JSON.parse(localStorage.getItem('frozen_sales')) || [];
+function saveSalesToStorage() { localStorage.setItem('frozen_sales', JSON.stringify(salesHistory)); }
+
+function getStockParts(stockStr) {
+  const match = String(stockStr).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+  return match ? { current: Number(match[1]), max: Number(match[2]) } : { current: 0, max: 0 };
+}
+
+function populateSaleProductOptions() {
+  const sel = document.getElementById('saleProductSelect');
+  if (!sel) return;
+  const prevValue = sel.value;
+  sel.innerHTML = products.map((p, idx) => {
+    const { current } = getStockParts(p.stock);
+    return `<option value="${idx}">${p.name} — ₱${p.price} (Stock: ${current})</option>`;
+  }).join('');
+  if (prevValue !== '' && products[prevValue]) { sel.value = prevValue; }
+  updateSaleTotal();
+}
+
+function updateSaleTotal() {
+  const sel = document.getElementById('saleProductSelect');
+  const qtyInput = document.getElementById('saleQuantity');
+  const unitPriceEl = document.getElementById('saleUnitPrice');
+  const totalEl = document.getElementById('saleTotalAmount');
+  const noteEl = document.getElementById('saleStockNote');
+  if (!sel || sel.value === '' || !products[sel.value]) {
+    unitPriceEl.value = '₱0.00'; totalEl.textContent = '₱0.00'; if(noteEl) noteEl.textContent = '';
+    return;
+  }
+  const product = products[sel.value];
+  const rawQty = parseInt(qtyInput.value, 10);
+  const qty = (Number.isNaN(rawQty) || rawQty < 1) ? 0 : rawQty;
+  const { current } = getStockParts(product.stock);
+  unitPriceEl.value = `₱${Number(product.price).toFixed(2)}`;
+  const total = product.price * qty;
+  totalEl.textContent = `₱${total.toFixed(2)}`;
+  if (noteEl) {
+    if (qty > current) {
+      noteEl.innerHTML = `<span style="color:var(--danger); font-weight:600;">Only ${current} in stock — reduce quantity.</span>`;
+    } else {
+      noteEl.textContent = `Available stock: ${current}`;
+    }
+  }
+}
+function normalizeSaleQuantity() {
+  const qtyInput = document.getElementById('saleQuantity');
+  const rawQty = parseInt(qtyInput.value, 10);
+  qtyInput.value = (Number.isNaN(rawQty) || rawQty < 1) ? 1 : rawQty;
+  updateSaleTotal();
+}
+
+function populateDirectSaleProductOptions() {
+  const sel = document.getElementById('directSaleProductSelect');
+  if (!sel) return;
+  const prevValue = sel.value;
+  sel.innerHTML = products.map((p, idx) => {
+    const { current } = getStockParts(p.stock);
+    return `<option value="${idx}">${p.name} — ₱${p.price} (Stock: ${current})</option>`;
+  }).join('');
+  if (prevValue !== '' && products[prevValue]) { sel.value = prevValue; }
+  updateDirectSaleTotal();
+}
+
+function updateDirectSaleTotal() {
+  const sel = document.getElementById('directSaleProductSelect');
+  const qtyInput = document.getElementById('directSaleQuantity');
+  const unitPriceEl = document.getElementById('directSaleUnitPrice');
+  const totalEl = document.getElementById('directSaleTotalAmount');
+  const noteEl = document.getElementById('directSaleStockNote');
+  if (!sel || sel.value === '' || !products[sel.value]) {
+    unitPriceEl.value = '₱0.00'; totalEl.textContent = '₱0.00'; if(noteEl) noteEl.textContent = '';
+    return;
+  }
+  const product = products[sel.value];
+  const rawQty = parseInt(qtyInput.value, 10);
+  const qty = (Number.isNaN(rawQty) || rawQty < 1) ? 0 : rawQty;
+  const { current } = getStockParts(product.stock);
+  unitPriceEl.value = `₱${Number(product.price).toFixed(2)}`;
+  const total = product.price * qty;
+  totalEl.textContent = `₱${total.toFixed(2)}`;
+  if (noteEl) {
+    if (qty > current) {
+      noteEl.innerHTML = `<span style="color:var(--danger); font-weight:600;">Only ${current} in stock — reduce quantity.</span>`;
+    } else {
+      noteEl.textContent = `Available stock: ${current}`;
+    }
+  }
+}
+function normalizeDirectSaleQuantity() {
+  const qtyInput = document.getElementById('directSaleQuantity');
+  const rawQty = parseInt(qtyInput.value, 10);
+  qtyInput.value = (Number.isNaN(rawQty) || rawQty < 1) ? 1 : rawQty;
+  updateDirectSaleTotal();
+}
+
+function openDirectSaleModal() {
+  populateDirectSaleProductOptions();
+  document.getElementById('directSaleModal').classList.remove('hidden');
+}
+function closeDirectSaleModal() { document.getElementById('directSaleModal').classList.add('hidden'); }
+
+function saveDirectSaleTransaction() {
+  const sel = document.getElementById('directSaleProductSelect');
+  const qtyInput = document.getElementById('directSaleQuantity');
+  if (!sel || sel.value === '' || !products[sel.value]) { showToast("Please select a product."); return; }
+  const idx = Number(sel.value);
+  const product = products[idx];
+  const qty = parseInt(qtyInput.value, 10);
+  if (!qty || qty < 1) { showToast("Please enter a valid quantity."); return; }
+  const { current, max } = getStockParts(product.stock);
+  if (qty > current) { showToast(`Not enough stock. Only ${current} available.`); return; }
+
+  const total = product.price * qty;
+  const newCurrent = current - qty;
+  products[idx] = { ...product, stock: `${newCurrent}/${max}` };
+  saveProductsToStorage();
+
+  const transaction = {
+    id: Date.now(),
+    items: [{ productName: product.name, quantity: qty, unitPrice: product.price, total }],
+    total,
+    date: new Date().toISOString()
+  };
+  salesHistory.unshift(transaction);
+  saveSalesToStorage();
+
+  populateDirectSaleProductOptions();
+  qtyInput.value = 1;
+  renderSalesHistory();
+  renderCatalog();
+  closeDirectSaleModal();
+
+  document.getElementById('saleConfirmDetails').textContent =
+    `${qty} × ${product.name} — Total ₱${total.toFixed(2)}`;
+  document.getElementById('saleConfirmModal').classList.remove('hidden');
+  showToast("Transaction saved successfully!");
+}
+
+let cart = [];
+
+function addToCart() {
+  const sel = document.getElementById('saleProductSelect');
+  const qtyInput = document.getElementById('saleQuantity');
+  if (!sel || sel.value === '' || !products[sel.value]) { showToast("Please select a product."); return; }
+  const idx = Number(sel.value);
+  const product = products[idx];
+  const qty = parseInt(qtyInput.value, 10);
+  if (!qty || qty < 1) { showToast("Please enter a valid quantity."); return; }
+  const { current } = getStockParts(product.stock);
+  const existing = cart.find(item => item.productIdx === idx);
+  const alreadyInCart = existing ? existing.qty : 0;
+  if (alreadyInCart + qty > current) {
+    showToast(`Not enough stock. Only ${current} available for ${product.name}.`);
+    return;
+  }
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    cart.push({ productIdx: idx, name: product.name, unitPrice: product.price, qty });
+  }
+  updateCartBadge();
+  qtyInput.value = 1;
+  updateSaleTotal();
+  showToast(`Added ${qty} × ${product.name} to cart.`);
+}
+
+function updateCartBadge() {
+  const count = cart.reduce((sum, item) => sum + item.qty, 0);
+  [document.getElementById('cartCountBadge'), document.getElementById('cartCountBadgeModal')].forEach(badge => {
+    if (!badge) return;
+    badge.textContent = count;
+    badge.classList.toggle('hidden', count === 0);
+  });
+}
+
+function openAddSaleModal() {
+  populateSaleProductOptions();
+  document.getElementById('addSaleModal').classList.remove('hidden');
+}
+function closeAddSaleModal() { document.getElementById('addSaleModal').classList.add('hidden'); }
+
+function openCartModal() {
+  renderCartModal();
+  document.getElementById('cartModal').classList.remove('hidden');
+}
+function closeCartModal() { document.getElementById('cartModal').classList.add('hidden'); }
+
+function renderCartModal() {
+  const listEl = document.getElementById('cartItemsList');
+  const totalEl = document.getElementById('cartGrandTotal');
+  const checkoutBtn = document.getElementById('cartCheckoutBtn');
+  if (cart.length === 0) {
+    listEl.innerHTML = `<div class="cart-empty-note"><i class="fa-solid fa-cart-shopping" style="font-size:22px; display:block; margin-bottom:8px;"></i>Your cart is empty.</div>`;
+    totalEl.textContent = '₱0.00';
+    if (checkoutBtn) checkoutBtn.disabled = true;
+    return;
+  }
+  if (checkoutBtn) checkoutBtn.disabled = false;
+  let grandTotal = 0;
+  listEl.innerHTML = cart.map((item, i) => {
+    const subtotal = item.unitPrice * item.qty;
+    grandTotal += subtotal;
+    return `
+      <div class="cart-item-row">
+        <div class="cart-item-info">
+          <strong>${item.name}</strong>
+          <span>₱${item.unitPrice.toFixed(2)} each</span>
+        </div>
+        <div class="cart-item-qty-controls">
+          <button type="button" class="cart-qty-btn" onclick="changeCartQty(${i}, -1)"><i class="fa-solid fa-minus"></i></button>
+          <span>${item.qty}</span>
+          <button type="button" class="cart-qty-btn" onclick="changeCartQty(${i}, 1)"><i class="fa-solid fa-plus"></i></button>
+        </div>
+        <div class="cart-item-subtotal">₱${subtotal.toFixed(2)}</div>
+        <button type="button" class="cart-item-remove" onclick="removeCartItem(${i})"><i class="fa-solid fa-trash"></i></button>
+      </div>`;
+  }).join('');
+  totalEl.textContent = `₱${grandTotal.toFixed(2)}`;
+}
+
+function changeCartQty(cartIdx, delta) {
+  const item = cart[cartIdx];
+  if (!item) return;
+  const product = products[item.productIdx];
+  const { current } = getStockParts(product.stock);
+  const newQty = item.qty + delta;
+  if (newQty < 1) { removeCartItem(cartIdx); return; }
+  if (newQty > current) { showToast(`Only ${current} in stock for ${item.name}.`); return; }
+  item.qty = newQty;
+  updateCartBadge();
+  renderCartModal();
+}
+
+function removeCartItem(cartIdx) {
+  cart.splice(cartIdx, 1);
+  updateCartBadge();
+  renderCartModal();
+}
+
+function checkoutCart() {
+  if (cart.length === 0) { showToast("Your cart is empty."); return; }
+  for (const item of cart) {
+    const product = products[item.productIdx];
+    const { current } = getStockParts(product.stock);
+    if (!product || item.qty > current) {
+      showToast(`Not enough stock for ${item.name}.`);
+      return;
+    }
+  }
+
+  let grandTotal = 0;
+  const txItems = cart.map(item => {
+    const product = products[item.productIdx];
+    const { current, max } = getStockParts(product.stock);
+    const newCurrent = current - item.qty;
+    products[item.productIdx] = { ...product, stock: `${newCurrent}/${max}` };
+    const total = item.unitPrice * item.qty;
+    grandTotal += total;
+    return { productName: item.name, quantity: item.qty, unitPrice: item.unitPrice, total };
+  });
+  saveProductsToStorage();
+
+  const transaction = {
+    id: Date.now(),
+    items: txItems,
+    total: grandTotal,
+    date: new Date().toISOString()
+  };
+  salesHistory.unshift(transaction);
+  saveSalesToStorage();
+
+  cart = [];
+  updateCartBadge();
+  populateSaleProductOptions();
+  document.getElementById('saleQuantity').value = 1;
+  renderSalesHistory();
+  renderCatalog();
+  closeCartModal();
+
+  const summary = txItems.map(i => `${i.quantity} × ${i.productName}`).join(', ');
+  document.getElementById('saleConfirmDetails').textContent = `${summary} — Total ₱${grandTotal.toFixed(2)}`;
+  document.getElementById('saleConfirmModal').classList.remove('hidden');
+  showToast("Transaction saved successfully!");
+}
+
+function closeSaleConfirmModal() { document.getElementById('saleConfirmModal').classList.add('hidden'); }
+
+function renderSalesHistory() {
+  const listEl = document.getElementById('salesHistoryList');
+  if (!listEl) return;
+  if (salesHistory.length === 0) {
+    listEl.innerHTML = `<div class="activity-item"><div class="activity-main"><span>No transactions yet.</span></div></div>`;
+    return;
+  }
+  listEl.innerHTML = salesHistory.slice(0, 10).map(tx => {
+    const when = new Date(tx.date).toLocaleString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    if (Array.isArray(tx.items)) {
+      const label = tx.items.length === 1
+        ? `${tx.items[0].productName}`
+        : `${tx.items.length} items`;
+      const detail = tx.items.map(i => `${i.productName} ×${i.quantity}`).join(', ');
+      return `
+        <div class="activity-item">
+          <div class="activity-icon"><i class="fa-solid fa-receipt"></i></div>
+          <div class="activity-main"><strong>${label}</strong><span title="${detail}">${detail.length > 42 ? detail.slice(0, 42) + '…' : detail} • ${when}</span></div>
+          <div class="activity-value">₱${tx.total.toFixed(2)}</div>
+        </div>`;
+    }
+    return `
+      <div class="activity-item">
+        <div class="activity-icon"><i class="fa-solid fa-receipt"></i></div>
+        <div class="activity-main"><strong>${tx.productName}</strong><span>Qty ${tx.quantity} • ${when}</span></div>
+        <div class="activity-value">₱${tx.total.toFixed(2)}</div>
+      </div>`;
+  }).join('');
+}
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -620,6 +1250,7 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
 window.addEventListener('DOMContentLoaded', () => {
   const remembered = localStorage.getItem('frozen_remembered_email');
   if(remembered) { document.getElementById('loginEmail').value = remembered; document.getElementById('rememberDevice').checked = true; }
+  renderLowStockAlerts();
 });
 
 document.getElementById('signupForm').addEventListener('submit', (e) => { 
@@ -642,6 +1273,7 @@ function loginSuccess(name, email) {
   document.getElementById('settingsProfileName').textContent = name;
   document.getElementById('settingsProfileEmail').textContent = email;
   showToast(`Welcome, ${name}!`);
+  renderCatalog();
 }
 
 function logout() { 
@@ -650,6 +1282,7 @@ function logout() {
   document.getElementById('googlePickerModal').classList.add('hidden');
   document.querySelector('.auth-card').classList.remove('hidden');
   document.getElementById('systemSettingsModal').classList.add('hidden');
+  document.getElementById('catalogModalOverlay').classList.add('hidden');
   localStorage.removeItem('frozen_current_user');
   showLoginPanel(); 
   showToast("Logged out successfully"); 
@@ -663,14 +1296,15 @@ function switchPage(pageId, btn, isMobile = false) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     if(btn) btn.classList.add('active');
   }
-  ['dashboard'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+  ['dashboard', 'sales', 'adjustment'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
   document.getElementById(`page-${pageId}`).classList.remove('hidden');
-  const titles = { dashboard: 'Dashboard' };
+  const titles = { dashboard: 'Dashboard', sales: 'Sales', adjustment: 'Adjustment' };
   const titleEl = document.getElementById('pageHeaderTitle');
   if (titleEl) {
     const icon = '';
     titleEl.innerHTML = `${icon}${titles[pageId] || 'Dashboard'}`;
   }
+  if (pageId === 'sales') { populateSaleProductOptions(); renderSalesHistory(); }
 }
 
 function openSystemSettingsModal() { document.getElementById('systemSettingsModal').classList.remove('hidden'); }
@@ -713,6 +1347,192 @@ document.getElementById('changePasswordForm').addEventListener('submit', (e) => 
   }
 });
 
+function openCatalogModal() { document.getElementById('catalogModalOverlay').classList.remove('hidden'); renderCatalog(); }
+function closeCatalogModal() { document.getElementById('catalogModalOverlay').classList.add('hidden'); switchPage('dashboard', document.querySelector('.nav-item')); }
+
+let catalogFilter = 'all';
+function setCatalogFilter(filter, btn) {
+  catalogFilter = filter;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCatalog();
+}
+function productMatchesFilter(item) {
+  if (catalogFilter === 'all') return true;
+  const n = item.name.toLowerCase();
+  if (catalogFilter === 'seafood') return n.includes('seafood') || n.includes('fish') || n.includes('shrimp');
+  if (catalogFilter === 'longanisa') return n.includes('longanisa') || n.includes('tocino');
+  if (catalogFilter === 'frozen') return item.temp.includes('-');
+  return true;
+}
+function getDotColor(tempStr) {
+  const match = tempStr.match(/(-?\d+)/);
+  if (!match) return '#22C55E'; 
+  const val = parseInt(match[1], 10);
+  if (val <= -20) return '#3B82F6'; 
+  if (val >= -16) return '#F59E0B'; 
+  return '#22C55E'; 
+}
+const LOW_STOCK_THRESHOLD_PCT = 20;
+function getStockInfo(item) {
+  const match = String(item.stock).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+  const current = match ? Number(match[1]) : 0;
+  const max = match ? Number(match[2]) : 100;
+  const pct = max ? (current / max) * 100 : 0;
+  return { current, max, pct };
+}
+function getLowStockProducts() {
+  return products.filter(p => getStockInfo(p).pct < LOW_STOCK_THRESHOLD_PCT);
+}
+function renderLowStockAlerts() {
+  const countEl = document.getElementById('lowStockCount');
+  if (!countEl) return;
+  const lowStockItems = getLowStockProducts();
+  countEl.textContent = lowStockItems.length;
+
+  const listEl = document.getElementById('lowStockAlertsList');
+  if (listEl) {
+    if (lowStockItems.length === 0) {
+      listEl.innerHTML = '';
+    } else {
+      listEl.innerHTML = lowStockItems.map(item => {
+        const { current, max } = getStockInfo(item);
+        return `<div class="alert-banner" style="margin-top:8px;"><strong>${item.name}:</strong> Low stock. ${current}/${max} units remaining. <strong style="float:right;">${current} left</strong></div>`;
+      }).join('');
+    }
+  }
+}
+function renderCatalog() {
+  renderLowStockAlerts();
+  const searchQuery = (document.getElementById('catalogSearch')?.value || '').toLowerCase();
+  const filtered = products.filter(item => productMatchesFilter(item) && item.name.toLowerCase().includes(searchQuery));
+  const gridEl = document.getElementById('catalogGrid');
+  if (!gridEl) return;
+  gridEl.innerHTML = filtered.map((item) => {
+    const match = String(item.stock).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
+    const current = match ? Number(match[1]) : 0;
+    const max = match ? Number(match[2]) : 100;
+    const pct = Math.max(0, Math.min(100, max ? (current / max) * 100 : 0));
+    const dotColor = getDotColor(item.temp);
+    return `
+      <div class="product-card">
+        <button type="button" class="edit-product-btn" onclick="openEditProductModal(${products.indexOf(item)})" title="Edit product"><i class="fa-solid fa-pen"></i></button>
+        <div class="temp-badge"><i class="fa-solid fa-circle" style="font-size: 7px; color: ${dotColor};"></i> ${item.temp}</div>
+        <img src="${item.img}" class="product-img" onerror="this.src='https://via.placeholder.com/300x180?text=Product+Photo'">
+        <div class="product-details">
+          <div>
+            <h4>${item.name}</h4>
+            <div class="price-tag">₱${item.price}</div>
+            <div class="stock-level-indicator">Quantity: <span>${item.stock}</span></div>
+            <div class="stock-progress"><span style="width:${pct}%"></span></div>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
+}
+function handleAdjustmentTypeClick(type) {
+  const addBtn = document.getElementById('adjAddBtn');
+  const remBtn = document.getElementById('adjRemoveBtn');
+  if(type === 'add') {
+    addBtn.className = "adj-toggle-btn active-add"; remBtn.className = "adj-toggle-btn active-remove"; openAddProductModal();
+  } else {
+    remBtn.className = "adj-toggle-btn active-add"; addBtn.className = "adj-toggle-btn active-remove"; openRemoveProductModal();
+  }
+}
+function openAddProductModal() { document.getElementById('addProductModal').classList.remove('hidden'); }
+function openRemoveProductModal() {
+  const selectEl = document.getElementById('removeProductSelect');
+  selectEl.innerHTML = products.map((p, idx) => `<option value="${idx}">${p.name} (Stock: ${p.stock})</option>`).join('');
+  document.getElementById('removeProductModal').classList.remove('hidden');
+}
+function closeAddProductModal() { 
+  document.getElementById('addProductModal').classList.add('hidden'); 
+  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
+  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
+}
+function closeRemoveProductModal() { 
+  document.getElementById('removeProductModal').classList.add('hidden'); 
+  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
+  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
+}
+document.getElementById('addProductForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const name = document.getElementById('newProdName').value.trim();
+  const price = parseFloat(document.getElementById('newProdPrice').value);
+  const stock = document.getElementById('newProdStock').value.trim();
+  const temp = document.getElementById('newProdTemp').value.trim();
+  const fileInput = document.getElementById('newProdFile');
+  if (!name || Number.isNaN(price) || !stock || !temp) { showToast("Please complete all required fields."); return; }
+  const saveAndRender = (img) => {
+    products.push({ name, price, stock, temp, img });
+    saveProductsToStorage(); renderCatalog(); closeAddProductModal();
+    document.getElementById('addProductForm').reset();
+    showToast("Product added successfully!");
+  };
+  if (fileInput && fileInput.files && fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (event) => saveAndRender(event.target.result);
+    reader.onerror = () => showToast("Could not read the selected photo.");
+    reader.readAsDataURL(fileInput.files[0]);
+  } else { saveAndRender("https://images.unsplash.com/photo-1544025162-d76694265947?w=300"); }
+});
+function openEditProductModal(idx) {
+  const item = products[idx];
+  if (!item) return;
+  document.getElementById('editProdIndex').value = idx;
+  document.getElementById('editProdName').value = item.name;
+  document.getElementById('editProdPrice').value = item.price;
+  document.getElementById('editProdStock').value = item.stock;
+  document.getElementById('editProdTemp').value = item.temp;
+  document.getElementById('editProdFile').value = '';
+  document.getElementById('editProductModal').classList.remove('hidden');
+}
+function closeEditProductModal() {
+  document.getElementById('editProductModal').classList.add('hidden');
+  document.getElementById('editProductForm').reset();
+}
+document.getElementById('editProductForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const idx = Number(document.getElementById('editProdIndex').value);
+  const name = document.getElementById('editProdName').value.trim();
+  const price = parseFloat(document.getElementById('editProdPrice').value);
+  const stock = document.getElementById('editProdStock').value.trim();
+  const temp = document.getElementById('editProdTemp').value.trim();
+  const fileInput = document.getElementById('editProdFile');
+  if (!name || Number.isNaN(price) || !stock || !temp || !products[idx]) { showToast("Please complete all required fields."); return; }
+  const applyAndSave = (img) => {
+    products[idx] = { ...products[idx], name, price, stock, temp, img };
+    saveProductsToStorage(); renderCatalog(); closeEditProductModal();
+    showToast("Product updated successfully!");
+  };
+  if (fileInput && fileInput.files && fileInput.files[0]) {
+    const reader = new FileReader();
+    reader.onload = (event) => applyAndSave(event.target.result);
+    reader.onerror = () => showToast("Could not read the selected photo.");
+    reader.readAsDataURL(fileInput.files[0]);
+  } else { applyAndSave(products[idx].img); }
+});
+function askConfirmRemoveProduct() {
+  const selectEl = document.getElementById('removeProductSelect');
+  const idx = selectEl.value;
+  if (idx === "" || !products[idx]) return;
+  document.getElementById('confirmDeleteProdName').textContent = products[idx].name;
+  document.getElementById('confirmDeleteModal').classList.remove('hidden');
+}
+function closeConfirmDeleteModal() {
+  document.getElementById('confirmDeleteModal').classList.add('hidden');
+}
+function confirmRemoveProduct() {
+  const selectEl = document.getElementById('removeProductSelect');
+  const idx = selectEl.value;
+  if(idx === "" || !products[idx]) return;
+  const removedName = products[idx].name;
+  products.splice(idx, 1);
+  saveProductsToStorage(); renderCatalog();
+  closeConfirmDeleteModal();
+  closeRemoveProductModal();
+  showToast(`Removed "${removedName}" from inventory.`);
+}
 </script>
 </body>
 </html>
