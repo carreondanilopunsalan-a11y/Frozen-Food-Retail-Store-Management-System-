@@ -35,8 +35,28 @@ input, select, textarea { font-family: inherit; outline: none; }
 .auth-box { text-align: center; }
 .form-group { text-align: left; margin-bottom: 14px; }
 .form-group label { display: block; font-size: 11px; font-weight: 700; text-transform: uppercase; color: #334155; margin-bottom: 6px; }
-.input-field { width: 100%; padding: 10px 12px; border: 1px solid #94A3B8; border-radius: 6px; font-size: 14px; background: #FFFFFF; color: var(--text-dark); }
+.input-field { width: 100%; padding: 10px 12px; border: 1px solid #94A3B8; border-radius: 6px; font-size: 14px; background: #FFFFFF; color: var(--text-dark); transition: border-color 0.15s, box-shadow 0.15s; }
 .input-field:focus { border-color: var(--primary-blue); }
+.input-field.field-invalid { border-color: var(--danger); background: #FEF2F2; }
+.input-field.field-invalid:focus { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+.input-field.field-valid { border-color: var(--success); }
+.field-error-msg { display: none; align-items: center; gap: 5px; font-size: 11.5px; font-weight: 600; color: var(--danger); margin-top: 5px; line-height: 1.3; }
+.field-error-msg.show { display: flex; }
+.field-error-msg i { font-size: 11px; }
+.form-group.has-error label { color: var(--danger); }
+.field-hint { font-size: 11px; color: var(--neutral-gray); margin-top: 4px; }
+select.input-field.field-invalid, textarea.input-field.field-invalid { border-color: var(--danger); background: #FEF2F2; }
+@keyframes shakeError { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-4px); } 40%,80% { transform: translateX(4px); } }
+.shake-error { animation: shakeError 0.35s ease; }
+.password-strength { display: flex; gap: 4px; margin-top: 6px; }
+.password-strength .ps-bar { height: 4px; flex: 1; border-radius: 2px; background: #E2E8F0; transition: background 0.2s; }
+.password-strength.weak .ps-bar:nth-child(1) { background: var(--danger); }
+.password-strength.medium .ps-bar:nth-child(1), .password-strength.medium .ps-bar:nth-child(2) { background: #F59E0B; }
+.password-strength.strong .ps-bar { background: var(--success); }
+.ps-label { font-size: 10.5px; font-weight: 700; margin-top: 3px; }
+.ps-label.weak { color: var(--danger); }
+.ps-label.medium { color: #B45309; }
+.ps-label.strong { color: var(--success); }
 .password-wrap { position: relative; }
 .password-wrap .toggle-eye { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: var(--neutral-gray); font-size: 14px; cursor: pointer; }
 .auth-options-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-dark); margin-bottom: 16px; }
@@ -170,6 +190,12 @@ input, select, textarea { font-family: inherit; outline: none; }
 .adj-toggle-btn { padding: 14px; border-radius: 6px; font-size: 15px; font-weight: 700; font-family: 'Alfa Slab One', 'Inter', sans-serif; letter-spacing: 0.01em; border: none; background: #FFFFFF; color: var(--text-dark); display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 .adj-toggle-btn.active-add { background: #1450c7; color: white; }
 .adj-toggle-btn.active-remove { background: #FFFFFF; color: var(--text-dark); }
+.adj-toggle-btn.active-remove-type { background: #C62828; color: white; }
+.adj-link-row { display: flex; justify-content: center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
+.adj-link { font-size: 13px; font-weight: 600; color: var(--primary-blue); cursor: pointer; text-decoration: underline; background: none; padding: 4px 2px; }
+.adj-link.danger { color: var(--danger); }
+.adj-stock-note { font-size: 12px; color: var(--neutral-gray); margin: -8px 0 16px; min-height: 16px; }
+.adj-stock-note .err { color: var(--danger); font-weight: 600; }
 .adj-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
 #page-adjustment .form-group label, #page-adjustment .adj-section-label { font-family: 'Alfa Slab One', 'Inter', sans-serif; font-weight: 400; font-size: 13px; }
 #page-adjustment .input-field { font-family: 'Space Mono', monospace; border: none; box-shadow: 0 1px 3px rgba(0,0,0,0.08); padding: 12px 14px; }
@@ -211,7 +237,7 @@ input, select, textarea { font-family: inherit; outline: none; }
 .btn-cancel { font-size: 14px; font-weight: 600; color: var(--neutral-gray); cursor: pointer; padding: 8px 14px; }
 .btn-save-prod { background: var(--primary-blue); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
 .btn-danger-prod { background: var(--danger); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
-.toast-msg { position: fixed; bottom: 24px; right: 24px; background: var(--primary-blue); color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; z-index: 100; opacity: 0; pointer-events: none; transition: 0.3s; }
+.toast-msg { position: fixed; bottom: 84px; left: 50%; right: auto; transform: translateX(-50%); background: var(--primary-blue); color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; max-width: 90%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .toast-msg.show { opacity: 1; }
 .stock-progress { width: 100%; height: 6px; background: #E2E8F0; border-radius: 6px; overflow: hidden; margin-top: 6px; }
 .stock-progress > span { display: block; height: 100%; background: var(--accent-blue); border-radius: 6px; }
@@ -262,6 +288,35 @@ input:checked + .slider:before { transform: translateX(16px); }
 .adjustment-container { box-shadow: none; }
 .scan-box.scan-box-photo { background: linear-gradient(135deg, #B9C4CE, #8A94A0); filter: grayscale(0.3); }
 
+.settings-avatar-wrap { position: relative; width: 45px; height: 45px; flex-shrink: 0; cursor: pointer; }
+.settings-avatar-wrap input[type="file"] { display: none; }
+.settings-avatar-wrap .avatar-edit-badge { position: absolute; bottom: -3px; right: -3px; width: 16px; height: 16px; border-radius: 50%; background: var(--accent-blue); color: #fff; font-size: 8px; display: flex; align-items: center; justify-content: center; border: 2px solid #281f00; }
+.reports-range-row { display: flex; gap: 8px; overflow-x: auto; margin-bottom: 16px; }
+.reports-summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+.reports-summary-grid .stat-card .value { font-size: 18px; }
+.reports-export-btn { width: 100%; margin-top: 4px; }
+.reports-empty-note { text-align: center; color: var(--neutral-gray); font-size: 13px; padding: 24px 0; }
+@media (max-width: 380px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .reports-summary-grid { grid-template-columns: 1fr 1fr; }
+  .quick-actions { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+  .quick-action { padding: 8px 4px; min-height: 56px; font-size: 10.5px; }
+  .quick-action i { font-size: 15px; }
+  .mob-nav-item span { font-size: 9.5px; }
+  .mob-nav-item i { font-size: 15px; }
+  .mobile-bottom-nav { padding: 8px 4px; }
+  .modal-card { padding: 18px 16px; }
+  .adjustment-heading h3 { font-size: 24px; }
+  .content-area { padding: 12px; }
+}
+@media (max-width: 340px) {
+  .reports-summary-grid { grid-template-columns: 1fr; }
+  .adj-type-toggle, .adj-grid-2 { grid-template-columns: 1fr; }
+}
+.mobile-bottom-nav { gap: 2px; }
+.mob-nav-item { flex: 1; min-width: 0; }
+.mob-nav-item span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+
 @media (min-width: 769px) {
   html, body { background: #dfe3e8 !important; }
 
@@ -290,6 +345,71 @@ input:checked + .slider:before { transform: translateX(16px); }
     transform: translateX(-50%);
   }
 }
+
+@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes modalPopIn { from { opacity: 0; transform: scale(0.94) translateY(6px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+@keyframes overlayFadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes toastSlideUp { from { opacity: 0; transform: translate(-50%, 8px); } to { opacity: 1; transform: translate(-50%, 0); } }
+@keyframes cardFadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes badgePop { 0% { transform: scale(0.6); } 55% { transform: scale(1.18); } 100% { transform: scale(1); } }
+@keyframes spinIcon { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both; }
+
+.modal-overlay { animation: overlayFadeIn 0.18s ease both; }
+.modal-overlay .modal-card,
+.modal-overlay .cart-modal-card,
+.modal-overlay .google-modal-card,
+.modal-overlay .catalog-modal-content,
+.modal-overlay .settings-modal-content { animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.sso-overlay { animation: overlayFadeIn 0.2s ease both; }
+.sso-overlay .google-modal-card { animation: modalPopIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.toast-msg { transition: opacity 0.3s, transform 0.3s; transform: translate(-50%, 8px); }
+.toast-msg.show { animation: toastSlideUp 0.3s ease both; transform: translate(-50%, 0); }
+
+.product-card { transition: transform 0.18s ease, box-shadow 0.18s ease; animation: cardFadeIn 0.25s ease both; }
+.product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(30,41,59,0.12); }
+
+.stat-card { transition: transform 0.18s ease, box-shadow 0.18s ease; animation: cardFadeIn 0.25s ease both; }
+.stat-card:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(30,41,59,0.1); }
+.stats-grid .stat-card:nth-child(2) { animation-delay: 0.04s; }
+.stats-grid .stat-card:nth-child(3) { animation-delay: 0.08s; }
+
+.supplier-card { transition: transform 0.18s ease, box-shadow 0.18s ease; }
+.supplier-card:hover { transform: translateY(-2px); box-shadow: 0 8px 16px rgba(30,41,59,0.1); }
+
+.activity-item { transition: background 0.15s ease; }
+.activity-item:hover { background: #F8FAFC; }
+
+.btn-primary, .btn-secondary, .adj-toggle-btn, .quick-action, .btn-google, .sup-btn, .btn-save-prod, .btn-danger-prod, .filter-btn {
+  transition: transform 0.12s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.btn-primary:active, .btn-secondary:active, .adj-toggle-btn:active, .quick-action:active, .btn-save-prod:active, .btn-danger-prod:active {
+  transform: scale(0.97);
+}
+.quick-action:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(30,41,59,0.1); }
+
+.nav-item { transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease; }
+.nav-item:hover:not(.active) { background: rgba(255,255,255,0.35); }
+.mob-nav-item { transition: color 0.2s ease, transform 0.15s ease; }
+.mob-nav-item:active { transform: scale(0.92); }
+
+.cart-count-badge { animation: badgePop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+
+.stock-progress > span { transition: width 0.4s ease; }
+
+.header-settings-btn:hover { transform: rotate(20deg); }
+.floating-barcode-btn:active { transform: scale(0.95); }
+.edit-product-btn { transition: background 0.2s ease, transform 0.15s ease; }
+.edit-product-btn:hover { transform: scale(1.08); }
+
+.google-account-item { transition: background 0.15s ease, transform 0.12s ease; }
+.google-account-item:active { transform: scale(0.98); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
 </style>
 
 </head>
@@ -315,16 +435,18 @@ input:checked + .slider:before { transform: translateX(16px); }
    <div class="auth-card-inner">
     <div id="loginPanel" class="auth-box">
       <form id="loginForm">
-        <div class="form-group">
+        <div class="form-group" id="loginEmailGroup">
           <label>EMAIL</label>
-          <input type="email" id="loginEmail" class="input-field" required placeholder="admin@frozen.com">
+          <input type="email" id="loginEmail" class="input-field" placeholder="admin@frozen.com" autocomplete="username">
+          <div class="field-error-msg" id="loginEmailError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="loginPasswordGroup">
           <label>PASSWORD</label>
           <div class="password-wrap">
-            <input type="password" id="loginPassword" class="input-field" required placeholder="Enter password">
+            <input type="password" id="loginPassword" class="input-field" placeholder="Enter password" autocomplete="current-password">
             <i class="fa-regular fa-eye toggle-eye" onclick="togglePassword('loginPassword', this)"></i>
           </div>
+          <div class="field-error-msg" id="loginPasswordError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
         </div>
         <div class="auth-options-row">
           <label><input type="checkbox" id="rememberDevice"> Remember this device</label>
@@ -341,17 +463,21 @@ input:checked + .slider:before { transform: translateX(16px); }
 
     <div id="signupPanel" class="auth-box hidden">
       <form id="signupForm">
-        <div class="form-group">
+        <div class="form-group" id="signupNameGroup">
           <label>Full Name</label>
-          <input type="text" id="signupName" class="input-field" placeholder="Juan Dela Cruz" required>
+          <input type="text" id="signupName" class="input-field" placeholder="Juan Dela Cruz" autocomplete="name">
+          <div class="field-error-msg" id="signupNameError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="signupEmailGroup">
           <label>Email</label>
-          <input type="email" id="signupEmail" class="input-field" placeholder="email@domain.com" required>
+          <input type="email" id="signupEmail" class="input-field" placeholder="email@domain.com" autocomplete="email">
+          <div class="field-error-msg" id="signupEmailError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
         </div>
-        <div class="form-group">
+        <div class="form-group" id="signupPasswordGroup">
           <label>Create Password</label>
-          <input type="password" id="signupPassword" class="input-field" placeholder="12345" required minlength="5">
+          <input type="password" id="signupPassword" class="input-field" placeholder="At least 8 characters" autocomplete="new-password" oninput="updatePasswordStrength()">
+          <div class="password-strength" id="signupPasswordStrength"><div class="ps-bar"></div><div class="ps-bar"></div><div class="ps-bar"></div></div>
+          <div class="field-error-msg" id="signupPasswordError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
         </div>
         <button type="submit" class="btn-primary" style="margin-top: 4px;">Confirm →</button>
       </form>
@@ -402,6 +528,8 @@ input:checked + .slider:before { transform: translateX(16px); }
       <button class="nav-item" onclick="openCatalogModal()"><i class="fa-solid fa-box"></i> Catalog</button>
       <button class="nav-item" onclick="switchPage('sales', this)"><i class="fa-solid fa-cash-register"></i> Sales</button>
       <button class="nav-item" onclick="switchPage('adjustment', this)"><i class="fa-solid fa-sliders"></i> Adjustment</button>
+      <button class="nav-item" onclick="switchPage('suppliers', this)"><i class="fa-solid fa-truck"></i> Suppliers</button>
+      <button class="nav-item" onclick="switchPage('reports', this)"><i class="fa-solid fa-chart-column"></i> Reports</button>
     </nav>
   </aside>
 
@@ -410,6 +538,8 @@ input:checked + .slider:before { transform: translateX(16px); }
     <div class="mob-nav-item" onclick="openCatalogModal()"><i class="fa-solid fa-box"></i><span>Catalog</span></div>
     <div class="mob-nav-item" onclick="switchPage('sales', this, true)"><i class="fa-solid fa-cash-register"></i><span>Sales</span></div>
     <div class="mob-nav-item" onclick="switchPage('adjustment', this, true)"><i class="fa-solid fa-sliders"></i><span>Adjustment</span></div>
+    <div class="mob-nav-item" onclick="switchPage('suppliers', this, true)"><i class="fa-solid fa-truck"></i><span>Suppliers</span></div>
+    <div class="mob-nav-item" onclick="switchPage('reports', this, true)"><i class="fa-solid fa-chart-column"></i><span>Reports</span></div>
   </nav>
 
   <div class="main-wrapper">
@@ -429,7 +559,7 @@ input:checked + .slider:before { transform: translateX(16px); }
         <div class="stats-grid">
           <div class="stat-card">
             <div class="label">Total Inventory Value</div>
-            <div class="value">₱100.00K</div>
+            <div class="value" id="totalInventoryValue">₱0.00</div>
           </div>
           <div class="stat-card alert-stat">
             <div class="label"><i class="fa-solid fa-triangle-exclamation stat-icon"></i>Low Stock Alerts</div>
@@ -437,29 +567,25 @@ input:checked + .slider:before { transform: translateX(16px); }
           </div>
           <div class="stat-card pending-stat">
             <div class="label"><i class="fa-solid fa-truck stat-icon"></i>Pending</div>
-            <div class="value">4</div>
+            <div class="value" id="pendingDeliveryCount">0</div>
           </div>
         </div>
         <div class="dash-panel">
           <h3>Critical Alerts</h3>
-          <div class="alert-banner"><strong>ZONE B - FREEZER:</strong> Temperature critical. Target is -18°C. Immediate action required. <strong style="float:right;">-20°C</strong></div>
+          <div id="criticalTempAlertsList"></div>
           <div id="lowStockAlertsList"></div>
         </div>
         <div class="dash-panel" style="border:none;background:transparent;padding:0;margin-top:16px;">
           <h3>Quick Actions</h3>
           <div class="quick-actions">
-            <button type="button" class="quick-action"><i class="fa-solid fa-circle-plus"></i><span>Add Stock</span></button>
-            <button type="button" class="quick-action"><i class="fa-solid fa-barcode"></i><span>Scan Barcode</span></button>
-            <button type="button" class="quick-action"><i class="fa-solid fa-chart-column"></i><span>Run Report</span></button>
+            <button type="button" class="quick-action" onclick="goToQuickAction('adjustment')"><i class="fa-solid fa-circle-plus"></i><span>Add Stock</span></button>
+            <button type="button" class="quick-action" onclick="goToQuickAction('adjustment')"><i class="fa-solid fa-barcode"></i><span>Scan Barcode</span></button>
+            <button type="button" class="quick-action" onclick="goToQuickAction('reports')"><i class="fa-solid fa-chart-column"></i><span>Run Report</span></button>
           </div>
         </div>
         <div class="dash-panel" style="padding-bottom:0;">
           <h3>Recent Activity</h3>
-          <div class="activity-list">
-            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Added</strong><span>CDO Pork Tocino • 20 mins ago</span></div><div class="activity-value">+45</div></div>
-            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Removed</strong><span>CDO Idol Cheese • 1 hr ago</span></div><div class="activity-value negative">-12</div></div>
-            <div class="activity-item"><div class="activity-icon"><i class="fa-solid fa-box"></i></div><div class="activity-main"><strong>Stock Removed</strong><span>Chicken Nuggets • 2 hrs ago</span></div><div class="activity-value negative">-15</div></div>
-          </div>
+          <div class="activity-list" id="recentActivityList"></div>
         </div>
       </section>
 
@@ -500,26 +626,57 @@ input:checked + .slider:before { transform: translateX(16px); }
             <button type="button" id="adjAddBtn" class="adj-toggle-btn active-add" onclick="handleAdjustmentTypeClick('add')"><i class="fa-solid fa-circle-plus"></i> Add Stock</button>
             <button type="button" id="adjRemoveBtn" class="adj-toggle-btn active-remove" onclick="handleAdjustmentTypeClick('remove')"><i class="fa-solid fa-circle-minus"></i> Remove</button>
           </div>
-          <div class="adj-grid-2">
-            <div class="form-group"><label>Quantity</label><input type="number" id="adjQuantity" class="input-field" value="0"></div>
-            <div class="form-group"><label>Zone ID</label><input type="text" id="adjZone" class="input-field" placeholder="E.G. FZ-A1"></div>
+          <div class="form-group" id="adjProductGroup">
+            <label>Product</label>
+            <select id="adjProduct" class="input-field" onchange="updateAdjustmentNote()"></select>
+            <div class="field-error-msg" id="adjProductError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
           </div>
-          <div class="form-group">
+          <div class="adj-grid-2" style="margin-bottom: 8px;">
+            <div class="form-group" id="adjQuantityGroup">
+              <label>Quantity</label>
+              <input type="number" id="adjQuantity" class="input-field" value="1" min="1" oninput="updateAdjustmentNote()" onblur="normalizeAdjQuantity()">
+              <div class="field-error-msg" id="adjQuantityError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+            </div>
+            <div class="form-group" id="adjZoneGroup"><label>Zone ID</label><input type="text" id="adjZone" class="input-field" placeholder="E.G. FZ-A1"><div class="field-error-msg" id="adjZoneError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div></div>
+          </div>
+          <div class="adj-stock-note" id="adjStockNote"></div>
+          <div class="form-group" id="adjReasonGroup">
             <label>Reason</label>
-            <select id="adjReason" class="input-field">
-              <option value="" disabled selected>Select a reason...</option>
-              <option value="delivery">New Delivery / Restock</option>
-              <option value="damaged">Damaged / Expired</option>
-              <option value="audit">Inventory Audit Correction</option>
-            </select>
+            <select id="adjReason" class="input-field"></select>
+            <div class="field-error-msg" id="adjReasonError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
           </div>
-          <div class="form-group" style="margin-bottom: 0;">
+          <div class="form-group" style="margin-bottom: 18px;">
             <label>Notes (Optional)</label>
             <textarea id="adjNotes" class="input-field" rows="2" placeholder="Add any additional context..."></textarea>
           </div>
+          <button type="button" class="btn-primary" onclick="applyStockAdjustment()"><i class="fa-solid fa-circle-check"></i> Apply Adjustment</button>
         </div>
       </section>
 
+      <section id="page-suppliers" class="hidden">
+        <div class="page-heading">Suppliers</div>
+        <div class="supplier-search"><i class="fa-solid fa-magnifying-glass"></i><input id="supplierSearch" type="search" placeholder="Search suppliers..." oninput="filterSuppliers()"></div>
+        <div class="suppliers-grid" id="suppliersGrid"></div>
+      </section>
+
+      <section id="page-reports" class="hidden">
+        <div class="page-heading">Reports & History</div>
+        <div class="reports-range-row" id="reportsRangeRow">
+          <button type="button" class="filter-btn active" onclick="setReportRange('today', this)">Today</button>
+          <button type="button" class="filter-btn" onclick="setReportRange('week', this)">This Week</button>
+          <button type="button" class="filter-btn" onclick="setReportRange('month', this)">This Month</button>
+          <button type="button" class="filter-btn" onclick="setReportRange('all', this)">All Time</button>
+        </div>
+        <div class="reports-summary-grid">
+          <div class="stat-card"><div class="label">Total Sales</div><div class="value" id="reportsTotalSales">₱0.00</div></div>
+          <div class="stat-card"><div class="label">Transactions</div><div class="value" id="reportsTxCount">0</div></div>
+          <div class="stat-card"><div class="label">Items Sold</div><div class="value" id="reportsItemsSold">0</div></div>
+        </div>
+        <div class="dash-panel">
+          <h3>Transaction History</h3>
+          <div class="activity-list" id="reportsHistoryList"></div>
+        </div>
+        <button type="button" class="btn-primary reports-export-btn" onclick="exportReportsCSV()"><i class="fa-solid fa-file-arrow-down"></i> Save Report</button>
       </section>
     </main>
   </div>
@@ -568,7 +725,11 @@ input:checked + .slider:before { transform: translateX(16px); }
       <div style="font-size: 18px; font-weight: 800; color: var(--primary-blue); margin-top: 4px;">System Settings</div>
       <div style="font-size: 12px; color: #475569; margin-bottom: 14px;">Manage your preferences, security, and environment configurations.</div>
       <div class="settings-profile-card">
-        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="settings-avatar" alt="Avatar">
+        <label class="settings-avatar-wrap" title="Change photo">
+          <img id="settingsAvatarImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100" class="settings-avatar" alt="Avatar">
+          <span class="avatar-edit-badge"><i class="fa-solid fa-pen"></i></span>
+          <input type="file" id="settingsAvatarInput" accept="image/*" onchange="handleAvatarChange(this)">
+        </label>
         <div style="flex: 1;">
           <div id="settingsProfileName" style="font-weight: 700; font-size: 14px;">Juan Dela Cruz</div>
           <div id="settingsProfileEmail" style="font-size: 11px; opacity: 0.75;">admin@frozen.com</div>
@@ -579,23 +740,21 @@ input:checked + .slider:before { transform: translateX(16px); }
       <div class="settings-card-box">
         <div class="settings-toggle-row">
           <div>Low Stock Alerts <div style="font-size: 10px; font-weight: 400;">Notify when inventory falls below threshold.</div></div>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" id="settingLowStock" onchange="saveAppSetting('lowStock', this.checked)"><span class="slider"></span></label>
         </div>
         <div class="settings-toggle-row">
           <div>Temperature Fluctuations <div style="font-size: 10px; font-weight: 400;">Immediate alerts for out-of-range thermal events.</div></div>
-          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" id="settingTempAlerts" onchange="saveAppSetting('tempAlerts', this.checked)"><span class="slider"></span></label>
         </div>
         <div class="settings-toggle-row">
           <div>Order Status Updates <div style="font-size: 10px; font-weight: 400;">Dispatch and delivery lifecycle notifications.</div></div>
-          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" id="settingOrderUpdates" onchange="saveAppSetting('orderUpdates', this.checked)"><span class="slider"></span></label>
         </div>
       </div>
       <div class="settings-section-title"><i class="fa-solid fa-temperature-low"></i> Unit Configurations</div>
       <div class="settings-card-box">
-        <div class="settings-unit-row"><span>Freezer Alpha</span> <span class="settings-unit-badge">TARGET -18.0°C</span></div>
-        <div class="settings-unit-row"><span>Freezer Beta</span> <span class="settings-unit-badge">TARGET -22.5°C</span></div>
-        <div class="settings-unit-row"><span>Cold Room C</span> <span class="settings-unit-badge warm">TARGET +4.0°C</span></div>
-        <button class="settings-add-unit-btn">+ Add Unit Config</button>
+        <div id="settingsUnitList"></div>
+        <button type="button" class="settings-add-unit-btn" onclick="openAddUnitModal()">+ Add Unit Config</button>
       </div>
       <div class="settings-section-title"><i class="fa-solid fa-lock"></i> Security</div>
       <div class="settings-card-box">
@@ -604,7 +763,7 @@ input:checked + .slider:before { transform: translateX(16px); }
         </div>
         <div class="settings-toggle-row">
           <span>Biometric Login</span>
-          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+          <label class="switch"><input type="checkbox" id="settingBiometric" onchange="saveAppSetting('biometric', this.checked)"><span class="slider"></span></label>
         </div>
       </div>
       <div class="settings-section-title" style="opacity:0;height:0;margin:6px 0 0;">.</div>
@@ -627,9 +786,17 @@ input:checked + .slider:before { transform: translateX(16px); }
   <div class="modal-card">
     <h3>Edit Profile</h3>
     <p class="modal-sub">Update your account name and email address.</p>
-    <form id="editProfileForm">
-      <div class="form-group"><label>Full Name</label><input type="text" id="editProfileNameInput" class="input-field" required></div>
-      <div class="form-group"><label>Email Address</label><input type="email" id="editProfileEmailInput" class="input-field" required></div>
+    <form id="editProfileForm" novalidate>
+      <div class="form-group" id="editProfileNameInputGroup">
+        <label>Full Name</label>
+        <input type="text" id="editProfileNameInput" class="input-field">
+        <div class="field-error-msg" id="editProfileNameInputError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="editProfileEmailInputGroup">
+        <label>Email Address</label>
+        <input type="email" id="editProfileEmailInput" class="input-field">
+        <div class="field-error-msg" id="editProfileEmailInputError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
       <div class="modal-actions">
         <span class="btn-cancel" onclick="closeEditProfileModal()">Cancel</span>
         <button type="submit" class="btn-save-prod">Save Changes</button>
@@ -642,12 +809,44 @@ input:checked + .slider:before { transform: translateX(16px); }
   <div class="modal-card">
     <h3>Change Password</h3>
     <p class="modal-sub">Enter your current password and a new secure password.</p>
-    <form id="changePasswordForm">
-      <div class="form-group"><label>Current Password</label><input type="password" id="currentPasswordInput" class="input-field" required placeholder="••••••"></div>
-      <div class="form-group"><label>New Password</label><input type="password" id="newPasswordInput" class="input-field" required placeholder="New password" minlength="5"></div>
+    <form id="changePasswordForm" novalidate>
+      <div class="form-group" id="currentPasswordInputGroup">
+        <label>Current Password</label>
+        <input type="password" id="currentPasswordInput" class="input-field" placeholder="••••••" autocomplete="current-password">
+        <div class="field-error-msg" id="currentPasswordInputError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="newPasswordInputGroup">
+        <label>New Password</label>
+        <input type="password" id="newPasswordInput" class="input-field" placeholder="At least 8 characters" autocomplete="new-password" oninput="updateNewPasswordStrength()">
+        <div class="password-strength" id="newPasswordStrength"><div class="ps-bar"></div><div class="ps-bar"></div><div class="ps-bar"></div></div>
+        <div class="field-error-msg" id="newPasswordInputError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
       <div class="modal-actions">
         <span class="btn-cancel" onclick="closeChangePasswordModal()">Cancel</span>
         <button type="submit" class="btn-save-prod">Update Password</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div id="addUnitModal" class="modal-overlay hidden">
+  <div class="modal-card">
+    <h3>Add Unit Config</h3>
+    <p class="modal-sub">Register a new cold storage unit and its target temperature.</p>
+    <form id="addUnitForm" novalidate>
+      <div class="form-group" id="newUnitNameGroup">
+        <label>Unit Name</label>
+        <input type="text" id="newUnitName" class="input-field" placeholder="e.g. Freezer Gamma">
+        <div class="field-error-msg" id="newUnitNameError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="newUnitTempGroup">
+        <label>Target Temperature (°C)</label>
+        <input type="number" id="newUnitTemp" class="input-field" placeholder="-18" step="0.1">
+        <div class="field-error-msg" id="newUnitTempError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="modal-actions">
+        <span class="btn-cancel" onclick="closeAddUnitModal()">Cancel</span>
+        <button type="submit" class="btn-save-prod">Add Unit</button>
       </div>
     </form>
   </div>
@@ -657,11 +856,27 @@ input:checked + .slider:before { transform: translateX(16px); }
   <div class="modal-card">
     <h3>Add Product</h3>
     <p class="modal-sub">Enter product details to add to inventory catalog.</p>
-    <form id="addProductForm">
-      <div class="form-group"><label>Product Name</label><input type="text" id="newProdName" class="input-field" placeholder="e.g. CDO Pork Tocino" required></div>
-      <div class="form-group"><label>Price (₱)</label><input type="number" id="newProdPrice" class="input-field" placeholder="150" min="0" step="0.01" required></div>
-      <div class="form-group"><label>Quantity (E.G. 45/100)</label><input type="text" id="newProdStock" class="input-field" placeholder="45/100" required></div>
-      <div class="form-group"><label>Temperature Tag</label><input type="text" id="newProdTemp" class="input-field" value="-18°C" required></div>
+    <form id="addProductForm" novalidate>
+      <div class="form-group" id="newProdNameGroup">
+        <label>Product Name</label>
+        <input type="text" id="newProdName" class="input-field" placeholder="e.g. CDO Pork Tocino">
+        <div class="field-error-msg" id="newProdNameError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="newProdPriceGroup">
+        <label>Price (₱)</label>
+        <input type="number" id="newProdPrice" class="input-field" placeholder="150" min="0" step="0.01">
+        <div class="field-error-msg" id="newProdPriceError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="newProdStockGroup">
+        <label>Quantity (E.G. 45/100)</label>
+        <input type="text" id="newProdStock" class="input-field" placeholder="45/100">
+        <div class="field-error-msg" id="newProdStockError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="newProdTempGroup">
+        <label>Temperature Tag</label>
+        <input type="text" id="newProdTemp" class="input-field" value="-18°C">
+        <div class="field-error-msg" id="newProdTempError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
       <div class="form-group"><label>Product Photo</label><input type="file" id="newProdFile" class="input-field" accept="image/*"></div>
       <div class="modal-actions">
         <span class="btn-cancel" onclick="closeAddProductModal()">Cancel</span>
@@ -675,12 +890,28 @@ input:checked + .slider:before { transform: translateX(16px); }
   <div class="modal-card">
     <h3>Edit Product</h3>
     <p class="modal-sub">Update the product details below.</p>
-    <form id="editProductForm">
+    <form id="editProductForm" novalidate>
       <input type="hidden" id="editProdIndex">
-      <div class="form-group"><label>Product Name</label><input type="text" id="editProdName" class="input-field" placeholder="e.g. CDO Pork Tocino" required></div>
-      <div class="form-group"><label>Price (₱)</label><input type="number" id="editProdPrice" class="input-field" placeholder="150" min="0" step="0.01" required></div>
-      <div class="form-group"><label>Quantity (E.G. 45/100)</label><input type="text" id="editProdStock" class="input-field" placeholder="45/100" required></div>
-      <div class="form-group"><label>Temperature Tag</label><input type="text" id="editProdTemp" class="input-field" value="-18°C" required></div>
+      <div class="form-group" id="editProdNameGroup">
+        <label>Product Name</label>
+        <input type="text" id="editProdName" class="input-field" placeholder="e.g. CDO Pork Tocino">
+        <div class="field-error-msg" id="editProdNameError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="editProdPriceGroup">
+        <label>Price (₱)</label>
+        <input type="number" id="editProdPrice" class="input-field" placeholder="150" min="0" step="0.01">
+        <div class="field-error-msg" id="editProdPriceError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="editProdStockGroup">
+        <label>Quantity (E.G. 45/100)</label>
+        <input type="text" id="editProdStock" class="input-field" placeholder="45/100">
+        <div class="field-error-msg" id="editProdStockError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
+      <div class="form-group" id="editProdTempGroup">
+        <label>Temperature Tag</label>
+        <input type="text" id="editProdTemp" class="input-field" value="-18°C">
+        <div class="field-error-msg" id="editProdTempError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
+      </div>
       <div class="form-group"><label>Product Photo (leave blank to keep current)</label><input type="file" id="editProdFile" class="input-field" accept="image/*"></div>
       <div class="modal-actions">
         <span class="btn-cancel" onclick="closeEditProductModal()">Cancel</span>
@@ -707,15 +938,17 @@ input:checked + .slider:before { transform: translateX(16px); }
     <h3><i class="fa-solid fa-receipt"></i> Sale Transaction</h3>
     <p class="modal-sub" style="margin-bottom:0;">Select a product, set the quantity, and save the transaction directly.</p>
 
-    <div class="form-group" style="margin-top:14px;">
+    <div class="form-group" style="margin-top:14px;" id="directSaleProductSelectGroup">
       <label>Select Product</label>
       <select id="directSaleProductSelect" class="input-field" onchange="updateDirectSaleTotal()"></select>
+      <div class="field-error-msg" id="directSaleProductSelectError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
     </div>
 
     <div class="adj-grid-2">
-      <div class="form-group">
+      <div class="form-group" id="directSaleQuantityGroup">
         <label>Quantity</label>
         <input type="number" id="directSaleQuantity" class="input-field" value="1" min="1" oninput="updateDirectSaleTotal()" onblur="normalizeDirectSaleQuantity()">
+        <div class="field-error-msg" id="directSaleQuantityError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
       </div>
       <div class="form-group">
         <label>Unit Price</label>
@@ -744,15 +977,17 @@ input:checked + .slider:before { transform: translateX(16px); }
     <h3><i class="fa-solid fa-cart-plus"></i> Sale Transaction System</h3>
     <p class="modal-sub" style="margin-bottom:0;">Select a product, set the quantity, and add it to the cart.</p>
 
-    <div class="form-group" style="margin-top:14px;">
+    <div class="form-group" style="margin-top:14px;" id="saleProductSelectGroup">
       <label>Select Product</label>
       <select id="saleProductSelect" class="input-field" onchange="updateSaleTotal()"></select>
+      <div class="field-error-msg" id="saleProductSelectError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
     </div>
 
     <div class="adj-grid-2">
-      <div class="form-group">
+      <div class="form-group" id="saleQuantityGroup">
         <label>Quantity</label>
         <input type="number" id="saleQuantity" class="input-field" value="1" min="1" oninput="updateSaleTotal()" onblur="normalizeSaleQuantity()">
+        <div class="field-error-msg" id="saleQuantityError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
       </div>
       <div class="form-group">
         <label>Unit Price</label>
@@ -859,11 +1094,159 @@ let registeredUsers = JSON.parse(localStorage.getItem('frozen_users')) || defaul
 let currentUserEmail = localStorage.getItem('frozen_current_user') || "admin@frozen.com";
 let googleAccounts = [{ name: "Jane Doe", email: "jane.doe25@gmail.com", initial: "J", color: "#3B82F6" }];
 
+const defaultSuppliers = [
+  { name: "NorthStar Seafood", contact: "Sarah Jenkins", phone: "+63 917 123 4567", email: "sarah.jenkins@northstarseafood.com", status: "ontime", nextDelivery: "OCT 24, 08:00 AM", volume: "2.4 Tons", actionReq: "" },
+  { name: "Frosty Farms", contact: "Mike Torres", phone: "+63 917 234 5678", email: "mike.torres@frostyfarms.com", status: "delayed", nextDelivery: "TBD", volume: "", actionReq: "Confirm Qty" },
+  { name: "Arctic Logistics Co.", contact: "David Chen", phone: "+63 917 345 6789", email: "david.chen@arcticlogistics.com", status: "ontime", nextDelivery: "OCT 25, 02:00 PM", volume: "5.0 Tons", actionReq: "" }
+];
+let suppliers = JSON.parse(localStorage.getItem('frozen_suppliers') || 'null') || defaultSuppliers;
+function saveSuppliersToStorage() { localStorage.setItem('frozen_suppliers', JSON.stringify(suppliers)); }
+
 function saveProductsToStorage() { localStorage.setItem('frozen_products', JSON.stringify(products)); }
 function saveUsersToStorage() { localStorage.setItem('frozen_users', JSON.stringify(registeredUsers)); }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function setFieldError(inputId, message) {
+  const input = document.getElementById(inputId);
+  const errorBox = document.getElementById(inputId + 'Error');
+  const group = document.getElementById(inputId + 'Group');
+  if (input) {
+    input.classList.add('field-invalid');
+    input.classList.remove('field-valid');
+    input.classList.remove('shake-error');
+    void input.offsetWidth;
+    input.classList.add('shake-error');
+    input.setAttribute('aria-invalid', 'true');
+  }
+  if (errorBox) {
+    const span = errorBox.querySelector('span');
+    if (span) span.textContent = message;
+    errorBox.classList.add('show');
+  }
+  if (group) group.classList.add('has-error');
+}
+
+function clearFieldError(inputId, markValid) {
+  const input = document.getElementById(inputId);
+  const errorBox = document.getElementById(inputId + 'Error');
+  const group = document.getElementById(inputId + 'Group');
+  if (input) {
+    input.classList.remove('field-invalid');
+    input.removeAttribute('aria-invalid');
+    if (markValid) input.classList.add('field-valid'); else input.classList.remove('field-valid');
+  }
+  if (errorBox) {
+    errorBox.classList.remove('show');
+    const span = errorBox.querySelector('span');
+    if (span) span.textContent = '';
+  }
+  if (group) group.classList.remove('has-error');
+}
+
+function clearFormErrors(fieldIds) {
+  fieldIds.forEach(id => clearFieldError(id, false));
+}
+
+function focusFirstError(fieldIds) {
+  for (const id of fieldIds) {
+    const input = document.getElementById(id);
+    if (input && input.classList.contains('field-invalid')) { input.focus(); return; }
+  }
+}
+
+function validateRequired(value, label) {
+  return (!value || !String(value).trim()) ? `${label} is required.` : '';
+}
+function validateEmailValue(value) {
+  const v = (value || '').trim();
+  if (!v) return 'Email address is required.';
+  if (!EMAIL_RE.test(v)) return 'Enter a valid email address (e.g. name@example.com).';
+  return '';
+}
+function passwordStrengthScore(pw) {
+  if (!pw) return 0;
+  let score = 0;
+  if (pw.length >= 8) score++;
+  if (/[A-Z]/.test(pw) && /[a-z]/.test(pw)) score++;
+  if (/[0-9]/.test(pw)) score++;
+  if (/[^A-Za-z0-9]/.test(pw)) score++;
+  if (pw.length < 5) return 0;
+  return Math.min(score, 3);
+}
+function renderPasswordStrength(barsId, labelId, pw) {
+  const bars = document.getElementById(barsId);
+  if (!bars) return;
+  const score = passwordStrengthScore(pw);
+  bars.classList.remove('weak', 'medium', 'strong');
+  if (!pw) { return; }
+  if (score <= 1) bars.classList.add('weak');
+  else if (score === 2) bars.classList.add('medium');
+  else bars.classList.add('strong');
+}
+function updatePasswordStrength() {
+  const pw = document.getElementById('signupPassword').value;
+  renderPasswordStrength('signupPasswordStrength', null, pw);
+  if (pw) clearFieldError('signupPassword', false);
+}
+function updateNewPasswordStrength() {
+  const pw = document.getElementById('newPasswordInput').value;
+  renderPasswordStrength('newPasswordStrength', null, pw);
+  if (pw) clearFieldError('newPasswordInput', false);
+}
+
+function wireLiveClear(errorBaseId, elementId) {
+  const input = document.getElementById(elementId || errorBaseId);
+  if (!input) return;
+  const evt = (input.tagName === 'SELECT') ? 'change' : 'input';
+  input.addEventListener(evt, () => { if (input.value && input.value.trim()) clearFieldError(errorBaseId, false); });
+}
+
 let salesHistory = JSON.parse(localStorage.getItem('frozen_sales')) || [];
 function saveSalesToStorage() { localStorage.setItem('frozen_sales', JSON.stringify(salesHistory)); }
+
+let activityLog = JSON.parse(localStorage.getItem('frozen_activity')) || [];
+const ACTIVITY_MAX = 50;
+function saveActivityToStorage() { localStorage.setItem('frozen_activity', JSON.stringify(activityLog)); }
+function logActivity(title, detail, value, type) {
+  activityLog.unshift({ id: Date.now() + Math.random(), title, detail, value: value || '', type: type || 'neutral', date: new Date().toISOString() });
+  if (activityLog.length > ACTIVITY_MAX) activityLog.length = ACTIVITY_MAX;
+  saveActivityToStorage();
+  renderRecentActivity();
+}
+function timeAgo(iso) {
+  const diff = Math.max(0, Date.now() - new Date(iso).getTime());
+  const mins = Math.floor(diff / 60000);
+  if (mins < 1) return 'Just now';
+  if (mins < 60) return `${mins} min${mins === 1 ? '' : 's'} ago`;
+  const hrs = Math.floor(mins / 60);
+  if (hrs < 24) return `${hrs} hr${hrs === 1 ? '' : 's'} ago`;
+  const days = Math.floor(hrs / 24);
+  if (days < 7) return `${days} day${days === 1 ? '' : 's'} ago`;
+  return new Date(iso).toLocaleDateString();
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+function renderRecentActivity() {
+  const listEl = document.getElementById('recentActivityList');
+  if (!listEl) return;
+  if (activityLog.length === 0) {
+    listEl.innerHTML = `<div class="activity-item"><div class="activity-main"><span>No recent activity yet.</span></div></div>`;
+    return;
+  }
+  const icons = { sale: 'fa-receipt', added: 'fa-box', removed: 'fa-box', edited: 'fa-pen', neutral: 'fa-box' };
+  listEl.innerHTML = activityLog.slice(0, 5).map(a => {
+    const neg = a.type === 'removed';
+    const valueHtml = a.value ? `<div class="activity-value${neg ? ' negative' : ''}">${escapeHtml(a.value)}</div>` : '';
+    return `
+      <div class="activity-item">
+        <div class="activity-icon"><i class="fa-solid ${icons[a.type] || 'fa-box'}"></i></div>
+        <div class="activity-main"><strong>${escapeHtml(a.title)}</strong><span>${escapeHtml(a.detail)} • ${new Date(a.date).toLocaleString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span></div>
+        ${valueHtml}
+      </div>`;
+  }).join('');
+}
 
 function getStockParts(stockStr) {
   const match = String(stockStr).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
@@ -960,20 +1343,27 @@ function normalizeDirectSaleQuantity() {
 
 function openDirectSaleModal() {
   populateDirectSaleProductOptions();
+  clearFormErrors(['directSaleProductSelect', 'directSaleQuantity']);
   document.getElementById('directSaleModal').classList.remove('hidden');
 }
 function closeDirectSaleModal() { document.getElementById('directSaleModal').classList.add('hidden'); }
 
 function saveDirectSaleTransaction() {
+  const dsFields = ['directSaleProductSelect', 'directSaleQuantity'];
+  clearFormErrors(dsFields);
   const sel = document.getElementById('directSaleProductSelect');
   const qtyInput = document.getElementById('directSaleQuantity');
-  if (!sel || sel.value === '' || !products[sel.value]) { showToast("Please select a product."); return; }
+
+  let hasError = false;
+  if (!sel || sel.value === '' || !products[sel.value]) { setFieldError('directSaleProductSelect', 'Please select a product.'); hasError = true; }
+  const qty = parseInt(qtyInput.value, 10);
+  if (!qty || qty < 1) { setFieldError('directSaleQuantity', 'Enter a quantity of at least 1.'); hasError = true; }
+  if (hasError) { focusFirstError(dsFields); return; }
+
   const idx = Number(sel.value);
   const product = products[idx];
-  const qty = parseInt(qtyInput.value, 10);
-  if (!qty || qty < 1) { showToast("Please enter a valid quantity."); return; }
   const { current, max } = getStockParts(product.stock);
-  if (qty > current) { showToast(`Not enough stock. Only ${current} available.`); return; }
+  if (qty > current) { setFieldError('directSaleQuantity', `Not enough stock. Only ${current} available.`); focusFirstError(dsFields); return; }
 
   const total = product.price * qty;
   const newCurrent = current - qty;
@@ -988,6 +1378,7 @@ function saveDirectSaleTransaction() {
   };
   salesHistory.unshift(transaction);
   saveSalesToStorage();
+  logActivity('Sale', `${product.name} ×${qty}`, `-${qty}`, 'sale');
 
   populateDirectSaleProductOptions();
   qtyInput.value = 1;
@@ -1000,22 +1391,31 @@ function saveDirectSaleTransaction() {
   document.getElementById('saleConfirmModal').classList.remove('hidden');
   showToast("Transaction saved successfully!");
 }
+wireLiveClear('directSaleQuantity');
+wireLiveClear('directSaleProductSelect');
 
 let cart = [];
 
 function addToCart() {
+  const saleFields = ['saleProductSelect', 'saleQuantity'];
+  clearFormErrors(saleFields);
   const sel = document.getElementById('saleProductSelect');
   const qtyInput = document.getElementById('saleQuantity');
-  if (!sel || sel.value === '' || !products[sel.value]) { showToast("Please select a product."); return; }
+
+  let hasError = false;
+  if (!sel || sel.value === '' || !products[sel.value]) { setFieldError('saleProductSelect', 'Please select a product.'); hasError = true; }
+  const qty = parseInt(qtyInput.value, 10);
+  if (!qty || qty < 1) { setFieldError('saleQuantity', 'Enter a quantity of at least 1.'); hasError = true; }
+  if (hasError) { focusFirstError(saleFields); return; }
+
   const idx = Number(sel.value);
   const product = products[idx];
-  const qty = parseInt(qtyInput.value, 10);
-  if (!qty || qty < 1) { showToast("Please enter a valid quantity."); return; }
   const { current } = getStockParts(product.stock);
   const existing = cart.find(item => item.productIdx === idx);
   const alreadyInCart = existing ? existing.qty : 0;
   if (alreadyInCart + qty > current) {
-    showToast(`Not enough stock. Only ${current} available for ${product.name}.`);
+    setFieldError('saleQuantity', `Not enough stock. Only ${current} available for ${product.name}.`);
+    focusFirstError(saleFields);
     return;
   }
   if (existing) {
@@ -1028,11 +1428,18 @@ function addToCart() {
   updateSaleTotal();
   showToast(`Added ${qty} × ${product.name} to cart.`);
 }
+wireLiveClear('saleProductSelect');
+wireLiveClear('saleQuantity');
 
 function updateCartBadge() {
   const count = cart.reduce((sum, item) => sum + item.qty, 0);
   [document.getElementById('cartCountBadge'), document.getElementById('cartCountBadgeModal')].forEach(badge => {
     if (!badge) return;
+    if (badge.textContent !== String(count)) {
+      badge.classList.remove('cart-count-badge');
+      void badge.offsetWidth;
+      badge.classList.add('cart-count-badge');
+    }
     badge.textContent = count;
     badge.classList.toggle('hidden', count === 0);
   });
@@ -1040,6 +1447,7 @@ function updateCartBadge() {
 
 function openAddSaleModal() {
   populateSaleProductOptions();
+  clearFormErrors(['saleProductSelect', 'saleQuantity']);
   document.getElementById('addSaleModal').classList.remove('hidden');
 }
 function closeAddSaleModal() { document.getElementById('addSaleModal').classList.add('hidden'); }
@@ -1133,6 +1541,11 @@ function checkoutCart() {
   };
   salesHistory.unshift(transaction);
   saveSalesToStorage();
+  {
+    const unitsSold = txItems.reduce((s, i) => s + i.quantity, 0);
+    const detail = txItems.length === 1 ? `${txItems[0].productName} ×${txItems[0].quantity}` : `${txItems.length} items`;
+    logActivity('Sale', detail, `-${unitsSold}`, 'sale');
+  }
 
   cart = [];
   updateCartBadge();
@@ -1221,8 +1634,11 @@ function saveNewGoogleAccount() {
   let name = email.split('@')[0];
   name = name.charAt(0).toUpperCase() + name.slice(1);
   googleAccounts.push({ name, email, initial: name.charAt(0), color: "#3B82F6" });
-  document.getElementById('googlePickerModal').classList.add('hidden');
-  selectGoogleAccount(email, name);
+  document.getElementById('gAddEmail').value = '';
+  document.getElementById('gAddPass').value = '';
+  renderGoogleAccounts();
+  backToGSelect();
+  showToast("Account added. Tap it to continue.");
 }
 function backToGSelect() { document.getElementById('gStepSelect').classList.remove('hidden'); document.getElementById('gStepAdd').classList.add('hidden'); }
 function closeGooglePicker() {
@@ -1235,36 +1651,97 @@ function closeGooglePicker() {
 
 document.getElementById('loginForm').addEventListener('submit', (e) => {
   e.preventDefault();
+  const loginFields = ['loginEmail', 'loginPassword'];
+  clearFormErrors(loginFields);
   const email = document.getElementById('loginEmail').value.trim();
   const pass = document.getElementById('loginPassword').value;
   const remember = document.getElementById('rememberDevice').checked;
+
+  let hasError = false;
+  const emailErr = validateEmailValue(email);
+  if (emailErr) { setFieldError('loginEmail', emailErr); hasError = true; }
+  if (!pass) { setFieldError('loginPassword', 'Password is required.'); hasError = true; }
+  if (hasError) { focusFirstError(loginFields); return; }
+
   const found = registeredUsers.find(u => u.email === email && u.pass === pass);
   if (found) {
     currentUserEmail = found.email;
     localStorage.setItem('frozen_current_user', found.email);
     if(remember) { localStorage.setItem('frozen_remembered_email', email); } else { localStorage.removeItem('frozen_remembered_email'); }
     loginSuccess(found.name, found.email);
-  } else { showToast("Invalid email or password."); }
+  } else {
+    document.getElementById('loginEmail').classList.add('field-invalid');
+    setFieldError('loginPassword', 'Incorrect email or password. Please try again.');
+    showToast("Invalid email or password.");
+  }
+});
+wireLiveClear('loginEmail');
+wireLiveClear('loginPassword');
+
+window.addEventListener('storage', (e) => {
+  if (e.key === 'frozen_activity') {
+    activityLog = JSON.parse(e.newValue) || [];
+    renderRecentActivity();
+  }
+  if (e.key === 'frozen_sales') {
+    salesHistory = JSON.parse(e.newValue) || [];
+    renderSalesHistory();
+  }
 });
 
 window.addEventListener('DOMContentLoaded', () => {
   const remembered = localStorage.getItem('frozen_remembered_email');
   if(remembered) { document.getElementById('loginEmail').value = remembered; document.getElementById('rememberDevice').checked = true; }
   renderLowStockAlerts();
+  renderRecentActivity();
+  populateAdjustmentProducts();
+  populateAdjustmentReasons();
 });
 
 document.getElementById('signupForm').addEventListener('submit', (e) => { 
   e.preventDefault();
+  const signupFields = ['signupName', 'signupEmail', 'signupPassword'];
+  clearFormErrors(signupFields);
   const email = document.getElementById('signupEmail').value.trim();
   const pass = document.getElementById('signupPassword').value;
-  const name = document.getElementById('signupName').value.trim() || "New Staff";
-  if(registeredUsers.some(u => u.email === email)) { showToast("Email is already registered!"); return; }
+  const name = document.getElementById('signupName').value.trim();
+
+  let hasError = false;
+  const nameErr = validateRequired(name, 'Full name');
+  if (nameErr) { setFieldError('signupName', nameErr); hasError = true; }
+
+  const emailErr = validateEmailValue(email);
+  if (emailErr) { setFieldError('signupEmail', emailErr); hasError = true; }
+  else if (registeredUsers.some(u => u.email.toLowerCase() === email.toLowerCase())) {
+    setFieldError('signupEmail', 'This email is already registered. Try logging in instead.');
+    hasError = true;
+  }
+
+  if (!pass) { setFieldError('signupPassword', 'Password is required.'); hasError = true; }
+  else if (pass.length < 8) { setFieldError('signupPassword', 'Password must be at least 8 characters.'); hasError = true; }
+
+  if (hasError) { focusFirstError(signupFields); return; }
+
   registeredUsers.push({ email, pass, name });
   saveUsersToStorage();
   document.getElementById('signupForm').reset();
+  renderPasswordStrength('signupPasswordStrength', null, '');
+  clearFormErrors(signupFields);
   showLoginPanel();
   showToast("Account created successfully!");
 });
+wireLiveClear('signupName');
+wireLiveClear('signupEmail');
+
+function resetToDashboard() {
+  switchPage('dashboard', null);
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.mob-nav-item').forEach(el => el.classList.remove('active'));
+  const desktopDashBtn = document.querySelector(`.nav-item[onclick*="'dashboard'"]`);
+  const mobileDashBtn = document.querySelector(`.mob-nav-item[onclick*="'dashboard'"]`);
+  if (desktopDashBtn) desktopDashBtn.classList.add('active');
+  if (mobileDashBtn) mobileDashBtn.classList.add('active');
+}
 
 function loginSuccess(name, email) {
   document.getElementById('authShell').classList.add('hidden');
@@ -1272,6 +1749,7 @@ function loginSuccess(name, email) {
   document.getElementById('userProfileName').textContent = name;
   document.getElementById('settingsProfileName').textContent = name;
   document.getElementById('settingsProfileEmail').textContent = email;
+  resetToDashboard();
   showToast(`Welcome, ${name}!`);
   renderCatalog();
 }
@@ -1284,11 +1762,22 @@ function logout() {
   document.getElementById('systemSettingsModal').classList.add('hidden');
   document.getElementById('catalogModalOverlay').classList.add('hidden');
   localStorage.removeItem('frozen_current_user');
+  resetToDashboard();
   showLoginPanel(); 
   showToast("Logged out successfully"); 
 }
 
+let currentPage = 'dashboard';
+function syncNavHighlight(pageId) {
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  const desktopBtn = document.querySelector(`.nav-item[onclick*="'${pageId}'"]`);
+  if (desktopBtn) desktopBtn.classList.add('active');
+  document.querySelectorAll('.mob-nav-item').forEach(el => el.classList.remove('active'));
+  const mobileBtn = document.querySelector(`.mob-nav-item[onclick*="'${pageId}'"]`);
+  if (mobileBtn) mobileBtn.classList.add('active');
+}
 function switchPage(pageId, btn, isMobile = false) {
+  currentPage = pageId;
   if (isMobile) {
     document.querySelectorAll('.mob-nav-item').forEach(el => el.classList.remove('active'));
     if(btn) btn.classList.add('active');
@@ -1296,31 +1785,214 @@ function switchPage(pageId, btn, isMobile = false) {
     document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
     if(btn) btn.classList.add('active');
   }
-  ['dashboard', 'sales', 'adjustment'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
+  ['dashboard', 'sales', 'adjustment', 'suppliers', 'reports'].forEach(p => document.getElementById(`page-${p}`).classList.add('hidden'));
   document.getElementById(`page-${pageId}`).classList.remove('hidden');
-  const titles = { dashboard: 'Dashboard', sales: 'Sales', adjustment: 'Adjustment' };
+  const titles = { dashboard: 'Dashboard', sales: 'Sales', adjustment: 'Adjustment', suppliers: 'Suppliers', reports: 'Reports' };
   const titleEl = document.getElementById('pageHeaderTitle');
   if (titleEl) {
     const icon = '';
     titleEl.innerHTML = `${icon}${titles[pageId] || 'Dashboard'}`;
   }
   if (pageId === 'sales') { populateSaleProductOptions(); renderSalesHistory(); }
+  if (pageId === 'dashboard') { renderRecentActivity(); }
+  if (pageId === 'adjustment') { populateAdjustmentProducts(); populateAdjustmentReasons(); }
+  if (pageId === 'suppliers') { renderSuppliers(); }
+  if (pageId === 'reports') { renderReports(); }
 }
 
-function openSystemSettingsModal() { document.getElementById('systemSettingsModal').classList.remove('hidden'); }
+function goToQuickAction(pageId) {
+  const desktopBtn = document.querySelector(`.nav-item[onclick*="'${pageId}'"]`);
+  const mobileBtn = document.querySelector(`.mob-nav-item[onclick*="'${pageId}'"]`);
+  switchPage(pageId, window.innerWidth <= 768 ? mobileBtn : desktopBtn, window.innerWidth <= 768);
+}
+
+let reportRange = 'today';
+function setReportRange(range, btn) {
+  reportRange = range;
+  document.querySelectorAll('#reportsRangeRow .filter-btn').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  renderReports();
+}
+function getFilteredSales() {
+  if (reportRange === 'all') return salesHistory;
+  const now = new Date();
+  return salesHistory.filter(tx => {
+    const d = new Date(tx.date);
+    if (reportRange === 'today') return d.toDateString() === now.toDateString();
+    if (reportRange === 'week') { const diffDays = (now - d) / 86400000; return diffDays >= 0 && diffDays < 7; }
+    if (reportRange === 'month') return d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+    return true;
+  });
+}
+function renderReports() {
+  const list = getFilteredSales();
+  const totalSales = list.reduce((s, tx) => s + tx.total, 0);
+  const itemsSold = list.reduce((s, tx) => s + (tx.items || []).reduce((si, i) => si + i.quantity, 0), 0);
+  document.getElementById('reportsTotalSales').textContent = `₱${totalSales.toFixed(2)}`;
+  document.getElementById('reportsTxCount').textContent = list.length;
+  document.getElementById('reportsItemsSold').textContent = itemsSold;
+
+  const listEl = document.getElementById('reportsHistoryList');
+  if (list.length === 0) {
+    listEl.innerHTML = `<div class="reports-empty-note">No transactions in this range.</div>`;
+    return;
+  }
+  listEl.innerHTML = list.map(tx => {
+    const when = new Date(tx.date).toLocaleString(undefined, { year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    const items = tx.items || [];
+    const label = items.length === 1 ? items[0].productName : `${items.length} items`;
+    const detail = items.map(i => `${i.productName} ×${i.quantity}`).join(', ');
+    return `
+      <div class="activity-item">
+        <div class="activity-icon"><i class="fa-solid fa-receipt"></i></div>
+        <div class="activity-main"><strong>${escapeHtml(label)}</strong><span title="${escapeHtml(detail)}">${detail.length > 42 ? escapeHtml(detail.slice(0, 42)) + '…' : escapeHtml(detail)} • ${when}</span></div>
+        <div class="activity-value">₱${tx.total.toFixed(2)}</div>
+      </div>`;
+  }).join('');
+}
+function exportReportsCSV() {
+  const list = getFilteredSales();
+  if (list.length === 0) { showToast('No transactions to export.'); return; }
+  const rows = [['Date', 'Product', 'Quantity', 'Unit Price', 'Line Total', 'Transaction Total']];
+  list.forEach(tx => {
+    (tx.items || []).forEach(i => {
+      rows.push([new Date(tx.date).toLocaleString(), i.productName, i.quantity, i.unitPrice, i.total, tx.total]);
+    });
+  });
+  const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(',')).join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = `sales-report-${reportRange}-${Date.now()}.csv`;
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  showToast('Report exported successfully!');
+}
+
+let appSettings = JSON.parse(localStorage.getItem('frozen_app_settings')) || { lowStock: true, tempAlerts: true, orderUpdates: false, biometric: false };
+function saveAppSetting(key, value) {
+  appSettings[key] = value;
+  localStorage.setItem('frozen_app_settings', JSON.stringify(appSettings));
+  showToast('Preference saved.');
+}
+function loadAppSettingsIntoUI() {
+  document.getElementById('settingLowStock').checked = !!appSettings.lowStock;
+  document.getElementById('settingTempAlerts').checked = !!appSettings.tempAlerts;
+  document.getElementById('settingOrderUpdates').checked = !!appSettings.orderUpdates;
+  document.getElementById('settingBiometric').checked = !!appSettings.biometric;
+}
+
+let unitConfigs = JSON.parse(localStorage.getItem('frozen_units')) || [
+  { name: 'Freezer Alpha', target: -18.0 },
+  { name: 'Freezer Beta', target: -22.5 },
+  { name: 'Cold Room C', target: 4.0 }
+];
+function saveUnitsToStorage() { localStorage.setItem('frozen_units', JSON.stringify(unitConfigs)); }
+function renderUnitConfigs() {
+  const listEl = document.getElementById('settingsUnitList');
+  if (!listEl) return;
+  if (unitConfigs.length === 0) {
+    listEl.innerHTML = `<div class="settings-unit-row"><span style="opacity:.7;">No units configured yet.</span></div>`;
+    return;
+  }
+  listEl.innerHTML = unitConfigs.map((u, idx) => {
+    const warm = u.target >= 0;
+    return `<div class="settings-unit-row">
+      <span>${escapeHtml(u.name)}</span>
+      <span style="display:flex; align-items:center; gap:8px;">
+        <span class="settings-unit-badge${warm ? ' warm' : ''}">TARGET ${u.target >= 0 ? '+' : ''}${Number(u.target).toFixed(1)}°C</span>
+        <i class="fa-solid fa-trash" style="cursor:pointer; opacity:.6; font-size:11px;" onclick="removeUnitConfig(${idx})"></i>
+      </span>
+    </div>`;
+  }).join('');
+}
+function removeUnitConfig(idx) {
+  unitConfigs.splice(idx, 1);
+  saveUnitsToStorage();
+  renderUnitConfigs();
+  showToast('Unit config removed.');
+}
+function openAddUnitModal() {
+  document.getElementById('addUnitForm').reset();
+  clearFormErrors(['newUnitName', 'newUnitTemp']);
+  document.getElementById('addUnitModal').classList.remove('hidden');
+}
+function closeAddUnitModal() { document.getElementById('addUnitModal').classList.add('hidden'); }
+document.getElementById('addUnitForm').addEventListener('submit', (e) => {
+  e.preventDefault();
+  const fields = ['newUnitName', 'newUnitTemp'];
+  clearFormErrors(fields);
+  const name = document.getElementById('newUnitName').value.trim();
+  const tempRaw = document.getElementById('newUnitTemp').value;
+  const temp = parseFloat(tempRaw);
+
+  let hasError = false;
+  const nameErr = validateRequired(name, 'Unit name');
+  if (nameErr) { setFieldError('newUnitName', nameErr); hasError = true; }
+  if (!tempRaw || Number.isNaN(temp)) { setFieldError('newUnitTemp', 'Enter a valid target temperature.'); hasError = true; }
+  if (hasError) { focusFirstError(fields); return; }
+
+  unitConfigs.push({ name, target: temp });
+  saveUnitsToStorage();
+  renderUnitConfigs();
+  closeAddUnitModal();
+  showToast('Unit config added.');
+});
+wireLiveClear('newUnitName');
+wireLiveClear('newUnitTemp');
+
+function handleAvatarChange(input) {
+  if (!input.files || !input.files[0]) return;
+  const reader = new FileReader();
+  reader.onload = (event) => {
+    document.getElementById('settingsAvatarImg').src = event.target.result;
+    if (currentUserEmail) localStorage.setItem('frozen_avatar_' + currentUserEmail, event.target.result);
+    showToast('Profile photo updated!');
+  };
+  reader.onerror = () => showToast('Could not read the selected photo.');
+  reader.readAsDataURL(input.files[0]);
+}
+function loadAvatarForUser(email) {
+  const saved = email && localStorage.getItem('frozen_avatar_' + email);
+  if (saved) document.getElementById('settingsAvatarImg').src = saved;
+}
+
+function openSystemSettingsModal() {
+  loadAppSettingsIntoUI();
+  renderUnitConfigs();
+  loadAvatarForUser(currentUserEmail);
+  document.getElementById('systemSettingsModal').classList.remove('hidden');
+}
 function closeSystemSettingsModal() { document.getElementById('systemSettingsModal').classList.add('hidden'); }
 function openEditProfileModal() {
   const user = registeredUsers.find(u => u.email === currentUserEmail) || registeredUsers[0];
   document.getElementById('editProfileNameInput').value = user.name;
   document.getElementById('editProfileEmailInput').value = user.email;
+  clearFormErrors(['editProfileNameInput', 'editProfileEmailInput']);
   document.getElementById('editProfileModal').classList.remove('hidden');
 }
 function closeEditProfileModal() { document.getElementById('editProfileModal').classList.add('hidden'); }
 
 document.getElementById('editProfileForm').addEventListener('submit', (e) => {
   e.preventDefault();
+  const profileFields = ['editProfileNameInput', 'editProfileEmailInput'];
+  clearFormErrors(profileFields);
   const newName = document.getElementById('editProfileNameInput').value.trim();
   const newEmail = document.getElementById('editProfileEmailInput').value.trim();
+
+  let hasError = false;
+  const nameErr = validateRequired(newName, 'Full name');
+  if (nameErr) { setFieldError('editProfileNameInput', nameErr); hasError = true; }
+
+  const emailErr = validateEmailValue(newEmail);
+  if (emailErr) { setFieldError('editProfileEmailInput', emailErr); hasError = true; }
+  else if (registeredUsers.some(u => u.email.toLowerCase() === newEmail.toLowerCase() && u.email !== currentUserEmail)) {
+    setFieldError('editProfileEmailInput', 'This email is already used by another account.');
+    hasError = true;
+  }
+
+  if (hasError) { focusFirstError(profileFields); return; }
+
   let user = registeredUsers.find(u => u.email === currentUserEmail);
   if (user) {
     user.name = newName; user.email = newEmail; currentUserEmail = newEmail;
@@ -1332,23 +2004,46 @@ document.getElementById('editProfileForm').addEventListener('submit', (e) => {
     showToast("Profile updated successfully!");
   }
 });
+wireLiveClear('editProfileNameInput');
+wireLiveClear('editProfileEmailInput');
 
-function openChangePasswordModal() { document.getElementById('changePasswordForm').reset(); document.getElementById('changePasswordModal').classList.remove('hidden'); }
+function openChangePasswordModal() {
+  document.getElementById('changePasswordForm').reset();
+  clearFormErrors(['currentPasswordInput', 'newPasswordInput']);
+  renderPasswordStrength('newPasswordStrength', null, '');
+  document.getElementById('changePasswordModal').classList.remove('hidden');
+}
 function closeChangePasswordModal() { document.getElementById('changePasswordModal').classList.add('hidden'); }
 
 document.getElementById('changePasswordForm').addEventListener('submit', (e) => {
   e.preventDefault();
+  const pwFields = ['currentPasswordInput', 'newPasswordInput'];
+  clearFormErrors(pwFields);
   const currentPass = document.getElementById('currentPasswordInput').value;
   const newPass = document.getElementById('newPasswordInput').value;
+
+  let hasError = false;
+  if (!currentPass) { setFieldError('currentPasswordInput', 'Current password is required.'); hasError = true; }
+  if (!newPass) { setFieldError('newPasswordInput', 'New password is required.'); hasError = true; }
+  else if (newPass.length < 8) { setFieldError('newPasswordInput', 'New password must be at least 8 characters.'); hasError = true; }
+  else if (currentPass && newPass === currentPass) { setFieldError('newPasswordInput', 'New password must be different from the current password.'); hasError = true; }
+
+  if (hasError) { focusFirstError(pwFields); return; }
+
   let user = registeredUsers.find(u => u.email === currentUserEmail);
   if (user) {
-    if (user.pass !== currentPass && user.pass !== "googleauth") { showToast("Incorrect current password!"); return; }
+    if (user.pass !== currentPass && user.pass !== "googleauth") {
+      setFieldError('currentPasswordInput', 'Incorrect current password.');
+      focusFirstError(pwFields);
+      return;
+    }
     user.pass = newPass; saveUsersToStorage(); closeChangePasswordModal(); showToast("Password updated successfully!");
   }
 });
+wireLiveClear('currentPasswordInput');
 
 function openCatalogModal() { document.getElementById('catalogModalOverlay').classList.remove('hidden'); renderCatalog(); }
-function closeCatalogModal() { document.getElementById('catalogModalOverlay').classList.add('hidden'); switchPage('dashboard', document.querySelector('.nav-item')); }
+function closeCatalogModal() { document.getElementById('catalogModalOverlay').classList.add('hidden'); syncNavHighlight(currentPage); }
 
 let catalogFilter = 'all';
 function setCatalogFilter(filter, btn) {
@@ -1384,8 +2079,49 @@ function getStockInfo(item) {
 function getLowStockProducts() {
   return products.filter(p => getStockInfo(p).pct < LOW_STOCK_THRESHOLD_PCT);
 }
+function formatCurrencyShort(amount) {
+  if (amount >= 1000000) return '₱' + (amount / 1000000).toFixed(2) + 'M';
+  if (amount >= 1000) return '₱' + (amount / 1000).toFixed(2) + 'K';
+  return '₱' + amount.toFixed(2);
+}
+function computeTotalInventoryValue() {
+  return products.reduce((sum, p) => {
+    const { current } = getStockInfo(p);
+    return sum + (Number(p.price) || 0) * current;
+  }, 0);
+}
+function renderInventoryValue() {
+  const el = document.getElementById('totalInventoryValue');
+  if (!el) return;
+  el.textContent = formatCurrencyShort(computeTotalInventoryValue());
+}
+const CRITICAL_TEMP_C = -16;
+function getCriticalTempProducts() {
+  return products.filter(p => {
+    const match = String(p.temp).match(/(-?\d+)/);
+    if (!match) return false;
+    return parseInt(match[1], 10) >= CRITICAL_TEMP_C;
+  });
+}
+function renderCriticalAlerts() {
+  const listEl = document.getElementById('criticalTempAlertsList');
+  if (!listEl) return;
+  const criticalItems = getCriticalTempProducts();
+  if (criticalItems.length === 0) {
+    listEl.innerHTML = '<div class="alert-banner" style="background:#bfe8c0;border-color:#8fd191;color:#14532d;"><strong>All Zones Normal:</strong> No critical temperature readings at this time.</div>';
+  } else {
+    listEl.innerHTML = criticalItems.map(item => {
+      const match = String(item.temp).match(/(-?\d+)/);
+      const tempVal = match ? match[1] : '?';
+      return `<div class="alert-banner"><strong>${escapeHtml(item.name)}:</strong> Temperature critical. Target is -18°C or colder. Immediate action required. <strong style="float:right;">${tempVal}°C</strong></div>`;
+    }).join('');
+  }
+}
 function renderLowStockAlerts() {
   const countEl = document.getElementById('lowStockCount');
+  renderInventoryValue();
+  renderCriticalAlerts();
+  renderPendingStat();
   if (!countEl) return;
   const lowStockItems = getLowStockProducts();
   countEl.textContent = lowStockItems.length;
@@ -1404,6 +2140,7 @@ function renderLowStockAlerts() {
 }
 function renderCatalog() {
   renderLowStockAlerts();
+  populateAdjustmentProducts();
   const searchQuery = (document.getElementById('catalogSearch')?.value || '').toLowerCase();
   const filtered = products.filter(item => productMatchesFilter(item) && item.name.toLowerCase().includes(searchQuery));
   const gridEl = document.getElementById('catalogGrid');
@@ -1430,6 +2167,119 @@ function renderCatalog() {
       </div>`;
   }).join('');
 }
+let adjustmentType = 'add';
+const ADJ_REASONS = {
+  add: [
+    ['delivery', 'New Delivery / Restock'],
+    ['return', 'Customer Return'],
+    ['audit', 'Inventory Audit Correction']
+  ],
+  remove: [
+    ['damaged', 'Damaged / Expired'],
+    ['audit', 'Inventory Audit Correction'],
+    ['other', 'Other']
+  ]
+};
+function populateAdjustmentProducts() {
+  const sel = document.getElementById('adjProduct');
+  if (!sel) return;
+  const prev = sel.value;
+  if (products.length === 0) {
+    sel.innerHTML = '<option value="">No products available</option>';
+  } else {
+    sel.innerHTML = products.map((p, idx) => `<option value="${idx}">${escapeHtml(p.name)} (Stock: ${getStockParts(p.stock).current}/${getStockParts(p.stock).max})</option>`).join('');
+    if (prev !== '' && products[prev]) sel.value = prev;
+  }
+  updateAdjustmentNote();
+}
+function populateAdjustmentReasons() {
+  const sel = document.getElementById('adjReason');
+  if (!sel) return;
+  sel.innerHTML = '<option value="" disabled selected>Select a reason...</option>' +
+    ADJ_REASONS[adjustmentType].map(([v, label]) => `<option value="${v}">${label}</option>`).join('');
+}
+function setAdjustmentType(type) {
+  adjustmentType = type === 'remove' ? 'remove' : 'add';
+  const addBtn = document.getElementById('adjAddBtn');
+  const remBtn = document.getElementById('adjRemoveBtn');
+  addBtn.className = 'adj-toggle-btn' + (adjustmentType === 'add' ? ' active-add' : '');
+  remBtn.className = 'adj-toggle-btn' + (adjustmentType === 'remove' ? ' active-remove-type' : '');
+  populateAdjustmentReasons();
+  updateAdjustmentNote();
+}
+function normalizeAdjQuantity() {
+  const q = document.getElementById('adjQuantity');
+  const n = parseInt(q.value, 10);
+  q.value = (Number.isNaN(n) || n < 1) ? 1 : n;
+  updateAdjustmentNote();
+}
+function updateAdjustmentNote() {
+  const noteEl = document.getElementById('adjStockNote');
+  const sel = document.getElementById('adjProduct');
+  if (!noteEl || !sel) return;
+  const product = products[sel.value];
+  if (!product) { noteEl.textContent = ''; return; }
+  const { current, max } = getStockParts(product.stock);
+  const qty = parseInt(document.getElementById('adjQuantity').value, 10);
+  const valid = !Number.isNaN(qty) && qty >= 1;
+  if (adjustmentType === 'remove' && valid && qty > current) {
+    noteEl.innerHTML = `<span class="err">Only ${current} in stock — reduce quantity.</span>`;
+  } else if (valid) {
+    const result = adjustmentType === 'add' ? current + qty : current - qty;
+    noteEl.textContent = `Current stock: ${current}/${max}  →  After: ${result}/${max === 0 ? Math.max(result, 0) : Math.max(max, result)}`;
+  } else {
+    noteEl.textContent = `Current stock: ${current}/${max}`;
+  }
+}
+function applyStockAdjustment() {
+  const adjFields = ['adjProduct', 'adjQuantity', 'adjReason', 'adjZone'];
+  clearFormErrors(adjFields);
+  const sel = document.getElementById('adjProduct');
+  const qtyInput = document.getElementById('adjQuantity');
+  const reasonSel = document.getElementById('adjReason');
+  const zone = document.getElementById('adjZone').value.trim();
+  const notes = document.getElementById('adjNotes').value.trim();
+
+  let hasError = false;
+  if (!sel || sel.value === '' || !products[sel.value]) { setFieldError('adjProduct', 'Please select a product.'); hasError = true; }
+  const qty = parseInt(qtyInput.value, 10);
+  if (Number.isNaN(qty) || qty < 1) { setFieldError('adjQuantity', 'Enter a quantity of at least 1.'); hasError = true; }
+  if (!reasonSel.value) { setFieldError('adjReason', 'Please select a reason.'); hasError = true; }
+  if (zone && !/^[A-Za-z0-9\- ]{2,20}$/.test(zone)) { setFieldError('adjZone', 'Use letters, numbers, and dashes only (e.g. FZ-A1).'); hasError = true; }
+  if (hasError) { focusFirstError(adjFields); return; }
+
+  const idx = Number(sel.value);
+  const product = products[idx];
+  const { current, max } = getStockParts(product.stock);
+  let newCurrent, newMax = max;
+  if (adjustmentType === 'remove') {
+    if (qty > current) { setFieldError('adjQuantity', `Not enough stock. Only ${current} available.`); focusFirstError(adjFields); return; }
+    newCurrent = current - qty;
+  } else {
+    newCurrent = current + qty;
+    if (newCurrent > newMax) newMax = newCurrent;
+  }
+  products[idx] = { ...product, stock: `${newCurrent}/${newMax}` };
+  saveProductsToStorage();
+
+  const reasonLabel = reasonSel.options[reasonSel.selectedIndex].text;
+  const extra = [reasonLabel, zone ? `Zone ${zone}` : '', notes].filter(Boolean).join(' · ');
+  const isAdd = adjustmentType === 'add';
+  logActivity(isAdd ? 'Stock Added' : 'Stock Removed', `${product.name} — ${extra}`, `${isAdd ? '+' : '-'}${qty}`, isAdd ? 'added' : 'removed');
+
+  renderCatalog();
+  populateAdjustmentProducts();
+  qtyInput.value = 1;
+  document.getElementById('adjZone').value = '';
+  document.getElementById('adjNotes').value = '';
+  reasonSel.value = '';
+  updateAdjustmentNote();
+  showToast(`${isAdd ? 'Added' : 'Removed'} ${qty} × ${product.name}.`);
+}
+wireLiveClear('adjProduct');
+wireLiveClear('adjQuantity');
+wireLiveClear('adjReason');
+wireLiveClear('adjZone');
 function handleAdjustmentTypeClick(type) {
   const addBtn = document.getElementById('adjAddBtn');
   const remBtn = document.getElementById('adjRemoveBtn');
@@ -1439,7 +2289,11 @@ function handleAdjustmentTypeClick(type) {
     remBtn.className = "adj-toggle-btn active-add"; addBtn.className = "adj-toggle-btn active-remove"; openRemoveProductModal();
   }
 }
-function openAddProductModal() { document.getElementById('addProductModal').classList.remove('hidden'); }
+function openAddProductModal() {
+  document.getElementById('addProductForm').reset();
+  clearFormErrors(['newProdName', 'newProdPrice', 'newProdStock', 'newProdTemp']);
+  document.getElementById('addProductModal').classList.remove('hidden');
+}
 function openRemoveProductModal() {
   const selectEl = document.getElementById('removeProductSelect');
   selectEl.innerHTML = products.map((p, idx) => `<option value="${idx}">${p.name} (Stock: ${p.stock})</option>`).join('');
@@ -1455,17 +2309,37 @@ function closeRemoveProductModal() {
   document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
   document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
 }
+const STOCK_FORMAT_RE = /^\d+\s*\/\s*\d+$/;
 document.getElementById('addProductForm').addEventListener('submit', (e) => {
   e.preventDefault();
+  const prodFields = ['newProdName', 'newProdPrice', 'newProdStock', 'newProdTemp'];
+  clearFormErrors(prodFields);
   const name = document.getElementById('newProdName').value.trim();
-  const price = parseFloat(document.getElementById('newProdPrice').value);
+  const priceRaw = document.getElementById('newProdPrice').value;
+  const price = parseFloat(priceRaw);
   const stock = document.getElementById('newProdStock').value.trim();
   const temp = document.getElementById('newProdTemp').value.trim();
   const fileInput = document.getElementById('newProdFile');
-  if (!name || Number.isNaN(price) || !stock || !temp) { showToast("Please complete all required fields."); return; }
+
+  let hasError = false;
+  const nameErr = validateRequired(name, 'Product name');
+  if (nameErr) { setFieldError('newProdName', nameErr); hasError = true; }
+
+  if (!priceRaw || Number.isNaN(price)) { setFieldError('newProdPrice', 'Enter a valid price.'); hasError = true; }
+  else if (price < 0) { setFieldError('newProdPrice', 'Price cannot be negative.'); hasError = true; }
+
+  if (!stock) { setFieldError('newProdStock', 'Quantity is required.'); hasError = true; }
+  else if (!STOCK_FORMAT_RE.test(stock)) { setFieldError('newProdStock', 'Use the format current/max, e.g. 45/100.'); hasError = true; }
+
+  const tempErr = validateRequired(temp, 'Temperature tag');
+  if (tempErr) { setFieldError('newProdTemp', tempErr); hasError = true; }
+
+  if (hasError) { focusFirstError(prodFields); return; }
+
   const saveAndRender = (img) => {
     products.push({ name, price, stock, temp, img });
     saveProductsToStorage(); renderCatalog(); closeAddProductModal();
+    logActivity('Product Added', name, `+${getStockParts(stock).current}`, 'added');
     document.getElementById('addProductForm').reset();
     showToast("Product added successfully!");
   };
@@ -1476,6 +2350,10 @@ document.getElementById('addProductForm').addEventListener('submit', (e) => {
     reader.readAsDataURL(fileInput.files[0]);
   } else { saveAndRender("https://images.unsplash.com/photo-1544025162-d76694265947?w=300"); }
 });
+wireLiveClear('newProdName');
+wireLiveClear('newProdPrice');
+wireLiveClear('newProdStock');
+wireLiveClear('newProdTemp');
 function openEditProductModal(idx) {
   const item = products[idx];
   if (!item) return;
@@ -1485,6 +2363,7 @@ function openEditProductModal(idx) {
   document.getElementById('editProdStock').value = item.stock;
   document.getElementById('editProdTemp').value = item.temp;
   document.getElementById('editProdFile').value = '';
+  clearFormErrors(['editProdName', 'editProdPrice', 'editProdStock', 'editProdTemp']);
   document.getElementById('editProductModal').classList.remove('hidden');
 }
 function closeEditProductModal() {
@@ -1493,16 +2372,41 @@ function closeEditProductModal() {
 }
 document.getElementById('editProductForm').addEventListener('submit', (e) => {
   e.preventDefault();
+  const editProdFields = ['editProdName', 'editProdPrice', 'editProdStock', 'editProdTemp'];
+  clearFormErrors(editProdFields);
   const idx = Number(document.getElementById('editProdIndex').value);
   const name = document.getElementById('editProdName').value.trim();
-  const price = parseFloat(document.getElementById('editProdPrice').value);
+  const priceRaw = document.getElementById('editProdPrice').value;
+  const price = parseFloat(priceRaw);
   const stock = document.getElementById('editProdStock').value.trim();
   const temp = document.getElementById('editProdTemp').value.trim();
   const fileInput = document.getElementById('editProdFile');
-  if (!name || Number.isNaN(price) || !stock || !temp || !products[idx]) { showToast("Please complete all required fields."); return; }
+
+  let hasError = false;
+  const nameErr = validateRequired(name, 'Product name');
+  if (nameErr) { setFieldError('editProdName', nameErr); hasError = true; }
+
+  if (!priceRaw || Number.isNaN(price)) { setFieldError('editProdPrice', 'Enter a valid price.'); hasError = true; }
+  else if (price < 0) { setFieldError('editProdPrice', 'Price cannot be negative.'); hasError = true; }
+
+  if (!stock) { setFieldError('editProdStock', 'Quantity is required.'); hasError = true; }
+  else if (!STOCK_FORMAT_RE.test(stock)) { setFieldError('editProdStock', 'Use the format current/max, e.g. 45/100.'); hasError = true; }
+
+  const tempErr = validateRequired(temp, 'Temperature tag');
+  if (tempErr) { setFieldError('editProdTemp', tempErr); hasError = true; }
+
+  if (!products[idx]) { showToast("Product not found."); return; }
+  if (hasError) { focusFirstError(editProdFields); return; }
+
   const applyAndSave = (img) => {
+    const before = products[idx];
+    const oldQty = getStockParts(before.stock).current;
+    const newQty = getStockParts(stock).current;
     products[idx] = { ...products[idx], name, price, stock, temp, img };
     saveProductsToStorage(); renderCatalog(); closeEditProductModal();
+    if (newQty > oldQty) logActivity('Stock Added', name, `+${newQty - oldQty}`, 'added');
+    else if (newQty < oldQty) logActivity('Stock Removed', name, `-${oldQty - newQty}`, 'removed');
+    else logActivity('Product Edited', name, '', 'edited');
     showToast("Product updated successfully!");
   };
   if (fileInput && fileInput.files && fileInput.files[0]) {
@@ -1512,12 +2416,62 @@ document.getElementById('editProductForm').addEventListener('submit', (e) => {
     reader.readAsDataURL(fileInput.files[0]);
   } else { applyAndSave(products[idx].img); }
 });
+wireLiveClear('editProdName');
+wireLiveClear('editProdPrice');
+wireLiveClear('editProdStock');
+wireLiveClear('editProdTemp');
 function askConfirmRemoveProduct() {
   const selectEl = document.getElementById('removeProductSelect');
   const idx = selectEl.value;
   if (idx === "" || !products[idx]) return;
   document.getElementById('confirmDeleteProdName').textContent = products[idx].name;
   document.getElementById('confirmDeleteModal').classList.remove('hidden');
+}
+function escapeAttr(s) { return String(s).replace(/'/g, "\\'"); }
+function renderSuppliers() {
+  const grid = document.getElementById('suppliersGrid');
+  if (!grid) return;
+  grid.innerHTML = suppliers.map((s, idx) => {
+    const statusLabel = s.status === 'delayed' ? 'Order Pending' : 'On Time';
+    const detailRows = s.status === 'delayed'
+      ? `<div><span>Next Delivery</span><strong>${escapeHtml(s.nextDelivery || 'TBD')}</strong></div><div><span>Action Req</span><strong>${escapeHtml(s.actionReq || '—')}</strong></div>`
+      : `<div><span>Next Delivery</span><strong>${escapeHtml(s.nextDelivery || 'TBD')}</strong></div><div><span>Volume</span><strong>${escapeHtml(s.volume || '—')}</strong></div>`;
+    return `
+      <div class="supplier-card">
+        <div class="sup-top-row">
+          <div><div class="sup-name">${escapeHtml(s.name)}</div><div class="sup-contact">Contact: ${escapeHtml(s.contact)}</div></div>
+          <span class="sup-status-badge ${s.status}">${statusLabel}</span>
+        </div>
+        <div class="sup-details-box">${detailRows}</div>
+        <div class="sup-actions">
+          <button class="sup-btn" onclick="callSupplier(${idx})"><i class="fa-solid fa-phone"></i> Call</button>
+          <button class="sup-btn" onclick="emailSupplier(${idx})"><i class="fa-solid fa-envelope"></i> Email Order</button>
+        </div>
+      </div>`;
+  }).join('');
+  filterSuppliers();
+  renderPendingStat();
+}
+function callSupplier(idx) {
+  const s = suppliers[idx];
+  if (!s) return;
+  showToast(`Calling ${s.name} (${s.phone})...`);
+}
+function emailSupplier(idx) {
+  const s = suppliers[idx];
+  if (!s) return;
+  showToast(`Email order sent to ${s.name} (${s.email})`);
+}
+function renderPendingStat() {
+  const el = document.getElementById('pendingDeliveryCount');
+  if (!el) return;
+  el.textContent = suppliers.filter(s => s.status === 'delayed').length;
+}
+function filterSuppliers() {
+  const q = (document.getElementById('supplierSearch')?.value || '').trim().toLowerCase();
+  document.querySelectorAll('#suppliersGrid .supplier-card').forEach(card => {
+    card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
 }
 function closeConfirmDeleteModal() {
   document.getElementById('confirmDeleteModal').classList.add('hidden');
@@ -1527,12 +2481,14 @@ function confirmRemoveProduct() {
   const idx = selectEl.value;
   if(idx === "" || !products[idx]) return;
   const removedName = products[idx].name;
+  const removedQty = getStockParts(products[idx].stock).current;
   products.splice(idx, 1);
   saveProductsToStorage(); renderCatalog();
+  logActivity('Product Removed', removedName, removedQty ? `-${removedQty}` : '', 'removed');
   closeConfirmDeleteModal();
   closeRemoveProductModal();
   showToast(`Removed "${removedName}" from inventory.`);
 }
 </script>
 </body>
-</html>
+          </html>
