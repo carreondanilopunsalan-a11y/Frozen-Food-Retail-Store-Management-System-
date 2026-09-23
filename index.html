@@ -1603,14 +1603,16 @@ function togglePassword(inputId, icon) {
   if (input.type === 'password') { input.type = 'text'; icon.classList.replace('fa-eye', 'fa-eye-slash'); }
   else { input.type = 'password'; icon.classList.replace('fa-eye-slash', 'fa-eye'); }
 }
-function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); document.getElementById('loginIntro').classList.add('hidden'); document.getElementById('signupIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('hidden'); document.querySelector('.auth-card').classList.add('signup-mode'); }
-function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); document.getElementById('signupIntro').classList.add('hidden'); document.getElementById('loginIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('signup-mode'); }
+function showSignupPanel() { document.getElementById('loginPanel').classList.add('hidden'); document.getElementById('signupPanel').classList.remove('hidden'); document.getElementById('loginIntro').classList.add('hidden'); document.getElementById('signupIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('hidden'); document.querySelector('.auth-card').classList.add('signup-mode'); clearFormErrors(['loginEmail','loginPassword']); clearFormErrors(['signupName','signupEmail','signupPassword']); }
+function showLoginPanel() { document.getElementById('signupPanel').classList.add('hidden'); document.getElementById('loginPanel').classList.remove('hidden'); document.getElementById('signupIntro').classList.add('hidden'); document.getElementById('loginIntro').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('hidden'); document.querySelector('.auth-card').classList.remove('signup-mode'); clearFormErrors(['loginEmail','loginPassword']); clearFormErrors(['signupName','signupEmail','signupPassword']); }
 function openGooglePicker() {
   renderGoogleAccounts();
   document.querySelector('.auth-card').classList.add('hidden');
   document.getElementById('loginIntro').classList.add('hidden');
   document.getElementById('signupIntro').classList.add('hidden');
   document.getElementById('googlePickerModal').classList.remove('hidden');
+  clearFormErrors(['loginEmail','loginPassword']);
+  clearFormErrors(['signupName','signupEmail','signupPassword']);
 }
 function renderGoogleAccounts() {
   document.getElementById('accountListContainer').innerHTML = googleAccounts.map(acc => `
@@ -2491,4 +2493,4 @@ function confirmRemoveProduct() {
 }
 </script>
 </body>
-          </html>
+  </html>
