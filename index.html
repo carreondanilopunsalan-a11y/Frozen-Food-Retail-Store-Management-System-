@@ -157,6 +157,10 @@ select.input-field.field-invalid, textarea.input-field.field-invalid { border-co
 .filter-row { display: flex; gap: 8px; overflow-x: auto; }
 .filter-btn { white-space: nowrap; padding: 8px 14px; border-radius: 6px; border: 1px solid #B0E0E6; background: white; color: var(--primary-blue); font-size: 12px; font-weight: 600; cursor: pointer; }
 .filter-btn.active { background: var(--primary-blue); border-color: var(--primary-blue); color: white; }
+.filter-btn.btn-add-prod { background: #1450c7; border-color: #1450c7; color: white; }
+.filter-btn.btn-add-prod:hover { background: #0f3fa0; border-color: #0f3fa0; }
+.filter-btn.btn-del-prod { background: #C62828; border-color: #C62828; color: white; }
+.filter-btn.btn-del-prod:hover { background: #a31f1f; border-color: #a31f1f; }
 .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 16px; position: relative; }
 .product-card { background: white; border-radius: 12px; border: 1px solid #B0E0E6; overflow: hidden; display: flex; flex-direction: column; position: relative; }
 .product-img { width: 100%; height: 140px; object-fit: fill; display: block; }
@@ -578,7 +582,7 @@ main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both;
         <div class="dash-panel" style="border:none;background:transparent;padding:0;margin-top:16px;">
           <h3>Quick Actions</h3>
           <div class="quick-actions">
-            <button type="button" class="quick-action" onclick="goToQuickAction('adjustment')"><i class="fa-solid fa-circle-plus"></i><span>Add Stock</span></button>
+            <button type="button" class="quick-action" onclick="goToAdjustment('add')"><i class="fa-solid fa-sliders"></i><span>Stock Adjustment</span></button>
             <button type="button" class="quick-action" onclick="goToQuickAction('adjustment')"><i class="fa-solid fa-barcode"></i><span>Scan Barcode</span></button>
             <button type="button" class="quick-action" onclick="goToQuickAction('reports')"><i class="fa-solid fa-chart-column"></i><span>Run Report</span></button>
           </div>
@@ -623,7 +627,7 @@ main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both;
           </div>
           <div class="adj-section-label">Adjustment Type</div>
           <div class="adj-type-toggle">
-            <button type="button" id="adjAddBtn" class="adj-toggle-btn active-add" onclick="handleAdjustmentTypeClick('add')"><i class="fa-solid fa-circle-plus"></i> Add Stock</button>
+            <button type="button" id="adjAddBtn" class="adj-toggle-btn active-add" onclick="handleAdjustmentTypeClick('add')"><i class="fa-solid fa-circle-plus"></i> Add</button>
             <button type="button" id="adjRemoveBtn" class="adj-toggle-btn active-remove" onclick="handleAdjustmentTypeClick('remove')"><i class="fa-solid fa-circle-minus"></i> Remove</button>
           </div>
           <div class="form-group" id="adjProductGroup">
@@ -700,6 +704,8 @@ main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both;
         </div>
         <div class="filter-row">
           <button type="button" class="filter-btn active" onclick="setCatalogFilter('all', this)">All Items</button>
+          <button type="button" class="filter-btn btn-add-prod" onclick="openAddProductModal()"><i class="fa-solid fa-circle-plus"></i> Add Product</button>
+          <button type="button" class="filter-btn btn-del-prod" onclick="openRemoveProductModal()"><i class="fa-solid fa-trash"></i> Delete Product</button>
         </div>
       </div>
       <div class="product-grid" id="catalogGrid"></div>
@@ -1231,7 +1237,7 @@ function populateSaleProductOptions() {
   const prevValue = sel.value;
   sel.innerHTML = products.map((p, idx) => {
     const { current } = getStockParts(p.stock);
-    return `<option value="${idx}">${p.name} — ₱${p.price} (Stock: ${current})</option>`;
+    return `<option value="${idx}">${escapeHtml(p.name)} — ₱${escapeHtml(p.price)} (Stock: ${current})</option>`;
   }).join('');
   if (prevValue !== '' && products[prevValue]) { sel.value = prevValue; }
   updateSaleTotal();
@@ -1275,7 +1281,7 @@ function populateDirectSaleProductOptions() {
   const prevValue = sel.value;
   sel.innerHTML = products.map((p, idx) => {
     const { current } = getStockParts(p.stock);
-    return `<option value="${idx}">${p.name} — ₱${p.price} (Stock: ${current})</option>`;
+    return `<option value="${idx}">${escapeHtml(p.name)} — ₱${escapeHtml(p.price)} (Stock: ${current})</option>`;
   }).join('');
   if (prevValue !== '' && products[prevValue]) { sel.value = prevValue; }
   updateDirectSaleTotal();
@@ -1448,7 +1454,7 @@ function renderCartModal() {
     return `
       <div class="cart-item-row">
         <div class="cart-item-info">
-          <strong>${item.name}</strong>
+          <strong>${escapeHtml(item.name)}</strong>
           <span>₱${item.unitPrice.toFixed(2)} each</span>
         </div>
         <div class="cart-item-qty-controls">
@@ -1467,6 +1473,7 @@ function changeCartQty(cartIdx, delta) {
   const item = cart[cartIdx];
   if (!item) return;
   const product = products[item.productIdx];
+  if (!product) { removeCartItem(cartIdx); return; }
   const { current } = getStockParts(product.stock);
   const newQty = item.qty + delta;
   if (newQty < 1) { removeCartItem(cartIdx); return; }
@@ -1486,8 +1493,12 @@ function checkoutCart() {
   if (cart.length === 0) { showToast("Your cart is empty."); return; }
   for (const item of cart) {
     const product = products[item.productIdx];
+    if (!product) {
+      showToast(`${item.name} is no longer available.`);
+      return;
+    }
     const { current } = getStockParts(product.stock);
-    if (!product || item.qty > current) {
+    if (item.qty > current) {
       showToast(`Not enough stock for ${item.name}.`);
       return;
     }
@@ -1552,14 +1563,14 @@ function renderSalesHistory() {
       return `
         <div class="activity-item">
           <div class="activity-icon"><i class="fa-solid fa-receipt"></i></div>
-          <div class="activity-main"><strong>${label}</strong><span title="${detail}">${detail.length > 42 ? detail.slice(0, 42) + '…' : detail} • ${when}</span></div>
+          <div class="activity-main"><strong>${escapeHtml(label)}</strong><span title="${escapeHtml(detail)}">${detail.length > 42 ? escapeHtml(detail.slice(0, 42)) + '…' : escapeHtml(detail)} • ${when}</span></div>
           <div class="activity-value">₱${tx.total.toFixed(2)}</div>
         </div>`;
     }
     return `
       <div class="activity-item">
         <div class="activity-icon"><i class="fa-solid fa-receipt"></i></div>
-        <div class="activity-main"><strong>${tx.productName}</strong><span>Qty ${tx.quantity} • ${when}</span></div>
+        <div class="activity-main"><strong>${escapeHtml(tx.productName)}</strong><span>Qty ${tx.quantity} • ${when}</span></div>
         <div class="activity-value">₱${tx.total.toFixed(2)}</div>
       </div>`;
   }).join('');
@@ -1587,11 +1598,15 @@ function openGooglePicker() {
   clearFormErrors(['signupName','signupEmail','signupPassword']);
 }
 function renderGoogleAccounts() {
-  document.getElementById('accountListContainer').innerHTML = googleAccounts.map(acc => `
-    <div class="google-account-item" onclick="selectGoogleAccount('${acc.email}', '${acc.name}')">
-      <div class="g-avatar" style="background:${acc.color}">${acc.initial}</div>
-      <div class="g-info"><div class="g-name">${acc.name}</div><div class="g-email">${acc.email}</div></div>
+  document.getElementById('accountListContainer').innerHTML = googleAccounts.map((acc, idx) => `
+    <div class="google-account-item" onclick="pickGoogleAccount(${idx})">
+      <div class="g-avatar" style="background:${escapeHtml(acc.color)}">${escapeHtml(acc.initial)}</div>
+      <div class="g-info"><div class="g-name">${escapeHtml(acc.name)}</div><div class="g-email">${escapeHtml(acc.email)}</div></div>
     </div>`).join('');
+}
+function pickGoogleAccount(idx) {
+  const acc = googleAccounts[idx];
+  if (acc) selectGoogleAccount(acc.email, acc.name);
 }
 function selectGoogleAccount(email, name) { 
   document.getElementById('googlePickerModal').classList.add('hidden'); 
@@ -1637,7 +1652,7 @@ document.getElementById('loginForm').addEventListener('submit', (e) => {
   if (!pass) { setFieldError('loginPassword', 'Password is required.'); hasError = true; }
   if (hasError) { focusFirstError(loginFields); return; }
 
-  const found = registeredUsers.find(u => u.email === email && u.pass === pass);
+  const found = registeredUsers.find(u => u.email.toLowerCase() === email.toLowerCase() && u.pass === pass);
   if (found) {
     currentUserEmail = found.email;
     localStorage.setItem('frozen_current_user', found.email);
@@ -1774,6 +1789,11 @@ function switchPage(pageId, btn, isMobile = false) {
   if (pageId === 'reports') { renderReports(); }
 }
 
+function goToAdjustment(type) {
+  goToQuickAction('adjustment');
+  setAdjustmentType(type);
+}
+
 function goToQuickAction(pageId) {
   const desktopBtn = document.querySelector(`.nav-item[onclick*="'${pageId}'"]`);
   const mobileBtn = document.querySelector(`.mob-nav-item[onclick*="'${pageId}'"]`);
@@ -1847,6 +1867,7 @@ let appSettings = JSON.parse(localStorage.getItem('frozen_app_settings')) || { l
 function saveAppSetting(key, value) {
   appSettings[key] = value;
   localStorage.setItem('frozen_app_settings', JSON.stringify(appSettings));
+  renderLowStockAlerts();
   showToast('Preference saved.');
 }
 function loadAppSettingsIntoUI() {
@@ -2054,9 +2075,7 @@ function getLowStockProducts() {
   return products.filter(p => getStockInfo(p).pct < LOW_STOCK_THRESHOLD_PCT);
 }
 function formatCurrencyShort(amount) {
-  if (amount >= 1000000) return '₱' + (amount / 1000000).toFixed(2) + 'M';
-  if (amount >= 1000) return '₱' + (amount / 1000).toFixed(2) + 'K';
-  return '₱' + amount.toFixed(2);
+  return '₱' + Math.round(amount).toLocaleString('en-US');
 }
 function computeTotalInventoryValue() {
   return products.reduce((sum, p) => {
@@ -2080,6 +2099,7 @@ function getCriticalTempProducts() {
 function renderCriticalAlerts() {
   const listEl = document.getElementById('criticalTempAlertsList');
   if (!listEl) return;
+  if (!appSettings.tempAlerts) { listEl.innerHTML = ''; return; }
   const criticalItems = getCriticalTempProducts();
   if (criticalItems.length === 0) {
     listEl.innerHTML = '<div class="alert-banner" style="background:#bfe8c0;border-color:#8fd191;color:#14532d;"><strong>All Zones Normal:</strong> No critical temperature readings at this time.</div>';
@@ -2102,12 +2122,12 @@ function renderLowStockAlerts() {
 
   const listEl = document.getElementById('lowStockAlertsList');
   if (listEl) {
-    if (lowStockItems.length === 0) {
+    if (!appSettings.lowStock || lowStockItems.length === 0) {
       listEl.innerHTML = '';
     } else {
       listEl.innerHTML = lowStockItems.map(item => {
         const { current, max } = getStockInfo(item);
-        return `<div class="alert-banner" style="margin-top:8px;"><strong>${item.name}:</strong> Low stock. ${current}/${max} units remaining. <strong style="float:right;">${current} left</strong></div>`;
+        return `<div class="alert-banner" style="margin-top:8px;"><strong>${escapeHtml(item.name)}:</strong> Low stock. ${current}/${max} units remaining. <strong style="float:right;">${current} left</strong></div>`;
       }).join('');
     }
   }
@@ -2132,13 +2152,13 @@ function renderCatalog() {
     return `
       <div class="product-card">
         <button type="button" class="edit-product-btn" onclick="openEditProductModal(${products.indexOf(item)})" title="Edit product"><i class="fa-solid fa-pen"></i></button>
-        <div class="temp-badge"><i class="fa-solid fa-circle" style="font-size: 7px; color: ${dotColor};"></i> ${item.temp}</div>
-        <img src="${item.img}" class="product-img" onerror="this.src='https://via.placeholder.com/300x180?text=Product+Photo'">
+        <div class="temp-badge"><i class="fa-solid fa-circle" style="font-size: 7px; color: ${dotColor};"></i> ${escapeHtml(item.temp)}</div>
+        <img src="${escapeHtml(item.img)}" class="product-img" onerror="this.src='https://via.placeholder.com/300x180?text=Product+Photo'">
         <div class="product-details">
           <div>
-            <h4>${item.name}</h4>
-            <div class="price-tag">₱${item.price}</div>
-            <div class="stock-level-indicator">Quantity: <span>${item.stock}</span></div>
+            <h4>${escapeHtml(item.name)}</h4>
+            <div class="price-tag">₱${escapeHtml(item.price)}</div>
+            <div class="stock-level-indicator">Quantity: <span>${escapeHtml(item.stock)}</span></div>
             <div class="stock-progress"><span style="width:${pct}%"></span></div>
           </div>
         </div>
@@ -2259,13 +2279,7 @@ wireLiveClear('adjQuantity');
 wireLiveClear('adjReason');
 wireLiveClear('adjZone');
 function handleAdjustmentTypeClick(type) {
-  const addBtn = document.getElementById('adjAddBtn');
-  const remBtn = document.getElementById('adjRemoveBtn');
-  if(type === 'add') {
-    addBtn.className = "adj-toggle-btn active-add"; remBtn.className = "adj-toggle-btn active-remove"; openAddProductModal();
-  } else {
-    remBtn.className = "adj-toggle-btn active-add"; addBtn.className = "adj-toggle-btn active-remove"; openRemoveProductModal();
-  }
+  setAdjustmentType(type);
 }
 function openAddProductModal() {
   document.getElementById('addProductForm').reset();
@@ -2274,18 +2288,14 @@ function openAddProductModal() {
 }
 function openRemoveProductModal() {
   const selectEl = document.getElementById('removeProductSelect');
-  selectEl.innerHTML = products.map((p, idx) => `<option value="${idx}">${p.name} (Stock: ${p.stock})</option>`).join('');
+  selectEl.innerHTML = products.map((p, idx) => `<option value="${idx}">${escapeHtml(p.name)} (Stock: ${escapeHtml(p.stock)})</option>`).join('');
   document.getElementById('removeProductModal').classList.remove('hidden');
 }
 function closeAddProductModal() { 
   document.getElementById('addProductModal').classList.add('hidden'); 
-  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
-  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
 }
 function closeRemoveProductModal() { 
   document.getElementById('removeProductModal').classList.add('hidden'); 
-  document.getElementById('adjAddBtn').className = "adj-toggle-btn active-add";
-  document.getElementById('adjRemoveBtn').className = "adj-toggle-btn active-remove";
 }
 const STOCK_FORMAT_RE = /^\d+\s*\/\s*\d+$/;
 document.getElementById('addProductForm').addEventListener('submit', (e) => {
@@ -2465,6 +2475,11 @@ function confirmRemoveProduct() {
   const removedName = products[idx].name;
   const removedQty = getStockParts(products[idx].stock).current;
   products.splice(idx, 1);
+  const deletedIdx = Number(idx);
+  cart = cart
+    .filter(it => it.productIdx !== deletedIdx)
+    .map(it => it.productIdx > deletedIdx ? { ...it, productIdx: it.productIdx - 1 } : it);
+  updateCartBadge();
   saveProductsToStorage(); renderCatalog();
   logActivity('Product Removed', removedName, removedQty ? `-${removedQty}` : '', 'removed');
   closeConfirmDeleteModal();
@@ -2473,4 +2488,4 @@ function confirmRemoveProduct() {
 }
 </script>
 </body>
-  </html>
+              </html>
