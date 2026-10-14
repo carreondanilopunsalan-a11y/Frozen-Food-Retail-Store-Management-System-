@@ -1,8 +1,8 @@
-# Frozen Retail Store - Inventory & Sales Manager
+# Web-Based Inventory Management System for Frozen Food Retail Store
 
 ## About the Project
 
-Frozen Retail Store - Inventory & Sales Manager is a web-based system designed to help manage the inventory and sales of a retail store. It provides a simple way to organize products, track sales, manage suppliers, and view store reports.
+Frozen Food Retail Store - Inventory & Sales Manager is a web-based system designed to help manage the inventory and sales of a retail store. It provides a simple way to organize products, track sales, manage suppliers, and view store reports.
 
 ## Team Name 
 
@@ -10,13 +10,13 @@ Frozen Retail Store - Inventory & Sales Manager is a web-based system designed t
 
 ## Project Manager
 
-- Siervo,Regino john M
+- Siervo Regino john M
 
 ## Team Members
 
 - Carl Vidal
 - Melvin Talao
-- Tigas,Jayred
+- Tigas Jayred
 - Danilo Carreon
 - Justine Bernandino
 
