@@ -2,7 +2,7 @@
 
 ## About the Project
 
-Frozen Food Retail Store - Inventory & Sales Manager is a web-based system designed to help manage the inventory and sales of a retail store. It provides a simple way to organize products, track sales, manage suppliers, and view store reports.
+Inventory Management System for Frozen Food Retail Store is a web-based system designed to help manage the inventory and sales of a retail store. It provides a simple way to organize products, track sales, manage suppliers, and view store reports.
 
 ## Team Name 
 
