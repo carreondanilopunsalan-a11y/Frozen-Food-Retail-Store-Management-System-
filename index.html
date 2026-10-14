@@ -119,7 +119,6 @@ select.input-field.field-invalid, textarea.input-field.field-invalid { border-co
   .mobile-bottom-nav { display: flex !important; }
   .main-wrapper { padding-bottom: 70px; }
   .content-area { padding: 14px; }
-  .top-header { padding: 16px 18px; }
   .stats-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
   .stats-grid .stat-card:first-child { grid-column: 1 / -1; }
   .quick-actions { gap: 8px; }
@@ -198,7 +197,11 @@ select.input-field.field-invalid, textarea.input-field.field-invalid { border-co
 .adj-link-row { display: flex; justify-content: center; gap: 22px; margin-top: 16px; flex-wrap: wrap; }
 .adj-link { font-size: 13px; font-weight: 600; color: var(--primary-blue); cursor: pointer; text-decoration: underline; background: none; padding: 4px 2px; }
 .adj-link.danger { color: var(--danger); }
-.adj-stock-note { font-size: 12px; color: var(--neutral-gray); margin: -8px 0 16px; min-height: 16px; }
+.adj-stock-note { font-family: 'Space Mono', monospace; font-size: 15px; font-weight: 700; color: var(--text-dark); background: #FFFFFF; border-radius: 8px; padding: 12px 14px; margin: 0 0 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.adj-stock-note:empty { display: none; }
+.adj-stock-note .stock-label { display: block; font-size: 11px; font-weight: 700; color: var(--neutral-gray); text-transform: uppercase; margin-bottom: 2px; }
+.adj-stock-note .stock-to-add { color: #166534; }
+.adj-stock-note .stock-to-remove { color: var(--danger); }
 .adj-stock-note .err { color: var(--danger); font-weight: 600; }
 .adj-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 18px; }
 #page-adjustment .form-group label, #page-adjustment .adj-section-label { font-family: 'Alfa Slab One', 'Inter', sans-serif; font-weight: 400; font-size: 13px; }
@@ -241,8 +244,8 @@ select.input-field.field-invalid, textarea.input-field.field-invalid { border-co
 .btn-cancel { font-size: 14px; font-weight: 600; color: var(--neutral-gray); cursor: pointer; padding: 8px 14px; }
 .btn-save-prod { background: var(--primary-blue); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
 .btn-danger-prod { background: var(--danger); color: white; padding: 10px 20px; border-radius: 6px; font-size: 14px; font-weight: 600; }
-.toast-msg { position: fixed; bottom: 84px; left: 50%; right: auto; transform: translateX(-50%); background: var(--primary-blue); color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s; max-width: 90%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.toast-msg.show { opacity: 1; }
+.toast-msg { position: fixed; bottom: 84px; left: 50%; right: auto; transform: translate(-50%, 8px); background: var(--primary-blue); color: white; padding: 10px 18px; border-radius: 6px; font-size: 14px; z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s, transform 0.3s; max-width: 90%; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.toast-msg.show { opacity: 1; animation: toastSlideUp 0.3s ease both; transform: translate(-50%, 0); }
 .stock-progress { width: 100%; height: 6px; background: #E2E8F0; border-radius: 6px; overflow: hidden; margin-top: 6px; }
 .stock-progress > span { display: block; height: 100%; background: var(--accent-blue); border-radius: 6px; }
 .catalog-modal-content { background: var(--app-bg); width: 100%; max-width: 600px; height: 100vh; max-height: 100vh; border-radius: 0; padding: 0 0 24px; position: relative; box-shadow: none; overflow-y: auto; margin: auto; }
@@ -289,7 +292,6 @@ select.input-field.field-invalid, textarea.input-field.field-invalid { border-co
 .slider:before { position: absolute; content: ""; height: 16px; width: 16px; left: 2px; bottom: 2px; background-color: white; transition: .3s; border-radius: 50%; }
 input:checked + .slider { background-color: var(--accent-blue); }
 input:checked + .slider:before { transform: translateX(16px); }
-.adjustment-container { box-shadow: none; }
 .scan-box.scan-box-photo { background: linear-gradient(135deg, #B9C4CE, #8A94A0); filter: grayscale(0.3); }
 
 .settings-avatar-wrap { position: relative; width: 45px; height: 45px; flex-shrink: 0; cursor: pointer; }
@@ -369,8 +371,6 @@ main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both;
 .sso-overlay { animation: overlayFadeIn 0.2s ease both; }
 .sso-overlay .google-modal-card { animation: modalPopIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) both; }
 
-.toast-msg { transition: opacity 0.3s, transform 0.3s; transform: translate(-50%, 8px); }
-.toast-msg.show { animation: toastSlideUp 0.3s ease both; transform: translate(-50%, 0); }
 
 .product-card { transition: transform 0.18s ease, box-shadow 0.18s ease; animation: cardFadeIn 0.25s ease both; }
 .product-card:hover { transform: translateY(-3px); box-shadow: 0 8px 18px rgba(30,41,59,0.12); }
@@ -597,14 +597,9 @@ main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both;
         <div class="adjustment-container">
           <div class="adjustment-heading"><h3>SALES</h3><p>Choose how you want to record a sale.</p></div>
 
-          <div class="adj-grid-2">
-            <button type="button" class="btn-secondary" style="margin-top:0;" onclick="openDirectSaleModal()">
-              <i class="fa-solid fa-receipt"></i> Sale Transaction
-            </button>
-            <button type="button" class="btn-secondary" style="margin-top:0;" onclick="openAddSaleModal()">
+          <button type="button" class="btn-secondary" style="margin-top:0;" onclick="openAddSaleModal()">
               <i class="fa-solid fa-cart-plus"></i> Sale Transaction System
             </button>
-          </div>
 
           <button type="button" class="btn-primary" style="position:relative; margin-top:14px;" onclick="openCartModal()">
             <i class="fa-solid fa-cart-shopping"></i> View Cart
@@ -936,45 +931,6 @@ main.main-wrapper section:not(.hidden) { animation: fadeSlideUp 0.28s ease both;
   </div>
 </div>
 
-<div id="directSaleModal" class="modal-overlay hidden">
-  <div class="cart-modal-card">
-    <h3><i class="fa-solid fa-receipt"></i> Sale Transaction</h3>
-    <p class="modal-sub" style="margin-bottom:0;">Select a product, set the quantity, and save the transaction directly.</p>
-
-    <div class="form-group" style="margin-top:14px;" id="directSaleProductSelectGroup">
-      <label>Select Product</label>
-      <select id="directSaleProductSelect" class="input-field" onchange="updateDirectSaleTotal()"></select>
-      <div class="field-error-msg" id="directSaleProductSelectError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
-    </div>
-
-    <div class="adj-grid-2">
-      <div class="form-group" id="directSaleQuantityGroup">
-        <label>Quantity</label>
-        <input type="number" id="directSaleQuantity" class="input-field" value="1" min="1" oninput="updateDirectSaleTotal()" onblur="normalizeDirectSaleQuantity()">
-        <div class="field-error-msg" id="directSaleQuantityError"><i class="fa-solid fa-circle-exclamation"></i><span></span></div>
-      </div>
-      <div class="form-group">
-        <label>Unit Price</label>
-        <input type="text" id="directSaleUnitPrice" class="input-field" value="₱0.00" disabled>
-      </div>
-    </div>
-
-    <div id="directSaleStockNote" style="font-size:12px; color: var(--neutral-gray); margin: -10px 0 18px;"></div>
-
-    <div class="sale-total-box">
-      <span>Total Amount</span>
-      <span id="directSaleTotalAmount">₱0.00</span>
-    </div>
-
-    <div class="modal-actions">
-      <span class="btn-cancel" onclick="closeDirectSaleModal()">Close</span>
-      <button type="button" class="btn-primary" onclick="saveDirectSaleTransaction()">
-        <i class="fa-solid fa-circle-check"></i> Save Transaction
-      </button>
-    </div>
-  </div>
-</div>
-
 <div id="addSaleModal" class="modal-overlay hidden">
   <div class="cart-modal-card">
     <h3><i class="fa-solid fa-cart-plus"></i> Sale Transaction System</h3>
@@ -1297,103 +1253,6 @@ function normalizeSaleQuantity() {
   qtyInput.value = (Number.isNaN(rawQty) || rawQty < 1) ? 1 : rawQty;
   updateSaleTotal();
 }
-
-function populateDirectSaleProductOptions() {
-  const sel = document.getElementById('directSaleProductSelect');
-  if (!sel) return;
-  const prevValue = sel.value;
-  sel.innerHTML = products.map((p, idx) => {
-    const { current } = getStockParts(p.stock);
-    return `<option value="${idx}">${escapeHtml(p.name)} — ₱${escapeHtml(p.price)} (Stock: ${current})</option>`;
-  }).join('');
-  if (prevValue !== '' && products[prevValue]) { sel.value = prevValue; }
-  updateDirectSaleTotal();
-}
-
-function updateDirectSaleTotal() {
-  const sel = document.getElementById('directSaleProductSelect');
-  const qtyInput = document.getElementById('directSaleQuantity');
-  const unitPriceEl = document.getElementById('directSaleUnitPrice');
-  const totalEl = document.getElementById('directSaleTotalAmount');
-  const noteEl = document.getElementById('directSaleStockNote');
-  if (!sel || sel.value === '' || !products[sel.value]) {
-    unitPriceEl.value = '₱0.00'; totalEl.textContent = '₱0.00'; if(noteEl) noteEl.textContent = '';
-    return;
-  }
-  const product = products[sel.value];
-  const rawQty = parseInt(qtyInput.value, 10);
-  const qty = (Number.isNaN(rawQty) || rawQty < 1) ? 0 : rawQty;
-  const { current } = getStockParts(product.stock);
-  unitPriceEl.value = `₱${Number(product.price).toFixed(2)}`;
-  const total = product.price * qty;
-  totalEl.textContent = `₱${total.toFixed(2)}`;
-  if (noteEl) {
-    if (qty > current) {
-      noteEl.innerHTML = `<span style="color:var(--danger); font-weight:600;">Only ${current} in stock — reduce quantity.</span>`;
-    } else {
-      noteEl.textContent = `Available stock: ${current}`;
-    }
-  }
-}
-function normalizeDirectSaleQuantity() {
-  const qtyInput = document.getElementById('directSaleQuantity');
-  const rawQty = parseInt(qtyInput.value, 10);
-  qtyInput.value = (Number.isNaN(rawQty) || rawQty < 1) ? 1 : rawQty;
-  updateDirectSaleTotal();
-}
-
-function openDirectSaleModal() {
-  populateDirectSaleProductOptions();
-  clearFormErrors(['directSaleProductSelect', 'directSaleQuantity']);
-  document.getElementById('directSaleModal').classList.remove('hidden');
-}
-function closeDirectSaleModal() { document.getElementById('directSaleModal').classList.add('hidden'); }
-
-function saveDirectSaleTransaction() {
-  const dsFields = ['directSaleProductSelect', 'directSaleQuantity'];
-  clearFormErrors(dsFields);
-  const sel = document.getElementById('directSaleProductSelect');
-  const qtyInput = document.getElementById('directSaleQuantity');
-
-  let hasError = false;
-  if (!sel || sel.value === '' || !products[sel.value]) { setFieldError('directSaleProductSelect', 'Please select a product.'); hasError = true; }
-  const qty = parseInt(qtyInput.value, 10);
-  if (!qty || qty < 1) { setFieldError('directSaleQuantity', 'Enter a quantity of at least 1.'); hasError = true; }
-  if (hasError) { focusFirstError(dsFields); return; }
-
-  const idx = Number(sel.value);
-  const product = products[idx];
-  const { current, max } = getStockParts(product.stock);
-  if (qty > current) { setFieldError('directSaleQuantity', `Not enough stock. Only ${current} available.`); focusFirstError(dsFields); return; }
-
-  const total = product.price * qty;
-  const newCurrent = current - qty;
-  products[idx] = { ...product, stock: `${newCurrent}/${max}` };
-  saveProductsToStorage();
-
-  const transaction = {
-    id: Date.now(),
-    items: [{ productName: product.name, quantity: qty, unitPrice: product.price, total }],
-    total,
-    date: new Date().toISOString()
-  };
-  salesHistory.unshift(transaction);
-  saveSalesToStorage();
-  logActivity('Sale', `${product.name} ×${qty}`, `-${qty}`, 'sale');
-
-  populateDirectSaleProductOptions();
-  qtyInput.value = 1;
-  renderSalesHistory();
-  renderCatalog();
-  closeDirectSaleModal();
-
-  document.getElementById('saleConfirmDetails').textContent =
-    `${qty} × ${product.name} — Total ₱${total.toFixed(2)}`;
-  document.getElementById('saleConfirmModal').classList.remove('hidden');
-  showToast("Transaction saved successfully!");
-}
-wireLiveClear('directSaleQuantity');
-wireLiveClear('directSaleProductSelect');
 
 let cart = [];
 
@@ -2168,10 +2027,7 @@ function renderCatalog() {
     return;
   }
   gridEl.innerHTML = filtered.map((item) => {
-    const match = String(item.stock).match(/(\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)/);
-    const current = match ? Number(match[1]) : 0;
-    const max = match ? Number(match[2]) : 100;
-    const pct = Math.max(0, Math.min(100, max ? (current / max) * 100 : 0));
+    const pct = Math.max(0, Math.min(100, getStockInfo(item).pct));
     const dotColor = getDotColor(item.temp);
     return `
       <div class="product-card">
@@ -2248,9 +2104,10 @@ function updateAdjustmentNote() {
     noteEl.innerHTML = `<span class="err">Only ${current} in stock — reduce quantity.</span>`;
   } else if (valid) {
     const result = adjustmentType === 'add' ? current + qty : current - qty;
-    noteEl.textContent = `Current stock: ${current}/${max}  →  After: ${result}/${max === 0 ? Math.max(result, 0) : Math.max(max, result)}`;
+    const cls = adjustmentType === 'add' ? 'stock-to-add' : 'stock-to-remove';
+    noteEl.innerHTML = `<span class="stock-label">Stock after adjustment</span>${current} → <span class="${cls}">${result}</span>`;
   } else {
-    noteEl.textContent = `Current stock: ${current}/${max}`;
+    noteEl.innerHTML = `<span class="stock-label">Current stock</span>${current}/${max}`;
   }
 }
 function applyStockAdjustment() {
@@ -2512,4 +2369,4 @@ function confirmRemoveProduct() {
 }
 </script>
 </body>
-  </html>
+</html>
